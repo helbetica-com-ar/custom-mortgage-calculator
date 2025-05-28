@@ -242,27 +242,6 @@ function render_mortgage_calculator($atts) {
                             <div class="input-help">Your gross monthly income</div>
                         </div>
                         
-                        <div class="form-group">
-                            <label>Preferred Contact Method</label>
-                            <div class="contact-method-group">
-                                <label class="checkbox-label inline-checkbox">
-                                    <input type="checkbox" name="contact_phone" value="phone">
-                                    <span class="checkmark"></span>
-                                    <span>Phone</span>
-                                </label>
-                                <label class="checkbox-label inline-checkbox">
-                                    <input type="checkbox" name="contact_whatsapp" value="whatsapp">
-                                    <span class="checkmark"></span>
-                                    <span>WhatsApp</span>
-                                </label>
-                                <label class="checkbox-label inline-checkbox">
-                                    <input type="checkbox" name="contact_email" value="email">
-                                    <span class="checkmark"></span>
-                                    <span>Email</span>
-                                </label>
-                            </div>
-                            <div class="input-help">Select your preferred contact method(s)</div>
-                        </div>
                         
                         <div class="form-navigation">
                             <button type="button" class="btn-prev" onclick="prevStep(2)">
@@ -363,6 +342,27 @@ function render_mortgage_calculator($atts) {
                                    class="form-control" placeholder="(555) 123-4567" required>
                         </div>
                         
+                        <div class="form-group">
+                            <label>Preferred Contact Method</label>
+                            <div class="contact-method-group">
+                                <label class="checkbox-label inline-checkbox">
+                                    <input type="checkbox" name="contact_phone" value="phone">
+                                    <span class="checkmark"></span>
+                                    <span>Phone</span>
+                                </label>
+                                <label class="checkbox-label inline-checkbox">
+                                    <input type="checkbox" name="contact_whatsapp" value="whatsapp">
+                                    <span class="checkmark"></span>
+                                    <span>WhatsApp</span>
+                                </label>
+                                <label class="checkbox-label inline-checkbox">
+                                    <input type="checkbox" name="contact_email" value="email">
+                                    <span class="checkmark"></span>
+                                    <span>Email</span>
+                                </label>
+                            </div>
+                            <div class="input-help">Select your preferred contact method(s)</div>
+                        </div>
                         
                         <div class="form-group checkbox-group">
                             <label class="checkbox-label">
