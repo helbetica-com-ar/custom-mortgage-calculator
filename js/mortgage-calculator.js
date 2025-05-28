@@ -352,6 +352,7 @@ function updateCalculationsDisplay(calculations, targetStep) {
         updateElement('summary-loan-amount', formatCurrency(calculations.loan_amount));
         updateElement('estimated-rate', calculations.interest_rate + '%');
         updateElement('total-interest', formatCurrency(calculations.total_interest));
+        updateElement('debt-to-income', (calculations.debt_to_income_ratio || 0) + '%');
     }
 }
 
@@ -463,7 +464,7 @@ function addInputEventListeners() {
         if (currentStep === 1 && ['loan_amount', 'loan_term'].includes(target.name)) {
             // Step 1 inputs update Step 2 display
             debounce(performRealTimeCalculation, 500)();
-        } else if (currentStep === 2 && ['home_value', 'down_payment', 'property_location'].includes(target.name)) {
+        } else if (currentStep === 2 && ['home_value', 'down_payment', 'property_location', 'monthly_income'].includes(target.name)) {
             // Step 2 inputs update Step 3 display
             debounce(performRealTimeCalculation, 500)();
         }

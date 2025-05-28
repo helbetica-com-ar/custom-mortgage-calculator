@@ -231,6 +231,39 @@ function render_mortgage_calculator($atts) {
                             <div class="input-help">Location affects tax rates and insurance</div>
                         </div>
                         
+                        <div class="form-group">
+                            <label for="monthly_income">Monthly Income</label>
+                            <div class="input-wrapper">
+                                <span class="currency-symbol">$</span>
+                                <input type="number" id="monthly_income" name="monthly_income" 
+                                       class="form-control" placeholder="8,000" 
+                                       min="1000" step="100" required>
+                            </div>
+                            <div class="input-help">Your gross monthly income</div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Preferred Contact Method</label>
+                            <div class="contact-method-group">
+                                <label class="checkbox-label inline-checkbox">
+                                    <input type="checkbox" name="contact_phone" value="phone">
+                                    <span class="checkmark"></span>
+                                    <span>Phone</span>
+                                </label>
+                                <label class="checkbox-label inline-checkbox">
+                                    <input type="checkbox" name="contact_whatsapp" value="whatsapp">
+                                    <span class="checkmark"></span>
+                                    <span>WhatsApp</span>
+                                </label>
+                                <label class="checkbox-label inline-checkbox">
+                                    <input type="checkbox" name="contact_email" value="email">
+                                    <span class="checkmark"></span>
+                                    <span>Email</span>
+                                </label>
+                            </div>
+                            <div class="input-help">Select your preferred contact method(s)</div>
+                        </div>
+                        
                         <div class="form-navigation">
                             <button type="button" class="btn-prev" onclick="prevStep(2)">
                                 ← Previous
@@ -295,6 +328,10 @@ function render_mortgage_calculator($atts) {
                                         <span>Total Interest:</span>
                                         <span id="total-interest">$0</span>
                                     </div>
+                                    <div class="detail-row">
+                                        <span>Debt-to-Income Ratio:</span>
+                                        <span id="debt-to-income">0%</span>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -326,15 +363,6 @@ function render_mortgage_calculator($atts) {
                                    class="form-control" placeholder="(555) 123-4567" required>
                         </div>
                         
-                        <div class="form-group">
-                            <label for="monthly_income">Monthly Income</label>
-                            <div class="input-wrapper">
-                                <span class="currency-symbol">$</span>
-                                <input type="number" id="monthly_income" name="monthly_income" 
-                                       class="form-control" placeholder="8,000" 
-                                       min="1000" step="100" required>
-                            </div>
-                        </div>
                         
                         <div class="form-group checkbox-group">
                             <label class="checkbox-label">
@@ -490,6 +518,7 @@ function perform_mortgage_calculations($data, $step) {
     $loan_term = intval($data['loan_term'] ?? 30);
     $home_value = floatval($data['home_value'] ?? 0);
     $down_payment = floatval($data['down_payment'] ?? 0);
+    $monthly_income = floatval($data['monthly_income'] ?? 0);
     
     // For Step 1 calculations (no home value yet), estimate home value from loan amount
     if ($step == 1 && $home_value == 0 && $loan_amount > 0) {
@@ -545,6 +574,12 @@ function perform_mortgage_calculations($data, $step) {
     // Total interest over life of loan
     $total_interest = ($monthly_pi * $total_payments) - $loan_amount;
     
+    // Calculate debt-to-income ratio
+    $debt_to_income_ratio = 0;
+    if ($monthly_income > 0) {
+        $debt_to_income_ratio = ($total_monthly / $monthly_income) * 100;
+    }
+    
     return array(
         'monthly_payment' => round($total_monthly, 2),
         'principal_interest' => round($monthly_pi, 2),
@@ -554,7 +589,9 @@ function perform_mortgage_calculations($data, $step) {
         'interest_rate' => round($interest_rate, 3),
         'total_interest' => round($total_interest, 2),
         'loan_amount' => $loan_amount,
-        'ltv_ratio' => round($ltv, 1)
+        'ltv_ratio' => round($ltv, 1),
+        'debt_to_income_ratio' => round($debt_to_income_ratio, 1),
+        'monthly_income' => $monthly_income
     );
 }
 
