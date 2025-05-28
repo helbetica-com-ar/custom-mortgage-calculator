@@ -1,0 +1,374 @@
+# Spanish (Argentina) Translation for Custom Mortgage Calculator
+# Copyright (C) 2024
+# This file is distributed under the same license as the Custom Mortgage Calculator plugin.
+msgid ""
+msgstr ""
+"Project-Id-Version: Custom Mortgage Calculator 1.0.0\n"
+"POT-Creation-Date: 2024-01-01 12:00+0000\n"
+"PO-Revision-Date: 2024-01-01 12:00+0000\n"
+"Last-Translator: \n"
+"Language-Team: Spanish (Argentina)\n"
+"Language: es_ES\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+# Step Labels
+msgid "Loan Details"
+msgstr "Detalles del Préstamo"
+
+msgid "Property Info"
+msgstr "Información de la Propiedad"
+
+msgid "Personal Details"
+msgstr "Datos Personales"
+
+# Main Heading
+msgid "Get Your Mortgage Estimate"
+msgstr "Obtené tu Estimación Hipotecaria"
+
+msgid "Start your home buying journey with a personalized loan simulation"
+msgstr "Comenzá tu camino hacia la casa propia con una simulación personalizada de préstamo"
+
+# Benefits List
+msgid "No commitment required"
+msgstr "Sin compromiso requerido"
+
+msgid "Instant calculations"
+msgstr "Cálculos instantáneos"
+
+msgid "Multiple lender options"
+msgstr "Múltiples opciones de prestamistas"
+
+# Trust Indicator
+msgid "Secure & Confidential"
+msgstr "Seguro y Confidencial"
+
+# Step 1 Form Labels
+msgid "Loan Amount"
+msgstr "Monto del Préstamo"
+
+msgid "Amount you wish to borrow"
+msgstr "Monto que deseás solicitar"
+
+msgid "Loan Term"
+msgstr "Plazo del Préstamo"
+
+msgid "Select term"
+msgstr "Seleccioná el plazo"
+
+msgid "15 years"
+msgstr "15 años"
+
+msgid "20 years"
+msgstr "20 años"
+
+msgid "25 years"
+msgstr "25 años"
+
+msgid "30 years"
+msgstr "30 años"
+
+msgid "How long to repay the loan"
+msgstr "Tiempo para devolver el préstamo"
+
+# Button Text
+msgid "Get Initial Estimate"
+msgstr "Obtener Estimación Inicial"
+
+# Payment Display
+msgid "Your Estimated Monthly Payment"
+msgstr "Tu Cuota Mensual Estimada"
+
+msgid "/month"
+msgstr "/mes"
+
+# Payment Breakdown Labels
+msgid "Principal & Interest:"
+msgstr "Capital e Intereses:"
+
+msgid "Est. Property Tax:"
+msgstr "Impuesto a la Propiedad Est.:"
+
+msgid "Est. Insurance:"
+msgstr "Seguro Estimado:"
+
+# Disclaimer
+msgid "*This is a preliminary estimate. More accurate calculations will be provided in the next step."
+msgstr "*Esta es una estimación preliminar. Los cálculos más precisos se proporcionarán en el siguiente paso."
+
+# Step 2 Form Labels
+msgid "Home Value"
+msgstr "Valor de la Vivienda"
+
+msgid "Estimated market value of the property"
+msgstr "Valor de mercado estimado de la propiedad"
+
+msgid "Down Payment"
+msgstr "Pago Inicial"
+
+msgid "Amount you'll pay upfront"
+msgstr "Monto que pagarás por adelantado"
+
+msgid "Property Location"
+msgstr "Ubicación de la Propiedad"
+
+msgid "City, State"
+msgstr "Ciudad, Provincia"
+
+msgid "Location affects tax rates and insurance"
+msgstr "La ubicación afecta las tasas de impuestos y seguros"
+
+# Navigation Buttons
+msgid "Previous"
+msgstr "Anterior"
+
+msgid "Get Detailed Estimate"
+msgstr "Obtener Estimación Detallada"
+
+# Final Calculation Heading
+msgid "Your Personalized Loan Estimate"
+msgstr "Tu Estimación Personalizada de Préstamo"
+
+# Summary Card Label
+msgid "Monthly Payment"
+msgstr "Cuota Mensual"
+
+# Final Breakdown Labels
+msgid "Payment Breakdown"
+msgstr "Desglose de la Cuota"
+
+msgid "Property Tax:"
+msgstr "Impuesto a la Propiedad:"
+
+msgid "Home Insurance:"
+msgstr "Seguro de Vivienda:"
+
+msgid "PMI (if applicable):"
+msgstr "Seguro Hipotecario (si aplica):"
+
+# Loan Details Labels (section header)
+# Note: Already defined above as step label
+
+msgid "Loan Amount:"
+msgstr "Monto del Préstamo:"
+
+msgid "Interest Rate:"
+msgstr "Tasa de Interés:"
+
+msgid "Total Interest:"
+msgstr "Intereses Totales:"
+
+# Form Section
+msgid "Get Connected with Lenders"
+msgstr "Conectate con Prestamistas"
+
+msgid "Complete your profile to receive personalized offers from our partner lenders."
+msgstr "Completá tu perfil para recibir ofertas personalizadas de nuestros prestamistas asociados."
+
+# Contact Form Labels
+msgid "Full Name"
+msgstr "Nombre Completo"
+
+msgid "John Doe"
+msgstr "Juan Pérez"
+
+msgid "Email Address"
+msgstr "Dirección de Email"
+
+msgid "john@example.com"
+msgstr "juan@ejemplo.com"
+
+msgid "Phone Number"
+msgstr "Número de Teléfono"
+
+msgid "(555) 123-4567"
+msgstr "(11) 1234-5678"
+
+msgid "Monthly Income"
+msgstr "Ingresos Mensuales"
+
+# Checkbox Labels
+msgid "I agree to the %s and %s"
+msgstr "Acepto los %s y la %s"
+
+msgid "Terms of Service"
+msgstr "Términos de Servicio"
+
+msgid "Privacy Policy"
+msgstr "Política de Privacidad"
+
+msgid "I consent to receive marketing communications about loan products"
+msgstr "Acepto recibir comunicaciones de marketing sobre productos de préstamos"
+
+# Final Navigation Buttons
+msgid "Get My Loan Offers"
+msgstr "Obtener Mis Ofertas de Préstamo"
+
+# Loading Message
+msgid "Calculating your personalized estimate..."
+msgstr "Calculando tu estimación personalizada..."
+
+# Success Message
+msgid "Thank You!"
+msgstr "¡Gracias!"
+
+msgid "Your loan application has been submitted successfully. Our partner lenders will contact you within 24 hours with personalized offers."
+msgstr "Tu solicitud de préstamo se envió exitosamente. Nuestros prestamistas asociados te contactarán dentro de las 24 horas con ofertas personalizadas."
+
+msgid "What happens next?"
+msgstr "¿Qué sigue ahora?"
+
+msgid "Review of your application by multiple lenders"
+msgstr "Revisión de tu solicitud por múltiples prestamistas"
+
+msgid "Personalized loan offers sent to your email"
+msgstr "Ofertas personalizadas de préstamo enviadas a tu email"
+
+msgid "Direct contact from qualified loan officers"
+msgstr "Contacto directo de oficiales de préstamo calificados"
+
+# Error/Success Messages
+msgid "Security check failed"
+msgstr "Falló la verificación de seguridad"
+
+msgid "Step data saved successfully"
+msgstr "Datos del paso guardados exitosamente"
+
+msgid "Application submitted successfully"
+msgstr "Solicitud enviada exitosamente"
+
+# Email Subjects
+msgid "Your Mortgage Application - Confirmation #"
+msgstr "Tu Solicitud Hipotecaria - Confirmación #"
+
+msgid "New Mortgage Application Received - #"
+msgstr "Nueva Solicitud Hipotecaria Recibida - #"
+
+# Applicant Email Content
+msgid "Thank You for Your Mortgage Application!"
+msgstr "¡Gracias por tu Solicitud Hipotecaria!"
+
+msgid "Dear"
+msgstr "Estimado/a"
+
+msgid "We've received your mortgage application (Confirmation #"
+msgstr "Hemos recibido tu solicitud hipotecaria (Confirmación #"
+
+msgid ") and our partner lenders will review it shortly."
+msgstr ") y nuestros prestamistas asociados la revisarán en breve."
+
+msgid "Application Summary:"
+msgstr "Resumen de la Solicitud:"
+
+msgid "Our partner lenders will review your application within 24 hours"
+msgstr "Nuestros prestamistas asociados revisarán tu solicitud dentro de las 24 horas"
+
+msgid "You'll receive personalized loan offers via email"
+msgstr "Recibirás ofertas personalizadas de préstamo por email"
+
+msgid "A qualified loan officer will contact you to discuss your options"
+msgstr "Un oficial de préstamo calificado te contactará para discutir tus opciones"
+
+msgid "If you have any questions, please don't hesitate to contact us."
+msgstr "Si tenés alguna pregunta, no dudes en contactarnos."
+
+msgid "Best regards,"
+msgstr "Saludos cordiales,"
+
+msgid "The Mortgage Team"
+msgstr "El Equipo Hipotecario"
+
+# Admin Email Content
+msgid "New Mortgage Application Received"
+msgstr "Nueva Solicitud Hipotecaria Recibida"
+
+msgid "Submission ID:"
+msgstr "ID de Envío:"
+
+msgid "Submission Date:"
+msgstr "Fecha de Envío:"
+
+msgid "Applicant Information:"
+msgstr "Información del Solicitante:"
+
+msgid "Name:"
+msgstr "Nombre:"
+
+msgid "Email:"
+msgstr "Email:"
+
+msgid "Phone:"
+msgstr "Teléfono:"
+
+msgid "years"
+msgstr "años"
+
+msgid "Consent Information:"
+msgstr "Información de Consentimiento:"
+
+msgid "Terms Accepted:"
+msgstr "Términos Aceptados:"
+
+msgid "Marketing Consent:"
+msgstr "Consentimiento de Marketing:"
+
+msgid "Yes"
+msgstr "Sí"
+
+msgid "No"
+msgstr "No"
+
+# Additional missing strings for email templates
+msgid "We've received your mortgage application (Confirmation #%s) and our partner lenders will review it shortly."
+msgstr "Hemos recibido tu solicitud hipotecaria (Confirmación #%s) y nuestros prestamistas asociados la revisarán en breve."
+
+msgid "Property Value:"
+msgstr "Valor de la Propiedad:"
+
+msgid "Loan Term:"
+msgstr "Plazo del Préstamo:"
+
+# Additional strings from form-workflow branch
+msgid "Your gross monthly income"
+msgstr "Tu ingreso mensual bruto"
+
+msgid "Property Value"
+msgstr "Valor de la Propiedad"
+
+msgid "Property Use"
+msgstr "Uso de la Propiedad"
+
+msgid "Select property use"
+msgstr "Seleccioná el uso de la propiedad"
+
+msgid "Primary Residence"
+msgstr "Residencia Principal"
+
+msgid "Second Home"
+msgstr "Segunda Vivienda"
+
+msgid "Investment"
+msgstr "Inversión"
+
+msgid "How you plan to use the property"
+msgstr "Cómo planeás usar la propiedad"
+
+msgid "Debt-to-Income Ratio:"
+msgstr "Relación Deuda-Ingreso:"
+
+msgid "Preferred Contact Method"
+msgstr "Método de Contacto Preferido"
+
+msgid "Phone"
+msgstr "Teléfono"
+
+msgid "WhatsApp"
+msgstr "WhatsApp"
+
+msgid "Email"
+msgstr "Email"
+
+msgid "Select your preferred contact method(s)"
+msgstr "Seleccioná tu(s) método(s) de contacto preferido(s)"
