@@ -334,16 +334,16 @@ function sendStepData(step, stepData) {
 function updateCalculationsDisplay(calculations, targetStep) {
     if (!calculations) return;
 
-    // Update step 2 calculations (initial estimate)
-    if (targetStep === 2 || currentStep === 2) {
+    // Update step 2 calculations (initial estimate based on Step 1 data only)
+    if (targetStep === 2) {
         updateElement('monthly-payment', formatNumber(calculations.monthly_payment));
         updateElement('principal-interest', formatCurrency(calculations.principal_interest));
         updateElement('property-tax', formatCurrency(calculations.property_tax));
         updateElement('insurance', formatCurrency(calculations.insurance));
     }
 
-    // Update step 3 calculations (detailed estimate)
-    if (targetStep === 3 || currentStep === 3) {
+    // Update step 3 calculations (detailed estimate based on Step 1 + Step 2 data)
+    if (targetStep === 3) {
         updateElement('final-monthly-payment', formatNumber(calculations.monthly_payment));
         updateElement('final-pi', formatCurrency(calculations.principal_interest));
         updateElement('final-tax', formatCurrency(calculations.property_tax));
@@ -459,8 +459,12 @@ function addInputEventListeners() {
             // You can add real-time formatting here if needed
         }
 
-        // Trigger calculations for step 2 inputs
-        if (currentStep === 2 && ['loan_amount', 'loan_term', 'home_value', 'down_payment'].includes(target.name)) {
+        // Trigger real-time calculations based on current step
+        if (currentStep === 1 && ['loan_amount', 'loan_term'].includes(target.name)) {
+            // Step 1 inputs update Step 2 display
+            debounce(performRealTimeCalculation, 500)();
+        } else if (currentStep === 2 && ['home_value', 'down_payment', 'property_location'].includes(target.name)) {
+            // Step 2 inputs update Step 3 display
             debounce(performRealTimeCalculation, 500)();
         }
     });
@@ -472,52 +476,20 @@ function addInputEventListeners() {
 function performRealTimeCalculation() {
     const currentData = collectStepData(currentStep);
     const allData = { ...formData, ...currentData };
-
-    // Basic client-side calculation for immediate feedback
-    const calculations = calculateMortgageBasic(allData);
-    updateCalculationsDisplay(calculations, currentStep);
-}
-
-/**
- * Basic mortgage calculation (client-side)
- */
-function calculateMortgageBasic(data) {
-    const loanAmount = parseFloat(data.loan_amount || 0);
-    const loanTerm = parseInt(data.loan_term || 30);
-    const homeValue = parseFloat(data.home_value || 0);
-    const downPayment = parseFloat(data.down_payment || 0);
-
-    // Basic interest rate (this is simplified)
-    const interestRate = 4.5;
-    const monthlyRate = interestRate / 100 / 12;
-    const totalPayments = loanTerm * 12;
-
-    // Calculate monthly P&I
-    let monthlyPI = 0;
-    if (monthlyRate > 0 && loanAmount > 0) {
-        const x = Math.pow(1 + monthlyRate, totalPayments);
-        monthlyPI = (loanAmount * monthlyRate * x) / (x - 1);
-    }
-
-    // Estimate other costs
-    const monthlyTax = homeValue * 0.012 / 12;
-    const monthlyInsurance = homeValue * 0.005 / 12;
-
-    // PMI if LTV > 80%
-    const ltv = homeValue > 0 ? (loanAmount / homeValue) * 100 : 0;
-    const monthlyPMI = ltv > 80 ? (loanAmount * 0.005 / 12) : 0;
-
-    const totalMonthly = monthlyPI + monthlyTax + monthlyInsurance + monthlyPMI;
-
-    return {
-        monthly_payment: totalMonthly,
-        principal_interest: monthlyPI,
-        property_tax: monthlyTax,
-        insurance: monthlyInsurance,
-        pmi: monthlyPMI,
-        interest_rate: interestRate,
-        loan_amount: loanAmount
-    };
+    
+    // Determine which display to update based on current step
+    const targetStep = currentStep === 1 ? 2 : 3;
+    
+    // Send AJAX request for server-side calculation
+    sendStepData(currentStep, currentData)
+        .then(response => {
+            if (response.success && response.data.calculations) {
+                updateCalculationsDisplay(response.data.calculations, targetStep);
+            }
+        })
+        .catch(error => {
+            console.error('Real-time calculation error:', error);
+        });
 }
 
 /**

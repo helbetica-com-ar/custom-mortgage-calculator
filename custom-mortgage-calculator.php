@@ -491,6 +491,12 @@ function perform_mortgage_calculations($data, $step) {
     $home_value = floatval($data['home_value'] ?? 0);
     $down_payment = floatval($data['down_payment'] ?? 0);
     
+    // For Step 1 calculations (no home value yet), estimate home value from loan amount
+    if ($step == 1 && $home_value == 0 && $loan_amount > 0) {
+        // Assume 80% LTV for initial estimate
+        $home_value = $loan_amount / 0.8;
+    }
+    
     // Base interest rate estimation (you can make this dynamic)
     $base_rate = 4.5;
     
