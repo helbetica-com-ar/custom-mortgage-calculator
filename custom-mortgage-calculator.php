@@ -141,6 +141,10 @@ function render_mortgage_calculator($atts) {
                 
                 <div class="right-panel">
                     <form class="step-form" data-step="1">
+                        <div class="form-section">
+                            <h3><?php echo esc_html(__('Tell Us About Your Loan', 'custom-mortgage-calculator')); ?></h3>
+                            <p><?php echo esc_html(__('Provide basic information to get started with your mortgage estimate.', 'custom-mortgage-calculator')); ?></p>
+                        </div>
                         <div class="form-group">
                             <label for="loan_amount"><?php echo esc_html(__('Loan Amount', 'custom-mortgage-calculator')); ?></label>
                             <div class="input-wrapper">
@@ -207,6 +211,10 @@ function render_mortgage_calculator($atts) {
                 
                 <div class="right-panel">
                     <form class="step-form" data-step="2">
+                        <div class="form-section">
+                            <h3><?php echo esc_html(__('Property & Financial Information', 'custom-mortgage-calculator')); ?></h3>
+                            <p><?php echo esc_html(__('Help us refine your estimate with property details and income.', 'custom-mortgage-calculator')); ?></p>
+                        </div>
                         <div class="form-group">
                             <label for="monthly_income"><?php echo esc_html(__('Monthly Income', 'custom-mortgage-calculator')); ?></label>
                             <div class="input-wrapper">
@@ -384,7 +392,7 @@ function render_mortgage_calculator($atts) {
                             <label class="checkbox-label">
                                 <input type="checkbox" name="terms_accepted" required>
                                 <span class="checkmark"></span>
-                                <?php echo sprintf(__('I agree to the %s and %s', 'custom-mortgage-calculator'), '<a href="#" target="_blank">' . esc_html(__('Terms of Service', 'custom-mortgage-calculator')) . '</a>', '<a href="#" target="_blank">' . esc_html(__('Privacy Policy', 'custom-mortgage-calculator')) . '</a>'); ?>
+                                <span class="checkbox-text"><?php echo sprintf(__('I agree to the %s and %s', 'custom-mortgage-calculator'), '<a href="#" target="_blank">' . esc_html(__('Terms of Service', 'custom-mortgage-calculator')) . '</a>', '<a href="#" target="_blank">' . esc_html(__('Privacy Policy', 'custom-mortgage-calculator')) . '</a>'); ?></span>
                             </label>
                         </div>
                         
@@ -392,7 +400,7 @@ function render_mortgage_calculator($atts) {
                             <label class="checkbox-label">
                                 <input type="checkbox" name="marketing_consent">
                                 <span class="checkmark"></span>
-                                <?php echo esc_html(__('I consent to receive marketing communications about loan products', 'custom-mortgage-calculator')); ?>
+                                <span class="checkbox-text"><?php echo esc_html(__('I consent to receive marketing communications about loan products', 'custom-mortgage-calculator')); ?></span>
                             </label>
                         </div>
                         
