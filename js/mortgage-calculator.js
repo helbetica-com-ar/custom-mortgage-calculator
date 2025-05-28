@@ -18,8 +18,14 @@ document.addEventListener('DOMContentLoaded', function () {
  * Initialize the calculator
  */
 function initializeMortgageCalculator() {
+    // Hide form during restoration to prevent flickering
+    const wrapper = document.querySelector('.mortgage-calculator-wrapper');
+    if (wrapper) {
+        wrapper.classList.add('loading');
+    }
+    
     // Restore saved state if it exists
-    restoreFormState();
+    const wasRestored = restoreFormState();
     
     // Add event listeners for real-time calculations
     addInputEventListeners();
@@ -32,6 +38,21 @@ function initializeMortgageCalculator() {
 
     // Initialize tooltips or help text
     initializeHelpSystem();
+    
+    // Show form after initialization with smooth transition
+    if (wrapper) {
+        if (wasRestored) {
+            // If state was restored, wait a bit longer for calculations
+            setTimeout(() => {
+                wrapper.classList.remove('loading');
+            }, 200);
+        } else {
+            // If no state to restore, show immediately
+            setTimeout(() => {
+                wrapper.classList.remove('loading');
+            }, 50);
+        }
+    }
 }
 
 /**
@@ -131,6 +152,38 @@ function updateProgressBar(stepNumber) {
             step.classList.remove('completed');
         }
     });
+}
+
+/**
+ * Update progress bar instantly without transitions for state restoration
+ */
+function updateProgressBarInstant(stepNumber) {
+    const progressSteps = document.querySelectorAll('.progress-step');
+    
+    // Temporarily disable transitions
+    progressSteps.forEach(step => {
+        step.style.transition = 'none';
+    });
+
+    progressSteps.forEach((step, index) => {
+        if (index < stepNumber) {
+            step.classList.add('active');
+            step.classList.add('completed');
+        } else if (index === stepNumber - 1) {
+            step.classList.add('active');
+            step.classList.remove('completed');
+        } else {
+            step.classList.remove('active');
+            step.classList.remove('completed');
+        }
+    });
+    
+    // Re-enable transitions after a brief moment
+    setTimeout(() => {
+        progressSteps.forEach(step => {
+            step.style.transition = '';
+        });
+    }, 50);
 }
 
 /**
@@ -718,11 +771,12 @@ function saveFormState() {
 
 /**
  * Restore form state from localStorage
+ * @return {boolean} Returns true if state was restored, false otherwise
  */
 function restoreFormState() {
     try {
         const savedState = localStorage.getItem('mortgageCalculatorState');
-        if (!savedState) return;
+        if (!savedState) return false;
         
         const state = JSON.parse(savedState);
         
@@ -730,7 +784,7 @@ function restoreFormState() {
         const maxAge = 24 * 60 * 60 * 1000; // 24 hours in milliseconds
         if (Date.now() - state.timestamp > maxAge) {
             localStorage.removeItem('mortgageCalculatorState');
-            return;
+            return false;
         }
         
         // Restore form data
@@ -739,33 +793,49 @@ function restoreFormState() {
             populateFormFields(state.formData);
         }
         
-        // Restore current step
+        // Restore current step immediately without animation
         if (state.currentStep && state.currentStep > 1) {
             currentStep = state.currentStep;
-            showStep(currentStep);
-            updateProgressBar(currentStep);
+            
+            // Hide all steps first
+            const allSteps = document.querySelectorAll('.step');
+            allSteps.forEach(step => {
+                step.style.display = 'none';
+            });
+            
+            // Show target step without transition
+            const targetStepElement = document.getElementById(`step-${currentStep}`);
+            if (targetStepElement) {
+                targetStepElement.style.display = 'block';
+            }
+            
+            // Update progress bar without animation
+            updateProgressBarInstant(currentStep);
             
             // If we have calculations, update the display
             if (state.formData && Object.keys(state.formData).length > 0) {
-                // Trigger calculation to update displays
-                setTimeout(() => {
-                    const targetStep = currentStep === 2 ? 2 : 3;
-                    sendStepData(currentStep - 1, state.formData)
-                        .then(response => {
-                            if (response.success && response.data.calculations) {
-                                updateCalculationsDisplay(response.data.calculations, targetStep);
-                            }
-                        })
-                        .catch(error => {
-                            console.error('Error restoring calculations:', error);
-                        });
-                }, 100);
+                // Trigger calculation to update displays immediately
+                const targetStep = currentStep === 2 ? 2 : 3;
+                sendStepData(currentStep - 1, state.formData)
+                    .then(response => {
+                        if (response.success && response.data.calculations) {
+                            updateCalculationsDisplay(response.data.calculations, targetStep);
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error restoring calculations:', error);
+                    });
             }
+            
+            return true;
         }
+        
+        return false;
         
     } catch (e) {
         console.warn('Unable to restore form state from localStorage:', e);
         localStorage.removeItem('mortgageCalculatorState');
+        return false;
     }
 }
 

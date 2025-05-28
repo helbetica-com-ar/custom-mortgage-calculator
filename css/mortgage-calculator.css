@@ -38,6 +38,12 @@
     border-radius: var(--border-radius);
     box-shadow: var(--shadow-medium);
     position: relative;
+    opacity: 1;
+    transition: opacity 0.3s ease;
+}
+
+.mortgage-calculator-wrapper.loading {
+    opacity: 0;
 }
 
 /* ============================================================================
