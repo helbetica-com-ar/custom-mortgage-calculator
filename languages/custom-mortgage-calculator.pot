@@ -1,0 +1,323 @@
+# Translation Template for Custom Mortgage Calculator
+# Copyright (C) 2024
+# This file is distributed under the same license as the Custom Mortgage Calculator plugin.
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: Custom Mortgage Calculator 1.0.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2024-01-01 12:00+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
+
+# Step Labels
+msgid "Loan Details"
+msgstr ""
+
+msgid "Property Info"
+msgstr ""
+
+msgid "Personal Details"
+msgstr ""
+
+# Main Heading
+msgid "Get Your Mortgage Estimate"
+msgstr ""
+
+msgid "Start your home buying journey with a personalized loan simulation"
+msgstr ""
+
+# Benefits List
+msgid "No commitment required"
+msgstr ""
+
+msgid "Instant calculations"
+msgstr ""
+
+msgid "Multiple lender options"
+msgstr ""
+
+# Trust Indicator
+msgid "Secure & Confidential"
+msgstr ""
+
+# Step 1 Form Labels
+msgid "Loan Amount"
+msgstr ""
+
+msgid "Amount you wish to borrow"
+msgstr ""
+
+msgid "Loan Term"
+msgstr ""
+
+msgid "Select term"
+msgstr ""
+
+msgid "15 years"
+msgstr ""
+
+msgid "20 years"
+msgstr ""
+
+msgid "25 years"
+msgstr ""
+
+msgid "30 years"
+msgstr ""
+
+msgid "How long to repay the loan"
+msgstr ""
+
+# Button Text
+msgid "Get Initial Estimate"
+msgstr ""
+
+# Payment Display
+msgid "Your Estimated Monthly Payment"
+msgstr ""
+
+msgid "/month"
+msgstr ""
+
+# Payment Breakdown Labels
+msgid "Principal & Interest:"
+msgstr ""
+
+msgid "Est. Property Tax:"
+msgstr ""
+
+msgid "Est. Insurance:"
+msgstr ""
+
+# Disclaimer
+msgid "*This is a preliminary estimate. More accurate calculations will be provided in the next step."
+msgstr ""
+
+# Step 2 Form Labels
+msgid "Home Value"
+msgstr ""
+
+msgid "Estimated market value of the property"
+msgstr ""
+
+msgid "Down Payment"
+msgstr ""
+
+msgid "Amount you'll pay upfront"
+msgstr ""
+
+msgid "Property Location"
+msgstr ""
+
+msgid "City, State"
+msgstr ""
+
+msgid "Location affects tax rates and insurance"
+msgstr ""
+
+# Navigation Buttons
+msgid "Previous"
+msgstr ""
+
+msgid "Get Detailed Estimate"
+msgstr ""
+
+# Final Calculation Heading
+msgid "Your Personalized Loan Estimate"
+msgstr ""
+
+# Summary Card Label
+msgid "Monthly Payment"
+msgstr ""
+
+# Final Breakdown Labels
+msgid "Payment Breakdown"
+msgstr ""
+
+msgid "Property Tax:"
+msgstr ""
+
+msgid "Home Insurance:"
+msgstr ""
+
+msgid "PMI (if applicable):"
+msgstr ""
+
+msgid "Loan Amount:"
+msgstr ""
+
+msgid "Interest Rate:"
+msgstr ""
+
+msgid "Total Interest:"
+msgstr ""
+
+# Form Section
+msgid "Get Connected with Lenders"
+msgstr ""
+
+msgid "Complete your profile to receive personalized offers from our partner lenders."
+msgstr ""
+
+# Contact Form Labels
+msgid "Full Name"
+msgstr ""
+
+msgid "John Doe"
+msgstr ""
+
+msgid "Email Address"
+msgstr ""
+
+msgid "john@example.com"
+msgstr ""
+
+msgid "Phone Number"
+msgstr ""
+
+msgid "(555) 123-4567"
+msgstr ""
+
+msgid "Monthly Income"
+msgstr ""
+
+# Checkbox Labels
+msgid "I agree to the %s and %s"
+msgstr ""
+
+msgid "Terms of Service"
+msgstr ""
+
+msgid "Privacy Policy"
+msgstr ""
+
+msgid "I consent to receive marketing communications about loan products"
+msgstr ""
+
+# Final Navigation Buttons
+msgid "Get My Loan Offers"
+msgstr ""
+
+# Loading Message
+msgid "Calculating your personalized estimate..."
+msgstr ""
+
+# Success Message
+msgid "Thank You!"
+msgstr ""
+
+msgid "Your loan application has been submitted successfully. Our partner lenders will contact you within 24 hours with personalized offers."
+msgstr ""
+
+msgid "What happens next?"
+msgstr ""
+
+msgid "Review of your application by multiple lenders"
+msgstr ""
+
+msgid "Personalized loan offers sent to your email"
+msgstr ""
+
+msgid "Direct contact from qualified loan officers"
+msgstr ""
+
+# Error/Success Messages
+msgid "Security check failed"
+msgstr ""
+
+msgid "Step data saved successfully"
+msgstr ""
+
+msgid "Application submitted successfully"
+msgstr ""
+
+# Email Subjects
+msgid "Your Mortgage Application - Confirmation #"
+msgstr ""
+
+msgid "New Mortgage Application Received - #"
+msgstr ""
+
+# Applicant Email Content
+msgid "Thank You for Your Mortgage Application!"
+msgstr ""
+
+msgid "Dear"
+msgstr ""
+
+msgid "We've received your mortgage application (Confirmation #%s) and our partner lenders will review it shortly."
+msgstr ""
+
+msgid "Application Summary:"
+msgstr ""
+
+msgid "Property Value:"
+msgstr ""
+
+msgid "Our partner lenders will review your application within 24 hours"
+msgstr ""
+
+msgid "You'll receive personalized loan offers via email"
+msgstr ""
+
+msgid "A qualified loan officer will contact you to discuss your options"
+msgstr ""
+
+msgid "If you have any questions, please don't hesitate to contact us."
+msgstr ""
+
+msgid "Best regards,"
+msgstr ""
+
+msgid "The Mortgage Team"
+msgstr ""
+
+# Admin Email Content
+msgid "New Mortgage Application Received"
+msgstr ""
+
+msgid "Submission ID:"
+msgstr ""
+
+msgid "Submission Date:"
+msgstr ""
+
+msgid "Applicant Information:"
+msgstr ""
+
+msgid "Name:"
+msgstr ""
+
+msgid "Email:"
+msgstr ""
+
+msgid "Phone:"
+msgstr ""
+
+msgid "Loan Term:"
+msgstr ""
+
+msgid "years"
+msgstr ""
+
+msgid "Consent Information:"
+msgstr ""
+
+msgid "Terms Accepted:"
+msgstr ""
+
+msgid "Marketing Consent:"
+msgstr ""
+
+msgid "Yes"
+msgstr ""
+
+msgid "No"
+msgstr ""
