@@ -18,6 +18,9 @@ document.addEventListener('DOMContentLoaded', function () {
  * Initialize the calculator
  */
 function initializeMortgageCalculator() {
+    // Restore saved state if it exists
+    restoreFormState();
+    
     // Add event listeners for real-time calculations
     addInputEventListeners();
 
@@ -63,6 +66,9 @@ function nextStep(step) {
                 updateProgressBar(step + 1);
                 currentStep = step + 1;
 
+                // Save form state
+                saveFormState();
+
                 // Scroll to top
                 scrollToTop();
             } else {
@@ -84,6 +90,10 @@ function prevStep(step) {
         showStep(step - 1);
         updateProgressBar(step - 1);
         currentStep = step - 1;
+        
+        // Save form state
+        saveFormState();
+        
         scrollToTop();
     }
 }
@@ -412,6 +422,8 @@ function submitFinalForm(event) {
             isSubmitting = false;
 
             if (response.success) {
+                // Clear saved form state since form is completed
+                clearFormState();
                 showSuccessMessage();
             } else {
                 showError('There was an error submitting your application. Please try again.');
@@ -490,6 +502,12 @@ function addInputEventListeners() {
 function performRealTimeCalculation() {
     const currentData = collectStepData(currentStep);
     const allData = { ...formData, ...currentData };
+    
+    // Update formData with current input
+    Object.assign(formData, currentData);
+    
+    // Save form state
+    saveFormState();
     
     // Determine which display to update based on current step
     const targetStep = currentStep === 1 ? 2 : 3;
@@ -676,3 +694,104 @@ document.addEventListener('keydown', function (e) {
         }
     }
 });
+
+// ============================================================================
+// FORM STATE PERSISTENCE
+// ============================================================================
+
+/**
+ * Save form state to localStorage
+ */
+function saveFormState() {
+    const state = {
+        currentStep: currentStep,
+        formData: formData,
+        timestamp: Date.now()
+    };
+    
+    try {
+        localStorage.setItem('mortgageCalculatorState', JSON.stringify(state));
+    } catch (e) {
+        console.warn('Unable to save form state to localStorage:', e);
+    }
+}
+
+/**
+ * Restore form state from localStorage
+ */
+function restoreFormState() {
+    try {
+        const savedState = localStorage.getItem('mortgageCalculatorState');
+        if (!savedState) return;
+        
+        const state = JSON.parse(savedState);
+        
+        // Check if state is recent (less than 24 hours old)
+        const maxAge = 24 * 60 * 60 * 1000; // 24 hours in milliseconds
+        if (Date.now() - state.timestamp > maxAge) {
+            localStorage.removeItem('mortgageCalculatorState');
+            return;
+        }
+        
+        // Restore form data
+        if (state.formData) {
+            formData = state.formData;
+            populateFormFields(state.formData);
+        }
+        
+        // Restore current step
+        if (state.currentStep && state.currentStep > 1) {
+            currentStep = state.currentStep;
+            showStep(currentStep);
+            updateProgressBar(currentStep);
+            
+            // If we have calculations, update the display
+            if (state.formData && Object.keys(state.formData).length > 0) {
+                // Trigger calculation to update displays
+                setTimeout(() => {
+                    const targetStep = currentStep === 2 ? 2 : 3;
+                    sendStepData(currentStep - 1, state.formData)
+                        .then(response => {
+                            if (response.success && response.data.calculations) {
+                                updateCalculationsDisplay(response.data.calculations, targetStep);
+                            }
+                        })
+                        .catch(error => {
+                            console.error('Error restoring calculations:', error);
+                        });
+                }, 100);
+            }
+        }
+        
+    } catch (e) {
+        console.warn('Unable to restore form state from localStorage:', e);
+        localStorage.removeItem('mortgageCalculatorState');
+    }
+}
+
+/**
+ * Populate form fields with saved data
+ */
+function populateFormFields(data) {
+    Object.keys(data).forEach(fieldName => {
+        const field = document.querySelector(`[name="${fieldName}"]`);
+        if (field) {
+            if (field.type === 'checkbox') {
+                field.checked = !!data[fieldName];
+            } else {
+                field.value = data[fieldName];
+            }
+        }
+    });
+}
+
+/**
+ * Clear saved form state
+ */
+function clearFormState() {
+    try {
+        localStorage.removeItem('mortgageCalculatorState');
+    } catch (e) {
+        console.warn('Unable to clear form state:', e);
+    }
+}
