@@ -20,8 +20,24 @@ document.addEventListener('DOMContentLoaded', function () {
 function initializeMortgageCalculator() {
     const wrapper = document.querySelector('.mortgage-calculator-wrapper');
     
-    // Restore saved state if it exists
-    const wasRestored = restoreFormState();
+    // Defer restoration to allow Elementor scroll restoration to complete first
+    setTimeout(() => {
+        // Restore saved state if it exists
+        const wasRestored = restoreFormState();
+        
+        // Show form after initialization
+        if (wrapper) {
+            if (wasRestored) {
+                // If state was restored, wait a bit for calculations then show
+                setTimeout(() => {
+                    wrapper.classList.add('initialized');
+                }, 50);
+            } else {
+                // If no state to restore, show immediately
+                wrapper.classList.add('initialized');
+            }
+        }
+    }, 100);
     
     // Add event listeners for real-time calculations
     addInputEventListeners();
@@ -34,19 +50,6 @@ function initializeMortgageCalculator() {
 
     // Initialize tooltips or help text
     initializeHelpSystem();
-    
-    // Show form after initialization
-    if (wrapper) {
-        if (wasRestored) {
-            // If state was restored, wait a bit for calculations then show
-            setTimeout(() => {
-                wrapper.classList.add('initialized');
-            }, 100);
-        } else {
-            // If no state to restore, show immediately
-            wrapper.classList.add('initialized');
-        }
-    }
 }
 
 /**
@@ -807,6 +810,9 @@ function restoreFormState() {
             return false;
         }
         
+        // Preserve scroll position before making changes
+        const preservedScrollY = window.scrollY;
+        
         // Restore form data
         if (state.formData) {
             formData = state.formData;
@@ -823,6 +829,11 @@ function restoreFormState() {
             // Update progress bar without animation
             updateProgressBarInstant(currentStep);
             
+            // Restore scroll position after DOM changes
+            setTimeout(() => {
+                window.scrollTo(0, preservedScrollY);
+            }, 0);
+            
             // If we have calculations, update the display
             if (state.formData && Object.keys(state.formData).length > 0) {
                 // Trigger calculation to update displays immediately
@@ -831,6 +842,10 @@ function restoreFormState() {
                     .then(response => {
                         if (response.success && response.data.calculations) {
                             updateCalculationsDisplay(response.data.calculations, targetStep);
+                            // Ensure scroll position is maintained after calculations
+                            setTimeout(() => {
+                                window.scrollTo(0, preservedScrollY);
+                            }, 10);
                         }
                     })
                     .catch(error => {
