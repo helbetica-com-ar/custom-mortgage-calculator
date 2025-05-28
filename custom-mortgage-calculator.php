@@ -28,6 +28,26 @@ function mortgage_calculator_init() {
     add_action('wp_ajax_nopriv_mortgage_calc_step', 'handle_mortgage_calc_ajax');
     add_action('wp_ajax_mortgage_calc_submit', 'handle_mortgage_final_submit');
     add_action('wp_ajax_nopriv_mortgage_calc_submit', 'handle_mortgage_final_submit');
+    
+    // Clean up old transients periodically
+    add_action('wp_scheduled_delete', 'mortgage_calculator_cleanup_transients');
+}
+
+// Schedule cleanup if not already scheduled
+if (!wp_next_scheduled('mortgage_calculator_cleanup')) {
+    wp_schedule_event(time(), 'daily', 'mortgage_calculator_cleanup');
+}
+
+// Cleanup function for old transients
+function mortgage_calculator_cleanup_transients() {
+    global $wpdb;
+    
+    // Delete transients older than 1 day
+    $wpdb->query(
+        "DELETE FROM {$wpdb->options} 
+        WHERE option_name LIKE '_transient_mortgage_calc_%' 
+        OR option_name LIKE '_transient_timeout_mortgage_calc_%'"
+    );
 }
 
 // ============================================================================
@@ -61,12 +81,7 @@ function render_mortgage_calculator($atts) {
         'width' => '100%'
     ), $atts);
     
-    // Start session if not already started
-    if (!session_id()) {
-        session_start();
-    }
-    
-    // Generate unique form ID
+    // Generate unique form ID (will be used for transient key)
     $form_id = 'mortgage_calc_' . uniqid();
     
     ob_start();
@@ -391,23 +406,32 @@ function handle_mortgage_calc_ajax() {
     }
     
     $step = intval($_POST['step']);
-    $form_data = $_POST['form_data'];
+    $form_data_json = stripslashes($_POST['form_data']);
+    $form_data = json_decode($form_data_json, true);
     
-    // Start session if not already started
-    if (!session_id()) {
-        session_start();
+    // Get user identifier (IP + User Agent hash for anonymous users)
+    $user_id = get_current_user_id();
+    if (!$user_id) {
+        $user_id = 'anon_' . md5($_SERVER['REMOTE_ADDR'] . $_SERVER['HTTP_USER_AGENT']);
     }
     
-    // Store form data in session
-    if (!isset($_SESSION['mortgage_calc_data'])) {
-        $_SESSION['mortgage_calc_data'] = array();
+    // Create transient key
+    $transient_key = 'mortgage_calc_' . $user_id;
+    
+    // Get existing data from transient
+    $existing_data = get_transient($transient_key);
+    if (!$existing_data) {
+        $existing_data = array();
     }
     
     // Merge new data with existing
-    $_SESSION['mortgage_calc_data'] = array_merge($_SESSION['mortgage_calc_data'], $form_data);
+    $all_data = array_merge($existing_data, $form_data);
+    
+    // Store data in transient (expires in 1 hour)
+    set_transient($transient_key, $all_data, HOUR_IN_SECONDS);
     
     // Perform calculations based on current step
-    $calculations = perform_mortgage_calculations($_SESSION['mortgage_calc_data'], $step);
+    $calculations = perform_mortgage_calculations($all_data, $step);
     
     wp_send_json_success(array(
         'calculations' => $calculations,
@@ -422,14 +446,25 @@ function handle_mortgage_final_submit() {
         wp_die('Security check failed');
     }
     
-    // Start session if not already started
-    if (!session_id()) {
-        session_start();
+    // Get user identifier
+    $user_id = get_current_user_id();
+    if (!$user_id) {
+        $user_id = 'anon_' . md5($_SERVER['REMOTE_ADDR'] . $_SERVER['HTTP_USER_AGENT']);
+    }
+    
+    // Create transient key
+    $transient_key = 'mortgage_calc_' . $user_id;
+    
+    // Get existing data from transient
+    $existing_data = get_transient($transient_key);
+    if (!$existing_data) {
+        $existing_data = array();
     }
     
     // Get final form data
-    $final_data = $_POST['form_data'];
-    $all_data = array_merge($_SESSION['mortgage_calc_data'], $final_data);
+    $final_data_json = stripslashes($_POST['form_data']);
+    $final_data = json_decode($final_data_json, true);
+    $all_data = array_merge($existing_data, $final_data);
     
     // Save to database
     $submission_id = save_mortgage_application($all_data);
@@ -437,8 +472,8 @@ function handle_mortgage_final_submit() {
     // Send notification emails
     send_application_notifications($all_data, $submission_id);
     
-    // Clear session data
-    unset($_SESSION['mortgage_calc_data']);
+    // Clear transient data
+    delete_transient($transient_key);
     
     wp_send_json_success(array(
         'submission_id' => $submission_id,
