@@ -136,6 +136,10 @@ function render_mortgage_calculator($atts) {
                 
                 <div class="right-panel">
                     <form class="step-form" data-step="1">
+                        <div class="form-section">
+                            <h3>Tell Us About Your Loan</h3>
+                            <p>Provide basic information to get started with your mortgage estimate.</p>
+                        </div>
                         <div class="form-group">
                             <label for="loan_amount">Loan Amount</label>
                             <div class="input-wrapper">
@@ -202,6 +206,10 @@ function render_mortgage_calculator($atts) {
                 
                 <div class="right-panel">
                     <form class="step-form" data-step="2">
+                        <div class="form-section">
+                            <h3>Property & Financial Information</h3>
+                            <p>Help us refine your estimate with property details and income.</p>
+                        </div>
                         <div class="form-group">
                             <label for="monthly_income">Monthly Income</label>
                             <div class="input-wrapper">
@@ -379,7 +387,7 @@ function render_mortgage_calculator($atts) {
                             <label class="checkbox-label">
                                 <input type="checkbox" name="terms_accepted" required>
                                 <span class="checkmark"></span>
-                                <span>I agree to the <a href="#" target="_blank">Terms of Service</a> and <a href="#" target="_blank">Privacy Policy</a></span>
+                                <span class="checkbox-text">I agree to the <a href="#" target="_blank">Terms of Service</a> and <a href="#" target="_blank">Privacy Policy</a></span>
                             </label>
                         </div>
                         
@@ -387,7 +395,7 @@ function render_mortgage_calculator($atts) {
                             <label class="checkbox-label">
                                 <input type="checkbox" name="marketing_consent">
                                 <span class="checkmark"></span>
-                                <span>I consent to receive marketing communications about loan products</span>
+                                <span class="checkbox-text">I consent to receive marketing communications about loan products</span>
                             </label>
                         </div>
                         
