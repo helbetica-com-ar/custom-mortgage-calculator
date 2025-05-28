@@ -8,6 +8,7 @@
 let currentStep = 1;
 let formData = {};
 let isSubmitting = false;
+let isRestoringState = false;
 
 // Initialize when DOM is loaded
 document.addEventListener('DOMContentLoaded', function () {
@@ -18,6 +19,8 @@ document.addEventListener('DOMContentLoaded', function () {
  * Initialize the calculator
  */
 function initializeMortgageCalculator() {
+    const wrapper = document.querySelector('.mortgage-calculator-wrapper');
+    
     // Add event listeners for real-time calculations
     addInputEventListeners();
 
@@ -29,6 +32,24 @@ function initializeMortgageCalculator() {
 
     // Initialize tooltips or help text
     initializeHelpSystem();
+    
+    // Restore saved state if it exists (without interfering with scroll)
+    const wasRestored = restoreFormState();
+    
+    // Show form after initialization
+    if (wrapper) {
+        if (wasRestored) {
+            // If state was restored, wait a bit for calculations then show
+            setTimeout(() => {
+                wrapper.classList.add('initialized');
+            }, 150);
+        } else {
+            // If no state to restore, show immediately
+            setTimeout(() => {
+                wrapper.classList.add('initialized');
+            }, 50);
+        }
+    }
 }
 
 /**
@@ -63,8 +84,13 @@ function nextStep(step) {
                 updateProgressBar(step + 1);
                 currentStep = step + 1;
 
-                // Scroll to top
-                scrollToTop();
+                // Save form state
+                saveFormState();
+
+                // Don't scroll during state restoration
+                if (!isRestoringState) {
+                    scrollToTop();
+                }
             } else {
                 showError('An error occurred. Please try again.');
             }
@@ -84,7 +110,14 @@ function prevStep(step) {
         showStep(step - 1);
         updateProgressBar(step - 1);
         currentStep = step - 1;
-        scrollToTop();
+        
+        // Save form state
+        saveFormState();
+        
+        // Don't scroll during state restoration
+        if (!isRestoringState) {
+            scrollToTop();
+        }
     }
 }
 
@@ -101,6 +134,32 @@ function showStep(stepNumber) {
     if (targetStep) {
         targetStep.classList.add('active');
     }
+}
+
+/**
+ * Show step instantly without transitions for state restoration
+ */
+function showStepInstant(stepNumber) {
+    const steps = document.querySelectorAll('.calculator-step');
+    
+    // Temporarily disable transitions
+    steps.forEach(step => {
+        step.style.transition = 'none';
+        step.classList.remove('active');
+    });
+
+    // Show target step
+    const targetStep = document.getElementById(`step-${stepNumber}`);
+    if (targetStep) {
+        targetStep.classList.add('active');
+    }
+    
+    // Re-enable transitions after a brief moment
+    setTimeout(() => {
+        steps.forEach(step => {
+            step.style.transition = '';
+        });
+    }, 50);
 }
 
 /**
@@ -121,6 +180,38 @@ function updateProgressBar(stepNumber) {
             step.classList.remove('completed');
         }
     });
+}
+
+/**
+ * Update progress bar instantly without transitions for state restoration
+ */
+function updateProgressBarInstant(stepNumber) {
+    const progressSteps = document.querySelectorAll('.progress-step');
+    
+    // Temporarily disable transitions
+    progressSteps.forEach(step => {
+        step.style.transition = 'none';
+    });
+
+    progressSteps.forEach((step, index) => {
+        if (index < stepNumber) {
+            step.classList.add('active');
+            step.classList.add('completed');
+        } else if (index === stepNumber - 1) {
+            step.classList.add('active');
+            step.classList.remove('completed');
+        } else {
+            step.classList.remove('active');
+            step.classList.remove('completed');
+        }
+    });
+    
+    // Re-enable transitions after a brief moment
+    setTimeout(() => {
+        progressSteps.forEach(step => {
+            step.style.transition = '';
+        });
+    }, 50);
 }
 
 /**
@@ -334,16 +425,16 @@ function sendStepData(step, stepData) {
 function updateCalculationsDisplay(calculations, targetStep) {
     if (!calculations) return;
 
-    // Update step 2 calculations (initial estimate)
-    if (targetStep === 2 || currentStep === 2) {
+    // Update step 2 calculations (initial estimate based on Step 1 data only)
+    if (targetStep === 2) {
         updateElement('monthly-payment', formatNumber(calculations.monthly_payment));
         updateElement('principal-interest', formatCurrency(calculations.principal_interest));
         updateElement('property-tax', formatCurrency(calculations.property_tax));
         updateElement('insurance', formatCurrency(calculations.insurance));
     }
 
-    // Update step 3 calculations (detailed estimate)
-    if (targetStep === 3 || currentStep === 3) {
+    // Update step 3 calculations (detailed estimate based on Step 1 + Step 2 data)
+    if (targetStep === 3) {
         updateElement('final-monthly-payment', formatNumber(calculations.monthly_payment));
         updateElement('final-pi', formatCurrency(calculations.principal_interest));
         updateElement('final-tax', formatCurrency(calculations.property_tax));
@@ -352,6 +443,7 @@ function updateCalculationsDisplay(calculations, targetStep) {
         updateElement('summary-loan-amount', formatCurrency(calculations.loan_amount));
         updateElement('estimated-rate', calculations.interest_rate + '%');
         updateElement('total-interest', formatCurrency(calculations.total_interest));
+        updateElement('debt-to-income', (calculations.debt_to_income_ratio || 0) + '%');
     }
 }
 
@@ -411,6 +503,8 @@ function submitFinalForm(event) {
             isSubmitting = false;
 
             if (response.success) {
+                // Clear saved form state since form is completed
+                clearFormState();
                 showSuccessMessage();
             } else {
                 showError('There was an error submitting your application. Please try again.');
@@ -441,8 +535,10 @@ function showSuccessMessage() {
         // Show success message
         successMessage.style.display = 'block';
 
-        // Scroll to top
-        scrollToTop();
+        // Don't scroll during state restoration
+        if (!isRestoringState) {
+            scrollToTop();
+        }
     }
 }
 
@@ -459,9 +555,26 @@ function addInputEventListeners() {
             // You can add real-time formatting here if needed
         }
 
-        // Trigger calculations for step 2 inputs
-        if (currentStep === 2 && ['loan_amount', 'loan_term', 'home_value', 'down_payment'].includes(target.name)) {
+        // Trigger real-time calculations based on current step
+        if (currentStep === 1 && ['loan_amount', 'loan_term'].includes(target.name)) {
+            // Step 1 inputs update Step 2 display
             debounce(performRealTimeCalculation, 500)();
+        } else if (currentStep === 2 && ['home_value', 'down_payment', 'property_location', 'monthly_income', 'property_use'].includes(target.name)) {
+            // Step 2 inputs update Step 3 display
+            debounce(performRealTimeCalculation, 500)();
+        }
+    });
+    
+    // Also listen for change events on select elements
+    document.addEventListener('change', function (e) {
+        const target = e.target;
+        
+        if (target.tagName === 'SELECT') {
+            if (currentStep === 1 && target.name === 'loan_term') {
+                debounce(performRealTimeCalculation, 500)();
+            } else if (currentStep === 2 && target.name === 'property_use') {
+                debounce(performRealTimeCalculation, 500)();
+            }
         }
     });
 }
@@ -472,52 +585,26 @@ function addInputEventListeners() {
 function performRealTimeCalculation() {
     const currentData = collectStepData(currentStep);
     const allData = { ...formData, ...currentData };
-
-    // Basic client-side calculation for immediate feedback
-    const calculations = calculateMortgageBasic(allData);
-    updateCalculationsDisplay(calculations, currentStep);
-}
-
-/**
- * Basic mortgage calculation (client-side)
- */
-function calculateMortgageBasic(data) {
-    const loanAmount = parseFloat(data.loan_amount || 0);
-    const loanTerm = parseInt(data.loan_term || 30);
-    const homeValue = parseFloat(data.home_value || 0);
-    const downPayment = parseFloat(data.down_payment || 0);
-
-    // Basic interest rate (this is simplified)
-    const interestRate = 4.5;
-    const monthlyRate = interestRate / 100 / 12;
-    const totalPayments = loanTerm * 12;
-
-    // Calculate monthly P&I
-    let monthlyPI = 0;
-    if (monthlyRate > 0 && loanAmount > 0) {
-        const x = Math.pow(1 + monthlyRate, totalPayments);
-        monthlyPI = (loanAmount * monthlyRate * x) / (x - 1);
-    }
-
-    // Estimate other costs
-    const monthlyTax = homeValue * 0.012 / 12;
-    const monthlyInsurance = homeValue * 0.005 / 12;
-
-    // PMI if LTV > 80%
-    const ltv = homeValue > 0 ? (loanAmount / homeValue) * 100 : 0;
-    const monthlyPMI = ltv > 80 ? (loanAmount * 0.005 / 12) : 0;
-
-    const totalMonthly = monthlyPI + monthlyTax + monthlyInsurance + monthlyPMI;
-
-    return {
-        monthly_payment: totalMonthly,
-        principal_interest: monthlyPI,
-        property_tax: monthlyTax,
-        insurance: monthlyInsurance,
-        pmi: monthlyPMI,
-        interest_rate: interestRate,
-        loan_amount: loanAmount
-    };
+    
+    // Update formData with current input
+    Object.assign(formData, currentData);
+    
+    // Save form state
+    saveFormState();
+    
+    // Determine which display to update based on current step
+    const targetStep = currentStep === 1 ? 2 : 3;
+    
+    // Send AJAX request for server-side calculation
+    sendStepData(currentStep, currentData)
+        .then(response => {
+            if (response.success && response.data.calculations) {
+                updateCalculationsDisplay(response.data.calculations, targetStep);
+            }
+        })
+        .catch(error => {
+            console.error('Real-time calculation error:', error);
+        });
 }
 
 /**
@@ -622,7 +709,10 @@ function showError(message) {
         errorDiv.style.display = 'none';
     }, 5000);
 
-    scrollToTop();
+    // Don't scroll during state restoration
+    if (!isRestoringState) {
+        scrollToTop();
+    }
 }
 
 function scrollToTop() {
@@ -690,3 +780,128 @@ document.addEventListener('keydown', function (e) {
         }
     }
 });
+
+// ============================================================================
+// FORM STATE PERSISTENCE
+// ============================================================================
+
+/**
+ * Save form state to localStorage
+ */
+function saveFormState() {
+    const state = {
+        currentStep: currentStep,
+        formData: formData,
+        timestamp: Date.now()
+    };
+    
+    try {
+        localStorage.setItem('mortgageCalculatorState', JSON.stringify(state));
+    } catch (e) {
+        console.warn('Unable to save form state to localStorage:', e);
+    }
+}
+
+/**
+ * Restore form state from localStorage
+ * @return {boolean} Returns true if state was restored, false otherwise
+ */
+function restoreFormState() {
+    try {
+        const savedState = localStorage.getItem('mortgageCalculatorState');
+        if (!savedState) return false;
+        
+        const state = JSON.parse(savedState);
+        
+        // Check if state is recent (less than 24 hours old)
+        const maxAge = 24 * 60 * 60 * 1000; // 24 hours in milliseconds
+        if (Date.now() - state.timestamp > maxAge) {
+            localStorage.removeItem('mortgageCalculatorState');
+            return false;
+        }
+        
+        // Set restoration flag to prevent scroll interference
+        isRestoringState = true;
+        
+        // Restore form data
+        if (state.formData) {
+            formData = state.formData;
+            populateFormFields(state.formData);
+        }
+        
+        // Restore current step immediately without animation
+        if (state.currentStep && state.currentStep > 1) {
+            currentStep = state.currentStep;
+            
+            // Show target step instantly without transitions
+            showStepInstant(currentStep);
+            
+            // Update progress bar without animation
+            updateProgressBarInstant(currentStep);
+            
+            // If we have calculations, update the display
+            if (state.formData && Object.keys(state.formData).length > 0) {
+                // Trigger calculation to update displays immediately
+                const targetStep = currentStep === 2 ? 2 : 3;
+                sendStepData(currentStep - 1, state.formData)
+                    .then(response => {
+                        if (response.success && response.data.calculations) {
+                            updateCalculationsDisplay(response.data.calculations, targetStep);
+                        }
+                        // Clear restoration flag after calculations complete
+                        setTimeout(() => {
+                            isRestoringState = false;
+                        }, 100);
+                    })
+                    .catch(error => {
+                        console.error('Error restoring calculations:', error);
+                        isRestoringState = false;
+                    });
+            } else {
+                // Clear restoration flag if no calculations needed
+                setTimeout(() => {
+                    isRestoringState = false;
+                }, 100);
+            }
+            
+            return true;
+        }
+        
+        // Clear restoration flag if no step restoration needed
+        isRestoringState = false;
+        
+        return false;
+        
+    } catch (e) {
+        console.warn('Unable to restore form state from localStorage:', e);
+        localStorage.removeItem('mortgageCalculatorState');
+        return false;
+    }
+}
+
+/**
+ * Populate form fields with saved data
+ */
+function populateFormFields(data) {
+    Object.keys(data).forEach(fieldName => {
+        const field = document.querySelector(`[name="${fieldName}"]`);
+        if (field) {
+            if (field.type === 'checkbox') {
+                field.checked = !!data[fieldName];
+            } else {
+                field.value = data[fieldName];
+            }
+        }
+    });
+}
+
+/**
+ * Clear saved form state
+ */
+function clearFormState() {
+    try {
+        localStorage.removeItem('mortgageCalculatorState');
+    } catch (e) {
+        console.warn('Unable to clear form state:', e);
+    }
+}

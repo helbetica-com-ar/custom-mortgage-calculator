@@ -38,6 +38,12 @@
     border-radius: var(--border-radius);
     box-shadow: var(--shadow-medium);
     position: relative;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.mortgage-calculator-wrapper.initialized {
+    opacity: 1;
 }
 
 /* ============================================================================
@@ -126,16 +132,23 @@
    ============================================================================ */
 
 .calculator-step {
-    display: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
     opacity: 0;
     transform: translateY(20px);
     transition: var(--transition);
+    pointer-events: none;
+    visibility: hidden;
 }
 
 .calculator-step.active {
-    display: block;
+    position: relative;
     opacity: 1;
     transform: translateY(0);
+    pointer-events: auto;
+    visibility: visible;
 }
 
 .step-container {
@@ -144,6 +157,8 @@
     gap: 40px;
     min-height: 500px;
     align-items: start;
+    position: relative;
+    overflow: hidden;
 }
 
 /* ============================================================================
@@ -464,12 +479,42 @@ select.form-control {
     margin: 20px 0;
 }
 
-.checkbox-label {
+/* Fix for checkbox labels specifically (not affecting other labels) */
+label.checkbox-label {
     display: flex;
     align-items: flex-start;
     cursor: pointer;
     font-size: 15px;
     line-height: 1.5;
+    color: var(--text-dark);
+}
+
+/* Ensure proper spacing for checkbox label text */
+.checkbox-label > span:last-child {
+    flex: 1;
+    padding-left: 0;
+}
+
+/* Contact method group - horizontal layout */
+.contact-method-group {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+    margin-top: 10px;
+}
+
+.inline-checkbox {
+    display: inline-flex;
+    align-items: center;
+    margin-right: 0;
+}
+
+.inline-checkbox .checkmark {
+    margin-top: 0;
+}
+
+.inline-checkbox span:last-child {
+    font-size: 15px;
     color: var(--text-dark);
 }
 
