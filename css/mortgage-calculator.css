@@ -474,6 +474,12 @@ label.checkbox-label {
     color: var(--text-dark);
 }
 
+/* Ensure proper spacing for checkbox label text */
+.checkbox-label > span:last-child {
+    flex: 1;
+    padding-left: 0;
+}
+
 /* Contact method group - horizontal layout */
 .contact-method-group {
     display: flex;

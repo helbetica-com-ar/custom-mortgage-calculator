@@ -379,8 +379,7 @@ function render_mortgage_calculator($atts) {
                             <label class="checkbox-label">
                                 <input type="checkbox" name="terms_accepted" required>
                                 <span class="checkmark"></span>
-                                I agree to the <a href="#" target="_blank">Terms of Service</a> 
-                                and <a href="#" target="_blank">Privacy Policy</a>
+                                <span>I agree to the <a href="#" target="_blank">Terms of Service</a> and <a href="#" target="_blank">Privacy Policy</a></span>
                             </label>
                         </div>
                         
@@ -388,7 +387,7 @@ function render_mortgage_calculator($atts) {
                             <label class="checkbox-label">
                                 <input type="checkbox" name="marketing_consent">
                                 <span class="checkmark"></span>
-                                I consent to receive marketing communications about loan products
+                                <span>I consent to receive marketing communications about loan products</span>
                             </label>
                         </div>
                         
