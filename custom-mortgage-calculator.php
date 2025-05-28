@@ -35,8 +35,11 @@ function mortgage_calculator_init() {
 // ============================================================================
 
 function mortgage_calculator_scripts() {
-    wp_enqueue_script('mortgage-calculator-js', get_template_directory_uri() . '/js/mortgage-calculator.js', array('jquery'), '1.0.0', true);
-    wp_enqueue_style('mortgage-calculator-css', get_template_directory_uri() . '/css/mortgage-calculator.css', array(), '1.0.0');
+    // Get plugin directory URL
+    $plugin_url = plugin_dir_url(__FILE__);
+    
+    wp_enqueue_script('mortgage-calculator-js', $plugin_url . 'js/mortgage-calculator.js', array('jquery'), '1.0.0', true);
+    wp_enqueue_style('mortgage-calculator-css', $plugin_url . 'css/mortgage-calculator.css', array(), '1.0.0');
     
     // Pass AJAX URL and nonce to JavaScript
     wp_localize_script('mortgage-calculator-js', 'mortgageAjax', array(
