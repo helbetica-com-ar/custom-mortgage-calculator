@@ -127,7 +127,7 @@ function updateProgressBar(stepNumber) {
  * Validate step data
  */
 function validateStep(step) {
-    const form = document.querySelector(`[data-step="${step}"]`);
+    const form = document.querySelector(`form[data-step="${step}"]`);
     if (!form) return false;
 
     const requiredFields = form.querySelectorAll('[required]');
@@ -250,7 +250,7 @@ function clearFieldError(field) {
  * Collect step data
  */
 function collectStepData(step) {
-    const form = document.querySelector(`[data-step="${step}"]`);
+    const form = document.querySelector(`form[data-step="${step}"]`);
     if (!form) return {};
 
     const formData = new FormData(form);
