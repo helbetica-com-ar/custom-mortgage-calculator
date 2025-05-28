@@ -464,9 +464,22 @@ function addInputEventListeners() {
         if (currentStep === 1 && ['loan_amount', 'loan_term'].includes(target.name)) {
             // Step 1 inputs update Step 2 display
             debounce(performRealTimeCalculation, 500)();
-        } else if (currentStep === 2 && ['home_value', 'down_payment', 'property_location', 'monthly_income'].includes(target.name)) {
+        } else if (currentStep === 2 && ['home_value', 'down_payment', 'property_location', 'monthly_income', 'property_use'].includes(target.name)) {
             // Step 2 inputs update Step 3 display
             debounce(performRealTimeCalculation, 500)();
+        }
+    });
+    
+    // Also listen for change events on select elements
+    document.addEventListener('change', function (e) {
+        const target = e.target;
+        
+        if (target.tagName === 'SELECT') {
+            if (currentStep === 1 && target.name === 'loan_term') {
+                debounce(performRealTimeCalculation, 500)();
+            } else if (currentStep === 2 && target.name === 'property_use') {
+                debounce(performRealTimeCalculation, 500)();
+            }
         }
     });
 }

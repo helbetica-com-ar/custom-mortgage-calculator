@@ -203,14 +203,14 @@ function render_mortgage_calculator($atts) {
                 <div class="right-panel">
                     <form class="step-form" data-step="2">
                         <div class="form-group">
-                            <label for="home_value">Home Value</label>
+                            <label for="monthly_income">Monthly Income</label>
                             <div class="input-wrapper">
                                 <span class="currency-symbol">$</span>
-                                <input type="number" id="home_value" name="home_value" 
-                                       class="form-control" placeholder="650,000" 
-                                       min="100000" max="5000000" step="1000" required>
+                                <input type="number" id="monthly_income" name="monthly_income" 
+                                       class="form-control" placeholder="8,000" 
+                                       min="1000" step="100" required>
                             </div>
-                            <div class="input-help">Estimated market value of the property</div>
+                            <div class="input-help">Your gross monthly income</div>
                         </div>
                         
                         <div class="form-group">
@@ -225,21 +225,32 @@ function render_mortgage_calculator($atts) {
                         </div>
                         
                         <div class="form-group">
+                            <label for="home_value">Property Value</label>
+                            <div class="input-wrapper">
+                                <span class="currency-symbol">$</span>
+                                <input type="number" id="home_value" name="home_value" 
+                                       class="form-control" placeholder="650,000" 
+                                       min="100000" max="5000000" step="1000" required>
+                            </div>
+                            <div class="input-help">Estimated market value of the property</div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="property_use">Property Use</label>
+                            <select id="property_use" name="property_use" class="form-control" required>
+                                <option value="">Select property use</option>
+                                <option value="primary">Primary Residence</option>
+                                <option value="second">Second Home</option>
+                                <option value="investment">Investment</option>
+                            </select>
+                            <div class="input-help">How you plan to use the property</div>
+                        </div>
+                        
+                        <div class="form-group">
                             <label for="property_location">Property Location</label>
                             <input type="text" id="property_location" name="property_location" 
                                    class="form-control" placeholder="City, State" required>
                             <div class="input-help">Location affects tax rates and insurance</div>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="monthly_income">Monthly Income</label>
-                            <div class="input-wrapper">
-                                <span class="currency-symbol">$</span>
-                                <input type="number" id="monthly_income" name="monthly_income" 
-                                       class="form-control" placeholder="8,000" 
-                                       min="1000" step="100" required>
-                            </div>
-                            <div class="input-help">Your gross monthly income</div>
                         </div>
                         
                         
