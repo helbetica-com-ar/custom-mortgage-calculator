@@ -38,12 +38,12 @@
     border-radius: var(--border-radius);
     box-shadow: var(--shadow-medium);
     position: relative;
-    opacity: 1;
+    opacity: 0;
     transition: opacity 0.3s ease;
 }
 
-.mortgage-calculator-wrapper.loading {
-    opacity: 0;
+.mortgage-calculator-wrapper.initialized {
+    opacity: 1;
 }
 
 /* ============================================================================
@@ -132,16 +132,23 @@
    ============================================================================ */
 
 .calculator-step {
-    display: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
     opacity: 0;
     transform: translateY(20px);
     transition: var(--transition);
+    pointer-events: none;
+    visibility: hidden;
 }
 
 .calculator-step.active {
-    display: block;
+    position: relative;
     opacity: 1;
     transform: translateY(0);
+    pointer-events: auto;
+    visibility: visible;
 }
 
 .step-container {
@@ -150,6 +157,8 @@
     gap: 40px;
     min-height: 500px;
     align-items: start;
+    position: relative;
+    overflow: hidden;
 }
 
 /* ============================================================================

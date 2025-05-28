@@ -18,11 +18,7 @@ document.addEventListener('DOMContentLoaded', function () {
  * Initialize the calculator
  */
 function initializeMortgageCalculator() {
-    // Hide form during restoration to prevent flickering
     const wrapper = document.querySelector('.mortgage-calculator-wrapper');
-    if (wrapper) {
-        wrapper.classList.add('loading');
-    }
     
     // Restore saved state if it exists
     const wasRestored = restoreFormState();
@@ -39,18 +35,16 @@ function initializeMortgageCalculator() {
     // Initialize tooltips or help text
     initializeHelpSystem();
     
-    // Show form after initialization with smooth transition
+    // Show form after initialization
     if (wrapper) {
         if (wasRestored) {
-            // If state was restored, wait a bit longer for calculations
+            // If state was restored, wait a bit for calculations then show
             setTimeout(() => {
-                wrapper.classList.remove('loading');
-            }, 200);
+                wrapper.classList.add('initialized');
+            }, 100);
         } else {
             // If no state to restore, show immediately
-            setTimeout(() => {
-                wrapper.classList.remove('loading');
-            }, 50);
+            wrapper.classList.add('initialized');
         }
     }
 }
@@ -132,6 +126,32 @@ function showStep(stepNumber) {
     if (targetStep) {
         targetStep.classList.add('active');
     }
+}
+
+/**
+ * Show step instantly without transitions for state restoration
+ */
+function showStepInstant(stepNumber) {
+    const steps = document.querySelectorAll('.calculator-step');
+    
+    // Temporarily disable transitions
+    steps.forEach(step => {
+        step.style.transition = 'none';
+        step.classList.remove('active');
+    });
+
+    // Show target step
+    const targetStep = document.getElementById(`step-${stepNumber}`);
+    if (targetStep) {
+        targetStep.classList.add('active');
+    }
+    
+    // Re-enable transitions after a brief moment
+    setTimeout(() => {
+        steps.forEach(step => {
+            step.style.transition = '';
+        });
+    }, 50);
 }
 
 /**
@@ -797,17 +817,8 @@ function restoreFormState() {
         if (state.currentStep && state.currentStep > 1) {
             currentStep = state.currentStep;
             
-            // Hide all steps first
-            const allSteps = document.querySelectorAll('.step');
-            allSteps.forEach(step => {
-                step.style.display = 'none';
-            });
-            
-            // Show target step without transition
-            const targetStepElement = document.getElementById(`step-${currentStep}`);
-            if (targetStepElement) {
-                targetStepElement.style.display = 'block';
-            }
+            // Show target step instantly without transitions
+            showStepInstant(currentStep);
             
             // Update progress bar without animation
             updateProgressBarInstant(currentStep);
