@@ -327,6 +327,19 @@ msgstr "Hemos recibido tu solicitud hipotecaria (Confirmación #%s) y nuestros p
 msgid "Property Value:"
 msgstr "Valor de la Propiedad:"
 
+# Missing h3 titles from form sections
+msgid "Tell Us About Your Loan"
+msgstr "Contanos Sobre Tu Préstamo"
+
+msgid "Provide basic information to get started with your mortgage estimate."
+msgstr "Proporcioná información básica para comenzar con tu estimación hipotecaria."
+
+msgid "Property & Financial Information"
+msgstr "Información de la Propiedad y Financiera"
+
+msgid "Help us refine your estimate with property details and income."
+msgstr "Ayudanos a refinar tu estimación con detalles de la propiedad e ingresos."
+
 msgid "Loan Term:"
 msgstr "Plazo del Préstamo:"
 
