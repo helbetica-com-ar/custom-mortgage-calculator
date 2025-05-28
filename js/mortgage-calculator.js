@@ -127,7 +127,22 @@ function updateProgressBar(stepNumber) {
  * Validate step data
  */
 function validateStep(step) {
-    const form = document.querySelector(`form[data-step="${step}"]`);
+    // Try multiple selectors to find the form
+    let form = document.querySelector(`form[data-step="${step}"]`);
+    
+    if (!form) {
+        // Try with class selector
+        form = document.querySelector(`.step-form[data-step="${step}"]`);
+    }
+    
+    if (!form) {
+        // Try within the active step
+        const activeStep = document.querySelector('.calculator-step.active');
+        if (activeStep) {
+            form = activeStep.querySelector('form');
+        }
+    }
+    
     if (!form) return false;
 
     const requiredFields = form.querySelectorAll('[required]');
@@ -250,8 +265,37 @@ function clearFieldError(field) {
  * Collect step data
  */
 function collectStepData(step) {
-    const form = document.querySelector(`form[data-step="${step}"]`);
-    if (!form) return {};
+    // Try multiple selectors to find the form
+    let form = document.querySelector(`form[data-step="${step}"]`);
+    
+    if (!form) {
+        // Try with class selector
+        form = document.querySelector(`.step-form[data-step="${step}"]`);
+    }
+    
+    if (!form) {
+        // Try within the active step
+        const activeStep = document.querySelector('.calculator-step.active');
+        if (activeStep) {
+            form = activeStep.querySelector('form');
+        }
+    }
+    
+    // Debug logging
+    console.log('Looking for form with data-step:', step);
+    console.log('Found form:', form);
+    console.log('Form tagName:', form ? form.tagName : 'null');
+    console.log('All forms on page:', document.querySelectorAll('form'));
+    
+    if (!form) {
+        console.error('Form not found for step:', step);
+        return {};
+    }
+    
+    if (!(form instanceof HTMLFormElement)) {
+        console.error('Element is not a form:', form);
+        return {};
+    }
 
     const formData = new FormData(form);
     const data = {};
