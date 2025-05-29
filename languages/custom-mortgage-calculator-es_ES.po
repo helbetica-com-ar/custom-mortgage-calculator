@@ -132,8 +132,8 @@ msgid "Your Personalized Loan Estimate"
 msgstr "Tu Estimación Personalizada de Préstamo"
 
 # Summary Card Label
-msgid "Monthly Payment"
-msgstr "Cuota Mensual"
+msgid "First Payment Value"
+msgstr "Valor de la Primera Cuota"
 
 # Final Breakdown Labels
 msgid "Payment Breakdown"
@@ -393,8 +393,8 @@ msgstr "Obtené tu Estimación de Crédito UVA"
 msgid "Simulate your UVA mortgage with current market values"
 msgstr "Simulá tu crédito UVA con valores actuales del mercado"
 
-msgid "Your Estimated UVA Monthly Payment"
-msgstr "Tu Cuota Mensual UVA Estimada"
+msgid "Value of Your First UVA Payment"
+msgstr "Valor de tu Primera Cuota UVA"
 
 msgid "UVA value today:"
 msgstr "Valor UVA hoy:"

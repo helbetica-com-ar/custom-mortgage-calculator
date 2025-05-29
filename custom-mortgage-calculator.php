@@ -181,7 +181,7 @@ function render_mortgage_calculator($atts) {
             <div class="step-container">
                 <div class="left-panel">
                     <div class="calculation-display">
-                        <h2><?php echo esc_html(__('Your Estimated UVA Monthly Payment', 'custom-mortgage-calculator')); ?></h2>
+                        <h2><?php echo esc_html(__('Value of Your First UVA Payment', 'custom-mortgage-calculator')); ?></h2>
                         <div class="payment-amount">
                             <span class="currency">$</span>
                             <span id="monthly-payment">0</span>
@@ -322,7 +322,7 @@ function render_mortgage_calculator($atts) {
                         
                         <div class="loan-summary">
                             <div class="summary-card">
-                                <h3><?php echo esc_html(__('Monthly Payment', 'custom-mortgage-calculator')); ?></h3>
+                                <h3><?php echo esc_html(__('First Payment Value', 'custom-mortgage-calculator')); ?></h3>
                                 <div class="payment-final">
                                     <span class="currency">$</span>
                                     <span id="final-monthly-payment">0</span>
