@@ -160,6 +160,8 @@ function render_mortgage_calculator($atts) {
                             <label for="loan_term"><?php echo esc_html(__('Loan Term', 'custom-mortgage-calculator')); ?></label>
                             <select id="loan_term" name="loan_term" class="form-control" required>
                                 <option value=""><?php echo esc_html(__('Select term', 'custom-mortgage-calculator')); ?></option>
+                                <option value="5"><?php echo esc_html(__('5 years', 'custom-mortgage-calculator')); ?></option>
+                                <option value="10"><?php echo esc_html(__('10 years', 'custom-mortgage-calculator')); ?></option>
                                 <option value="15"><?php echo esc_html(__('15 years', 'custom-mortgage-calculator')); ?></option>
                                 <option value="20"><?php echo esc_html(__('20 years', 'custom-mortgage-calculator')); ?></option>
                                 <option value="25"><?php echo esc_html(__('25 years', 'custom-mortgage-calculator')); ?></option>
@@ -203,6 +205,12 @@ function render_mortgage_calculator($atts) {
                                 <?php if ($source === 'cache' || $source === 'fallback'): ?>
                                     <br><em><?php echo esc_html(__('Using cached value', 'custom-mortgage-calculator')); ?> - <?php echo sprintf(__('Updated %s hours ago', 'custom-mortgage-calculator'), $hours_ago); ?></em>
                                 <?php endif; ?>
+                            </small>
+                        </div>
+                        
+                        <div class="loan-term-display">
+                            <small>
+                                <?php echo esc_html(__('Loan Term:', 'custom-mortgage-calculator')); ?> <span id="selected-loan-term">-</span> <?php echo esc_html(__('years', 'custom-mortgage-calculator')); ?>
                             </small>
                         </div>
                         

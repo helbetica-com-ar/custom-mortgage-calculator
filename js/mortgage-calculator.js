@@ -114,6 +114,11 @@ function nextStep(step) {
             if (response.success) {
                 // Update calculations display
                 updateCalculationsDisplay(response.data.calculations, step + 1);
+                
+                // Update loan term display when moving to step 2
+                if (step === 1 && stepFormData.loan_term) {
+                    updateLoanTermDisplay(stepFormData.loan_term);
+                }
 
                 // Move to next step
                 showStep(step + 1);
@@ -681,6 +686,16 @@ function addInputEventListeners() {
 }
 
 /**
+ * Update loan term display in Step 2
+ */
+function updateLoanTermDisplay(loanTerm) {
+    const loanTermElement = document.getElementById('selected-loan-term');
+    if (loanTermElement && loanTerm) {
+        loanTermElement.textContent = loanTerm;
+    }
+}
+
+/**
  * Perform real-time calculation
  */
 function performRealTimeCalculation() {
@@ -695,6 +710,11 @@ function performRealTimeCalculation() {
     
     // Determine which display to update based on current step
     const targetStep = currentStep === 1 ? 2 : 3;
+    
+    // Update loan term display if moving from step 1 to step 2
+    if (currentStep === 1 && targetStep === 2) {
+        updateLoanTermDisplay(allData.loan_term);
+    }
     
     // Send AJAX request for server-side calculation
     sendStepData(currentStep, currentData)
@@ -942,6 +962,10 @@ function restoreFormState() {
                     .then(response => {
                         if (response.success && response.data.calculations) {
                             updateCalculationsDisplay(response.data.calculations, targetStep);
+                        }
+                        // Update loan term display if on step 2 or 3
+                        if ((currentStep === 2 || currentStep === 3) && state.formData.loan_term) {
+                            updateLoanTermDisplay(state.formData.loan_term);
                         }
                         // Clear restoration flag after calculations complete
                         setTimeout(() => {

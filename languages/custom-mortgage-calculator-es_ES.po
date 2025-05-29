@@ -58,6 +58,12 @@ msgstr "Plazo del Préstamo"
 msgid "Select term"
 msgstr "Seleccioná el plazo"
 
+msgid "5 years"
+msgstr "5 años"
+
+msgid "10 years"
+msgstr "10 años"
+
 msgid "15 years"
 msgstr "15 años"
 
