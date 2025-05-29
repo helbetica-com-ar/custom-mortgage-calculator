@@ -197,9 +197,9 @@ function render_mortgage_calculator($atts) {
                                 $hours_ago = round($time_diff / 3600, 1);
                             ?>
                             <small>
-                                <?php echo esc_html(__('UVA value today:', 'custom-mortgage-calculator')); ?> 
+                                <?php echo esc_html(__('UVA value today:', 'custom-mortgage-calculator')); ?><br>
                                 $<span id="current-uva-value-step2"><?php echo number_format($uva_value, 2, ',', '.'); ?></span> 
-                                (<?php echo date('d/m/Y H:i', $update_time); ?>)
+                                (<?php echo esc_html(__('Updated at', 'custom-mortgage-calculator')); ?> <?php echo date('d/m/Y H:i', $update_time); ?>)
                                 <?php if ($source === 'cache' || $source === 'fallback'): ?>
                                     <br><em><?php echo esc_html(__('Using cached value', 'custom-mortgage-calculator')); ?> - <?php echo sprintf(__('Updated %s hours ago', 'custom-mortgage-calculator'), $hours_ago); ?></em>
                                 <?php endif; ?>
@@ -336,9 +336,9 @@ function render_mortgage_calculator($atts) {
                                         $hours_ago = round($time_diff / 3600, 1);
                                     ?>
                                     <small>
-                                        <?php echo esc_html(__('UVA value today:', 'custom-mortgage-calculator')); ?> 
+                                        <?php echo esc_html(__('UVA value today:', 'custom-mortgage-calculator')); ?><br>
                                         $<span id="current-uva-value-step3"><?php echo number_format($uva_value, 2, ',', '.'); ?></span> 
-                                        (<?php echo date('d/m/Y H:i', $update_time); ?>)
+                                        (<?php echo esc_html(__('Updated at', 'custom-mortgage-calculator')); ?> <?php echo date('d/m/Y H:i', $update_time); ?>)
                                         <?php if ($source === 'cache' || $source === 'fallback'): ?>
                                             <br><em><?php echo esc_html(__('Using cached value', 'custom-mortgage-calculator')); ?> - <?php echo sprintf(__('Updated %s hours ago', 'custom-mortgage-calculator'), $hours_ago); ?></em>
                                         <?php endif; ?>

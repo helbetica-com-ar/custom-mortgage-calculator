@@ -404,3 +404,6 @@ msgstr "Usando valor en caché"
 
 msgid "Updated %s hours ago"
 msgstr "Actualizado hace %s horas"
+
+msgid "Updated at"
+msgstr "Actualizado"
