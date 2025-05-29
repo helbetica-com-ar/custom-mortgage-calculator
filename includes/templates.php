@@ -129,7 +129,7 @@ function render_step_1() {
                             <div class="input-help"><?php echo esc_html(__('Amount you wish to borrow', 'custom-mortgage-calculator')); ?></div>
                         </label>
                         <div class="input-wrapper">
-                            <span class="currency-symbol">$</span>
+                            <span class="currency-symbol">ARS $</span>
                             <input type="number" id="loan_amount" name="loan_amount" 
                                    class="form-control" placeholder="35.000.000" 
                                    min="30000000" step="100000" required>
@@ -175,7 +175,7 @@ function render_step_2() {
                     <h2><?php echo esc_html(__('Value of Your First UVA Payment', 'custom-mortgage-calculator')); ?></h2>
                     <div class="payment-amount">
                         <span class="ars-label">ARS</span>
-                        <span class="currency">$</span>
+                        <span class="currency">ARS $</span>
                         <span id="monthly-payment">0</span>
                         <span class="period"><?php echo esc_html(__('/month', 'custom-mortgage-calculator')); ?></span>
                     </div>
@@ -251,7 +251,7 @@ function render_step_2() {
                             <div class="input-help"><?php echo esc_html(__('Your gross monthly income', 'custom-mortgage-calculator')); ?></div>
                         </label>
                         <div class="input-wrapper">
-                            <span class="currency-symbol">$</span>
+                            <span class="currency-symbol">ARS $</span>
                             <input type="number" id="monthly_income" name="monthly_income" 
                                    class="form-control" placeholder="1.030.000" 
                                    min="1030000" step="10000" required>
@@ -264,7 +264,7 @@ function render_step_2() {
                             <div class="input-help"><?php echo esc_html(__('Amount you\'ll pay upfront', 'custom-mortgage-calculator')); ?></div>
                         </label>
                         <div class="input-wrapper">
-                            <span class="currency-symbol">$</span>
+                            <span class="currency-symbol">ARS $</span>
                             <input type="number" id="down_payment" name="down_payment" 
                                    class="form-control" placeholder="8.750.000" 
                                    min="0" step="10000" required>
@@ -277,7 +277,7 @@ function render_step_2() {
                             <div class="input-help"><?php echo esc_html(__('Estimated market value of the property', 'custom-mortgage-calculator')); ?></div>
                         </label>
                         <div class="input-wrapper">
-                            <span class="currency-symbol">$</span>
+                            <span class="currency-symbol">ARS $</span>
                             <input type="number" id="home_value" name="home_value" 
                                    class="form-control" placeholder="43.750.000" 
                                    min="37500000" step="100000" required>
@@ -338,7 +338,7 @@ function render_step_3() {
                         <div class="summary-card">
                             <h3><?php echo esc_html(__('First Payment Value', 'custom-mortgage-calculator')); ?></h3>
                             <div class="payment-final">
-                                <span class="currency">$</span>
+                                <span class="currency">ARS $</span>
                                 <span id="final-monthly-payment">0</span>
                             </div>
                             <div class="uva-today-value">
