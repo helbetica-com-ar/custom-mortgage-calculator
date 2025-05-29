@@ -1048,3 +1048,8 @@ div#uva-details > h4 {
     margin-top: 5px;
     margin-left: 0;
 }
+
+/* Set input-help font weight */
+.input-help {
+    font-weight: 400;
+}
