@@ -993,3 +993,10 @@ label.checkbox-label {
 div#uva-details > h4 {
     color: white !important;
 }
+
+/* UVA today value container styling */
+.uva-today-value {
+    margin-top: 10px;
+    text-align: left;
+    color: #666;
+}
