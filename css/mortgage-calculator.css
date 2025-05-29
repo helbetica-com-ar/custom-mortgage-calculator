@@ -1013,6 +1013,7 @@ div#uva-details > h4 {
 /* Step 2 form group alignment */
 #step-2 .form-group {
     display: flex;
+    flex-wrap: wrap;
     align-items: flex-start;
     gap: 20px;
     margin-bottom: 20px;
@@ -1033,5 +1034,5 @@ div#uva-details > h4 {
 #step-2 .form-group .input-help {
     flex: 0 0 100%;
     margin-top: 5px;
-    margin-left: 220px;
+    margin-left: 0;
 }
