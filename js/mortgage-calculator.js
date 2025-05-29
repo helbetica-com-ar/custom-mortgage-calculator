@@ -1029,7 +1029,7 @@ function clearFormState() {
  * Reset calculator form - clears all data and returns to step 1
  */
 function resetCalculatorForm() {
-    if (confirm('¿Estás seguro de que quieres borrar todos los datos del formulario?')) {
+    if (confirm(mortgageAjax.i18n.confirmReset)) {
         // Clear localStorage
         clearFormState();
         
@@ -1081,7 +1081,7 @@ function resetCalculatorForm() {
         scrollToTop();
         
         // Show confirmation message
-        showSuccess('Formulario reiniciado correctamente');
+        showSuccess(mortgageAjax.i18n.formReset);
     }
 }
 

@@ -161,7 +161,7 @@ function render_step_1() {
                 <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                     <path d="M3 6h18M8 6V4a2 2 0 012-2h4a2 2 0 012 2v2m3 0v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6h14zM10 11v6M14 11v6"/>
                 </svg>
-                <span><?php echo esc_html(__('Clear', 'custom-mortgage-calculator')); ?></span>
+                <span><?php echo esc_html(__('Clear form', 'custom-mortgage-calculator')); ?></span>
             </button>
         </div>
     </div>
@@ -329,7 +329,7 @@ function render_step_2() {
                 <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                     <path d="M3 6h18M8 6V4a2 2 0 012-2h4a2 2 0 012 2v2m3 0v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6h14zM10 11v6M14 11v6"/>
                 </svg>
-                <span><?php echo esc_html(__('Clear', 'custom-mortgage-calculator')); ?></span>
+                <span><?php echo esc_html(__('Clear form', 'custom-mortgage-calculator')); ?></span>
             </button>
         </div>
     </div>
@@ -508,7 +508,7 @@ function render_step_3() {
                 <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                     <path d="M3 6h18M8 6V4a2 2 0 012-2h4a2 2 0 012 2v2m3 0v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6h14zM10 11v6M14 11v6"/>
                 </svg>
-                <span><?php echo esc_html(__('Clear', 'custom-mortgage-calculator')); ?></span>
+                <span><?php echo esc_html(__('Clear form', 'custom-mortgage-calculator')); ?></span>
             </button>
         </div>
     </div>

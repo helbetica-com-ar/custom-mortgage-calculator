@@ -72,6 +72,10 @@ function mortgage_calculator_scripts() {
     // Pass AJAX URL and nonce to JavaScript
     wp_localize_script('mortgage-calculator-js', 'mortgageAjax', array(
         'ajaxurl' => admin_url('admin-ajax.php'),
-        'nonce' => wp_create_nonce('mortgage_calc_nonce')
+        'nonce' => wp_create_nonce('mortgage_calc_nonce'),
+        'i18n' => array(
+            'confirmReset' => __('Are you sure you want to clear all form data?', 'custom-mortgage-calculator'),
+            'formReset' => __('Form cleared successfully', 'custom-mortgage-calculator')
+        )
     ));
 }

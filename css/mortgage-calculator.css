@@ -1129,7 +1129,7 @@ div#uva-details > h4 {
 
 /* Reset Button Styles */
 .reset-wrapper {
-    text-align: right;
+    text-align: center;
     margin-top: 15px;
     padding: 0 20px;
 }

@@ -321,3 +321,16 @@ msgstr ""
 
 msgid "No"
 msgstr ""
+
+# Reset Button
+msgid "Clear form"
+msgstr ""
+
+msgid "Clear all form data"
+msgstr ""
+
+msgid "Are you sure you want to clear all form data?"
+msgstr ""
+
+msgid "Form cleared successfully"
+msgstr ""

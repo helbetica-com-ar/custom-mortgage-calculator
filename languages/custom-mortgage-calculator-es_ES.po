@@ -413,3 +413,16 @@ msgstr "Actualizado hace %s horas"
 
 msgid "Updated at"
 msgstr "Actualizado"
+
+# Reset Button
+msgid "Clear form"
+msgstr "Limpiar formulario"
+
+msgid "Clear all form data"
+msgstr "Borrar todos los datos del formulario"
+
+msgid "Are you sure you want to clear all form data?"
+msgstr "¿Estás seguro de que querés borrar todos los datos del formulario?"
+
+msgid "Form cleared successfully"
+msgstr "Formulario limpiado correctamente"
