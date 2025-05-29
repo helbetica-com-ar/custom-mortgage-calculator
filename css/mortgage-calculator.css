@@ -469,8 +469,9 @@ select.form-control {
 }
 
 .input-help {
+    font-weight: 400;
+    font-size: 12px;
     margin-top: 5px;
-    font-size: 14px;
     color: var(--dark-gray);
     line-height: 1.4;
 }
