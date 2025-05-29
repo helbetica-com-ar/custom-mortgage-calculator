@@ -108,52 +108,6 @@ function handle_mortgage_calc_ajax() {
     }
 }
 
-/**
- * Debug handler to test AJAX functionality
- */
-function handle_mortgage_calc_debug() {
-    try {
-        // Test basic functionality
-        $debug_info = array(
-            'php_version' => PHP_VERSION,
-            'wp_version' => get_bloginfo('version'),
-            'plugin_active' => true,
-            'ajax_url' => admin_url('admin-ajax.php'),
-            'nonce_valid' => isset($_POST['nonce']) ? wp_verify_nonce($_POST['nonce'], 'mortgage_calc_nonce') : false
-        );
-        
-        // Test UVA data fetching
-        try {
-            $uva_data = get_current_uva_data();
-            $debug_info['uva_data'] = $uva_data;
-        } catch (Exception $e) {
-            $debug_info['uva_error'] = $e->getMessage();
-        }
-        
-        // Test basic calculation
-        try {
-            $test_data = array(
-                'loan_amount' => 35000000,
-                'loan_term' => 10,
-                'home_value' => 43750000,
-                'down_payment' => 8750000,
-                'monthly_income' => 1030000
-            );
-            $calculations = perform_mortgage_calculations($test_data, 2);
-            $debug_info['calculation_test'] = 'success';
-            $debug_info['sample_calculation'] = $calculations;
-        } catch (Exception $e) {
-            $debug_info['calculation_error'] = $e->getMessage();
-        }
-        
-        wp_send_json_success($debug_info);
-        
-    } catch (Exception $e) {
-        wp_send_json_error(array(
-            'message' => 'Debug error: ' . $e->getMessage()
-        ), 500);
-    }
-}
 
 /**
  * Handle final mortgage application submission
