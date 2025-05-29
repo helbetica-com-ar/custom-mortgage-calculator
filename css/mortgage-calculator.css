@@ -973,3 +973,8 @@ label.checkbox-label {
         page-break-inside: avoid;
     }
 }
+
+/* Hide breakdown section (not used yet) */
+.breakdown-section {
+    display: none;
+}
