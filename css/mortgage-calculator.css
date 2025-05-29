@@ -1022,31 +1022,32 @@ div#uva-details > h4 {
     vertical-align: middle;
 }
 
-/* Step 2 form group alignment */
-#step-2 .form-group {
+/* Step 2 form group alignment - updated for form-group-column */
+#step-2 .form-group-column {
     display: flex;
-    flex-wrap: wrap;
-    align-items: flex-start;
-    gap: 20px;
+    flex-direction: column;
+    gap: 10px;
     margin-bottom: 20px;
 }
 
-#step-2 .form-group label {
-    flex: 0 0 200px;
+#step-2 .form-group-column label {
+    display: flex;
+    flex-direction: column;
     text-align: left;
     margin-bottom: 0;
-    padding-top: 8px;
+    gap: 5px;
 }
 
-#step-2 .form-group .input-wrapper,
-#step-2 .form-group select {
-    flex: 1;
+#step-2 .form-group-column .input-wrapper,
+#step-2 .form-group-column select {
+    width: 100%;
 }
 
-#step-2 .form-group .input-help {
-    flex: 0 0 100%;
+/* input-help is now inside label */
+#step-2 .form-group-column label .input-help {
+    font-size: 14px;
+    color: #666;
     margin-top: 5px;
-    margin-left: 0;
 }
 
 /* Set input-help font weight */
