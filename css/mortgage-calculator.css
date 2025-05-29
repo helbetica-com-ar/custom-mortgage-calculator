@@ -978,3 +978,13 @@ label.checkbox-label {
 .breakdown-section {
     display: none;
 }
+
+/* Hide payment breakdown (not needed today) */
+.payment-breakdown {
+    display: none;
+}
+
+/* Style UVA value text in white */
+.uva-today-value small {
+    color: white !important;
+}
