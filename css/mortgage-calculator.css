@@ -1056,10 +1056,9 @@ div#uva-details > h4 {
 .form-group-row {
     display: flex;
     flex-direction: row;
-    gap: 20px;
-    margin-bottom: 20px;
+    gap: 30px;
+    margin-bottom: 25px;
     align-items: flex-start;
-    justify-content: space-between;
 }
 
 .form-group-row label {
@@ -1067,24 +1066,25 @@ div#uva-details > h4 {
     flex-direction: column;
     text-align: left;
     margin-bottom: 0;
-    gap: 5px;
-    flex: 0 0 200px;
+    gap: 4px;
+    flex: 0 0 180px;
+    min-width: 180px;
 }
 
 .form-group-row label span {
     font-weight: 600;
     color: var(--text-dark);
     font-size: 16px;
+    line-height: 1.3;
 }
 
 .form-group-row .input-wrapper {
     flex: 1;
-    max-width: 300px;
+    min-width: 0;
 }
 
 .form-group-row select {
     width: 100%;
-    max-width: 300px;
 }
 
 /* input-help inside label for form-group-row */
