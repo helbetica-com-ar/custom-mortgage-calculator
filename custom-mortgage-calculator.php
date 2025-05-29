@@ -150,7 +150,7 @@ function render_mortgage_calculator($atts) {
                             <div class="input-wrapper">
                                 <span class="currency-symbol">$</span>
                                 <input type="number" id="loan_amount" name="loan_amount" 
-                                       class="form-control" placeholder="35,000,000" 
+                                       class="form-control" placeholder="35.000.000" 
                                        min="30000000" step="100000" required>
                             </div>
                             <div class="input-help"><?php echo esc_html(__('Amount you wish to borrow', 'custom-mortgage-calculator')); ?></div>
@@ -253,7 +253,7 @@ function render_mortgage_calculator($atts) {
                             <div class="input-wrapper">
                                 <span class="currency-symbol">$</span>
                                 <input type="number" id="monthly_income" name="monthly_income" 
-                                       class="form-control" placeholder="1,030,000" 
+                                       class="form-control" placeholder="1.030.000" 
                                        min="1030000" step="10000" required>
                             </div>
                             <div class="input-help"><?php echo esc_html(__('Your gross monthly income', 'custom-mortgage-calculator')); ?></div>
@@ -264,7 +264,7 @@ function render_mortgage_calculator($atts) {
                             <div class="input-wrapper">
                                 <span class="currency-symbol">$</span>
                                 <input type="number" id="down_payment" name="down_payment" 
-                                       class="form-control" placeholder="8,750,000" 
+                                       class="form-control" placeholder="8.750.000" 
                                        min="0" step="10000" required>
                             </div>
                             <div class="input-help"><?php echo esc_html(__('Amount you\'ll pay upfront', 'custom-mortgage-calculator')); ?></div>
@@ -275,7 +275,7 @@ function render_mortgage_calculator($atts) {
                             <div class="input-wrapper">
                                 <span class="currency-symbol">$</span>
                                 <input type="number" id="home_value" name="home_value" 
-                                       class="form-control" placeholder="43,750,000" 
+                                       class="form-control" placeholder="43.750.000" 
                                        min="37500000" step="100000" required>
                             </div>
                             <div class="input-help"><?php echo esc_html(__('Estimated market value of the property', 'custom-mortgage-calculator')); ?></div>
