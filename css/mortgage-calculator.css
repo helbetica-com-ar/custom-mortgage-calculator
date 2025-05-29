@@ -79,12 +79,12 @@
     content: '';
     position: absolute;
     top: 22px;
-    left: calc(50% - 250px);
+    left: calc(50% - 240px);
     right: 0;
     height: 2px;
     background: var(--medium-gray);
     z-index: 1;
-    max-width: 500px;
+    max-width: 480px;
 }
 
 .progress-step {
