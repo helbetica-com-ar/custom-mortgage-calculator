@@ -1060,6 +1060,9 @@ div#uva-details > h4 {
     margin-bottom: 25px;
     align-items: flex-start;
 }
+.form-group-row.space-between {
+    justify-content: space-between;
+}
 
 .form-group-row label {
     display: flex;
