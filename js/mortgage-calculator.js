@@ -26,10 +26,12 @@ function formatNumber(amount) {
     // Convert to number if string
     const num = typeof amount === 'string' ? parseFloat(amount) : amount;
     
-    // Format number without currency symbol
+    // Format number without currency symbol using Argentine format
+    // es-AR uses period for thousands separator
     return new Intl.NumberFormat('es-AR', {
         minimumFractionDigits: 0,
-        maximumFractionDigits: 0
+        maximumFractionDigits: 0,
+        useGrouping: true
     }).format(Math.round(num));
 }
 
@@ -830,12 +832,6 @@ function formatCurrency(amount) {
     }).format(amount);
 }
 
-function formatNumber(number) {
-    return new Intl.NumberFormat('en-US', {
-        minimumFractionDigits: 0,
-        maximumFractionDigits: 0
-    }).format(number);
-}
 
 function isValidEmail(email) {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
