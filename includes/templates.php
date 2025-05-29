@@ -182,7 +182,6 @@ function render_step_2() {
                 <div class="calculation-display">
                     <h2><?php echo esc_html(__('Value of Your First UVA Payment', 'custom-mortgage-calculator')); ?></h2>
                     <div class="payment-amount">
-                        <span class="ars-label">ARS</span>
                         <span class="currency">ARS $</span>
                         <span id="monthly-payment">0</span>
                         <span class="period"><?php echo esc_html(__('/month', 'custom-mortgage-calculator')); ?></span>
