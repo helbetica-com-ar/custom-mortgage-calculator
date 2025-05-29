@@ -398,3 +398,9 @@ msgstr "Tu Cuota Mensual UVA Estimada"
 
 msgid "UVA value today:"
 msgstr "Valor UVA hoy:"
+
+msgid "Using cached value"
+msgstr "Usando valor en caché"
+
+msgid "Updated %s hours ago"
+msgstr "Actualizado hace %s horas"

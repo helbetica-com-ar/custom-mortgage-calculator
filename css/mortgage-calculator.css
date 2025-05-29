@@ -559,6 +559,12 @@ label.checkbox-label {
     opacity: 0.9;
 }
 
+.uva-today-value em {
+    font-size: 0.9em;
+    opacity: 0.8;
+    color: #ffc107;
+}
+
 /* Rate information display */
 .rate-info {
     margin-top: 20px;

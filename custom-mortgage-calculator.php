@@ -189,7 +189,21 @@ function render_mortgage_calculator($atts) {
                         </div>
                         
                         <div class="uva-today-value">
-                            <small><?php echo esc_html(__('UVA value today:', 'custom-mortgage-calculator')); ?> $<span id="current-uva-value-step2"><?php echo number_format(get_current_uva_value(), 2); ?></span> (<?php echo date('d/m/Y'); ?>)</small>
+                            <?php 
+                                $uva_value = get_current_uva_value();
+                                $update_time = get_uva_update_time();
+                                $source = get_uva_source();
+                                $time_diff = current_time('timestamp') - $update_time;
+                                $hours_ago = round($time_diff / 3600, 1);
+                            ?>
+                            <small>
+                                <?php echo esc_html(__('UVA value today:', 'custom-mortgage-calculator')); ?> 
+                                $<span id="current-uva-value-step2"><?php echo number_format($uva_value, 2); ?></span> 
+                                (<?php echo date('d/m/Y H:i', $update_time); ?>)
+                                <?php if ($source === 'cache' || $source === 'fallback'): ?>
+                                    <br><em><?php echo esc_html(__('Using cached value', 'custom-mortgage-calculator')); ?> - <?php echo sprintf(__('Updated %s hours ago', 'custom-mortgage-calculator'), $hours_ago); ?></em>
+                                <?php endif; ?>
+                            </small>
                         </div>
                         
                         <div class="payment-breakdown">
@@ -314,7 +328,21 @@ function render_mortgage_calculator($atts) {
                                     <span id="final-monthly-payment">0</span>
                                 </div>
                                 <div class="uva-today-value">
-                                    <small><?php echo esc_html(__('UVA value today:', 'custom-mortgage-calculator')); ?> $<span id="current-uva-value-step3"><?php echo number_format(get_current_uva_value(), 2); ?></span> (<?php echo date('d/m/Y'); ?>)</small>
+                                    <?php 
+                                        $uva_value = get_current_uva_value();
+                                        $update_time = get_uva_update_time();
+                                        $source = get_uva_source();
+                                        $time_diff = current_time('timestamp') - $update_time;
+                                        $hours_ago = round($time_diff / 3600, 1);
+                                    ?>
+                                    <small>
+                                        <?php echo esc_html(__('UVA value today:', 'custom-mortgage-calculator')); ?> 
+                                        $<span id="current-uva-value-step3"><?php echo number_format($uva_value, 2); ?></span> 
+                                        (<?php echo date('d/m/Y H:i', $update_time); ?>)
+                                        <?php if ($source === 'cache' || $source === 'fallback'): ?>
+                                            <br><em><?php echo esc_html(__('Using cached value', 'custom-mortgage-calculator')); ?> - <?php echo sprintf(__('Updated %s hours ago', 'custom-mortgage-calculator'), $hours_ago); ?></em>
+                                        <?php endif; ?>
+                                    </small>
                                 </div>
                             </div>
                             
@@ -566,32 +594,69 @@ function handle_mortgage_final_submit() {
 // 5. UVA FUNCTIONS
 // ============================================================================
 
+function get_current_uva_data() {
+    // Check for cached data first (cache for 1 hour)
+    $cached_data = get_transient('current_uva_data');
+    if ($cached_data !== false) {
+        return $cached_data;
+    }
+    
+    // Try to fetch from API
+    $response = wp_remote_get('https://criptoya.com/api/uva', array(
+        'timeout' => 5 // 5 second timeout
+    ));
+    
+    if (!is_wp_error($response)) {
+        $body = wp_remote_retrieve_body($response);
+        $data = json_decode($body, true);
+        
+        if (isset($data['value']) && isset($data['time'])) {
+            $uva_data = array(
+                'value' => floatval($data['value']),
+                'timestamp' => $data['time'],
+                'fetched_at' => current_time('timestamp'),
+                'source' => 'api'
+            );
+            
+            // Cache for 1 hour
+            set_transient('current_uva_data', $uva_data, HOUR_IN_SECONDS);
+            
+            // Also save as permanent backup
+            update_option('uva_last_known_data', $uva_data);
+            
+            return $uva_data;
+        }
+    }
+    
+    // If API fails, try to get last known value
+    $last_known = get_option('uva_last_known_data');
+    if ($last_known && isset($last_known['value'])) {
+        $last_known['source'] = 'cache';
+        return $last_known;
+    }
+    
+    // Ultimate fallback
+    return array(
+        'value' => 1484.82,
+        'timestamp' => current_time('timestamp'),
+        'fetched_at' => current_time('timestamp'),
+        'source' => 'fallback'
+    );
+}
+
 function get_current_uva_value() {
-    // Check for cached value first (cache for 1 hour)
-    $cached_uva = get_transient('current_uva_value');
-    if ($cached_uva !== false) {
-        return $cached_uva;
-    }
-    
-    // Fetch from API
-    $response = wp_remote_get('https://criptoya.com/api/uva');
-    
-    if (is_wp_error($response)) {
-        // Fallback value if API fails
-        return 1484.82; 
-    }
-    
-    $body = wp_remote_retrieve_body($response);
-    $data = json_decode($body, true);
-    
-    if (isset($data['value'])) {
-        $uva_value = floatval($data['value']);
-        // Cache for 1 hour
-        set_transient('current_uva_value', $uva_value, HOUR_IN_SECONDS);
-        return $uva_value;
-    }
-    
-    return 1484.82; // Fallback value
+    $data = get_current_uva_data();
+    return $data['value'];
+}
+
+function get_uva_update_time() {
+    $data = get_current_uva_data();
+    return isset($data['fetched_at']) ? $data['fetched_at'] : current_time('timestamp');
+}
+
+function get_uva_source() {
+    $data = get_current_uva_data();
+    return isset($data['source']) ? $data['source'] : 'unknown';
 }
 
 function pesos_to_uva($pesos) {
@@ -620,8 +685,9 @@ function perform_uva_mortgage_calculations($data, $step) {
     $down_payment = floatval($data['down_payment'] ?? 0);
     $monthly_income = floatval($data['monthly_income'] ?? 0);
     
-    // Get current UVA value
-    $current_uva_value = get_current_uva_value();
+    // Get current UVA data
+    $uva_data = get_current_uva_data();
+    $current_uva_value = $uva_data['value'];
     
     // For Step 1 calculations (no home value yet), estimate home value from loan amount
     if ($step == 1 && $home_value == 0 && $loan_amount > 0) {
@@ -710,6 +776,8 @@ function perform_uva_mortgage_calculations($data, $step) {
         'loan_amount_uvas' => round($loan_amount_uvas, 2),
         'monthly_payment_uvas' => round($monthly_payment_uvas, 2),
         'uva_date' => date('d/m/Y'),
+        'uva_update_time' => date('d/m/Y H:i', $uva_data['fetched_at']),
+        'uva_source' => $uva_data['source'],
         'income_validation' => $debt_to_income_ratio <= 25 ? 'valid' : 'invalid'
     );
 }
