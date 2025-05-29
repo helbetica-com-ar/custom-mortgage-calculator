@@ -546,7 +546,7 @@ label.checkbox-label {
 
 .uva-details {
     padding-top: 20px;
-    border-top: 1px solid #e0e0e0;
+    border-top: 2px solid #00000066;
 }
 
 .uva-details h4 {
@@ -592,6 +592,17 @@ label.checkbox-label {
     justify-content: space-between;
     margin-bottom: 8px;
     font-size: 0.9em;
+}
+
+.rate-item.years {
+    justify-content: flex-end;
+}
+
+.rate-item.years .label {
+    margin-right: auto;
+}
+.rate-item.years .value {
+    margin-right: 4px;
 }
 
 .rate-item .label {
