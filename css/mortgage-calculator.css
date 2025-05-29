@@ -162,9 +162,9 @@
 .step-container {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 40px;
+    gap: 0;
     min-height: 500px;
-    align-items: start;
+    align-items: stretch;
     position: relative;
     overflow: hidden;
 }
@@ -180,6 +180,10 @@
     border-radius: var(--border-radius);
     position: relative;
     overflow: hidden;
+    min-height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
 
 .left-panel::before {
@@ -854,7 +858,7 @@ label.checkbox-label {
 
     .step-container {
         grid-template-columns: 1fr;
-        gap: 20px;
+        gap: 0;
     }
 
     .left-panel,
@@ -1050,9 +1054,10 @@ div#uva-details > h4 {
 /* Form group row styling - flexbox layout */
 .form-group-row {
     display: flex;
-    flex-direction: column;
-    gap: 10px;
+    flex-direction: row;
+    gap: 20px;
     margin-bottom: 20px;
+    align-items: flex-start;
 }
 
 .form-group-row label {
@@ -1061,11 +1066,23 @@ div#uva-details > h4 {
     text-align: left;
     margin-bottom: 0;
     gap: 5px;
+    flex: 0 0 200px;
 }
 
-.form-group-row .input-wrapper,
+.form-group-row label span {
+    font-weight: 600;
+    color: var(--text-dark);
+    font-size: 16px;
+}
+
+.form-group-row .input-wrapper {
+    flex: 1;
+    max-width: 300px;
+}
+
 .form-group-row select {
     width: 100%;
+    max-width: 300px;
 }
 
 /* input-help inside label for form-group-row */
@@ -1073,9 +1090,28 @@ div#uva-details > h4 {
     font-size: 12px;
     color: #666;
     margin-top: 5px;
+    font-weight: 400;
 }
 
 /* Set input-help font weight */
 .input-help {
     font-weight: 400;
+}
+
+/* Responsive styles for form-group-row */
+@media (max-width: 768px) {
+    .form-group-row {
+        flex-direction: column;
+        gap: 10px;
+    }
+    
+    .form-group-row label {
+        flex: 1;
+        width: 100%;
+    }
+    
+    .form-group-row .input-wrapper,
+    .form-group-row select {
+        max-width: 100%;
+    }
 }
