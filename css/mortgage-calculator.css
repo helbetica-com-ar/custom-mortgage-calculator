@@ -4,6 +4,18 @@
  * Save as: /css/mortgage-calculator.css in your theme
  */
 
+/* Apply Sora font family to all form elements */
+.mortgage-calculator-wrapper *,
+.calculator-step *,
+.step-container *,
+.left-panel *,
+.right-panel *,
+.form-group *,
+.payment-amount *,
+.calculation-display * {
+    font-family: "Sora", sans-serif !important;
+}
+
 /* ============================================================================
    BASE STYLES & VARIABLES
    ============================================================================ */
