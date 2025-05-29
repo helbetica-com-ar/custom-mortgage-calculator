@@ -198,7 +198,7 @@ function render_mortgage_calculator($atts) {
                             ?>
                             <small>
                                 <?php echo esc_html(__('UVA value today:', 'custom-mortgage-calculator')); ?> 
-                                $<span id="current-uva-value-step2"><?php echo number_format($uva_value, 2); ?></span> 
+                                $<span id="current-uva-value-step2"><?php echo number_format($uva_value, 2, ',', '.'); ?></span> 
                                 (<?php echo date('d/m/Y H:i', $update_time); ?>)
                                 <?php if ($source === 'cache' || $source === 'fallback'): ?>
                                     <br><em><?php echo esc_html(__('Using cached value', 'custom-mortgage-calculator')); ?> - <?php echo sprintf(__('Updated %s hours ago', 'custom-mortgage-calculator'), $hours_ago); ?></em>
@@ -337,7 +337,7 @@ function render_mortgage_calculator($atts) {
                                     ?>
                                     <small>
                                         <?php echo esc_html(__('UVA value today:', 'custom-mortgage-calculator')); ?> 
-                                        $<span id="current-uva-value-step3"><?php echo number_format($uva_value, 2); ?></span> 
+                                        $<span id="current-uva-value-step3"><?php echo number_format($uva_value, 2, ',', '.'); ?></span> 
                                         (<?php echo date('d/m/Y H:i', $update_time); ?>)
                                         <?php if ($source === 'cache' || $source === 'fallback'): ?>
                                             <br><em><?php echo esc_html(__('Using cached value', 'custom-mortgage-calculator')); ?> - <?php echo sprintf(__('Updated %s hours ago', 'custom-mortgage-calculator'), $hours_ago); ?></em>

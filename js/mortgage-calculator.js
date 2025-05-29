@@ -10,6 +10,40 @@ let formData = {};
 let isSubmitting = false;
 let isRestoringState = false;
 
+// Argentine currency formatting functions
+function formatCurrency(amount) {
+    // Convert to number if string
+    const num = typeof amount === 'string' ? parseFloat(amount) : amount;
+    
+    // Format with Argentine conventions: thousands separator = dot, decimal = comma
+    return '$' + new Intl.NumberFormat('es-AR', {
+        minimumFractionDigits: 0,
+        maximumFractionDigits: 0
+    }).format(Math.round(num));
+}
+
+function formatNumber(amount) {
+    // Convert to number if string
+    const num = typeof amount === 'string' ? parseFloat(amount) : amount;
+    
+    // Format number without currency symbol
+    return new Intl.NumberFormat('es-AR', {
+        minimumFractionDigits: 0,
+        maximumFractionDigits: 0
+    }).format(Math.round(num));
+}
+
+function formatDecimal(amount, decimals = 2) {
+    // Convert to number if string
+    const num = typeof amount === 'string' ? parseFloat(amount) : amount;
+    
+    // Format with decimal places
+    return new Intl.NumberFormat('es-AR', {
+        minimumFractionDigits: decimals,
+        maximumFractionDigits: decimals
+    }).format(num);
+}
+
 // Initialize when DOM is loaded
 document.addEventListener('DOMContentLoaded', function () {
     initializeMortgageCalculator();
@@ -442,7 +476,7 @@ function updateCalculationsDisplay(calculations, targetStep) {
         // Add UVA specific info if available
         if (calculations.current_uva_value) {
             // Update UVA value display
-            updateElement('current-uva-value-step2', calculations.current_uva_value);
+            updateElement('current-uva-value-step2', formatDecimal(calculations.current_uva_value, 2));
             
             // Add UVA payment info
             const paymentDisplay = document.querySelector('.payment-amount');
@@ -451,7 +485,7 @@ function updateCalculationsDisplay(calculations, targetStep) {
                 uvaInfo.id = 'uva-info';
                 uvaInfo.className = 'uva-info';
                 uvaInfo.innerHTML = `
-                    <small>Cuota en UVAs: ${calculations.monthly_payment_uvas} UVAs</small>
+                    <small>Cuota en UVAs: ${formatDecimal(calculations.monthly_payment_uvas, 2)} UVAs</small>
                 `;
                 paymentDisplay.appendChild(uvaInfo);
             }
@@ -479,7 +513,7 @@ function updateCalculationsDisplay(calculations, targetStep) {
         // Add UVA specific details
         if (calculations.current_uva_value) {
             // Update UVA value display
-            updateElement('current-uva-value-step3', calculations.current_uva_value);
+            updateElement('current-uva-value-step3', formatDecimal(calculations.current_uva_value, 2));
             
             // Add UVA loan details
             const loanDetails = document.querySelector('.loan-details');
@@ -491,15 +525,15 @@ function updateCalculationsDisplay(calculations, targetStep) {
                     <h4>Detalles UVA</h4>
                     <div class="detail-row">
                         <span>Préstamo en UVAs:</span>
-                        <span>${calculations.loan_amount_uvas} UVAs</span>
+                        <span>${formatNumber(calculations.loan_amount_uvas)} UVAs</span>
                     </div>
                     <div class="detail-row">
                         <span>Cuota en UVAs:</span>
-                        <span>${calculations.monthly_payment_uvas} UVAs</span>
+                        <span>${formatDecimal(calculations.monthly_payment_uvas, 2)} UVAs</span>
                     </div>
                     <div class="detail-row">
                         <span>Valor UVA actual:</span>
-                        <span>$${calculations.current_uva_value}</span>
+                        <span>${formatCurrency(calculations.current_uva_value)}</span>
                     </div>
                     <div class="detail-row ${calculations.income_validation === 'invalid' ? 'validation-error' : 'validation-success'}">
                         <span>Validación ingreso (25%):</span>
