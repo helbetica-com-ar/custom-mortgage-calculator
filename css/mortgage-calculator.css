@@ -559,6 +559,30 @@ label.checkbox-label {
     opacity: 0.9;
 }
 
+/* Rate information display */
+.rate-info {
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 1px solid rgba(255,255,255,0.2);
+}
+
+.rate-item {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 8px;
+    font-size: 0.9em;
+}
+
+.rate-item .label {
+    font-weight: 600;
+    color: rgba(255,255,255,0.8);
+}
+
+.rate-item .value {
+    color: rgba(255,255,255,0.9);
+    font-weight: 500;
+}
+
 .inline-checkbox {
     display: inline-flex;
     align-items: center;

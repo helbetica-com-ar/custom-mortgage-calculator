@@ -432,6 +432,13 @@ function updateCalculationsDisplay(calculations, targetStep) {
         updateElement('property-tax', formatCurrency(calculations.property_tax));
         updateElement('insurance', formatCurrency(calculations.insurance));
         
+        // Update rates if available
+        if (calculations.tna_rate) {
+            updateElement('tna-rate', calculations.tna_rate + '%');
+            updateElement('tea-rate', calculations.tea_rate + '%');
+            updateElement('cftea-rate', calculations.cftea_rate + '%');
+        }
+        
         // Add UVA specific info if available
         if (calculations.current_uva_value) {
             // Update UVA value display
@@ -459,9 +466,15 @@ function updateCalculationsDisplay(calculations, targetStep) {
         updateElement('final-insurance', formatCurrency(calculations.insurance));
         updateElement('final-pmi', formatCurrency(calculations.pmi || 0));
         updateElement('summary-loan-amount', formatCurrency(calculations.loan_amount));
-        updateElement('estimated-rate', calculations.interest_rate + '%');
         updateElement('total-interest', formatCurrency(calculations.total_interest));
         updateElement('debt-to-income', (calculations.debt_to_income_ratio || 0) + '%');
+        
+        // Update rates in step 3
+        if (calculations.tna_rate) {
+            updateElement('final-tna-rate', calculations.tna_rate + '%');
+            updateElement('final-tea-rate', calculations.tea_rate + '%');
+            updateElement('final-cftea-rate', calculations.cftea_rate + '%');
+        }
         
         // Add UVA specific details
         if (calculations.current_uva_value) {

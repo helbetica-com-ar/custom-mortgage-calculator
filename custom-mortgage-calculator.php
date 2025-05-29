@@ -207,6 +207,21 @@ function render_mortgage_calculator($atts) {
                             </div>
                         </div>
                         
+                        <div class="rate-info">
+                            <div class="rate-item">
+                                <span class="label">T.N.A.:</span>
+                                <span class="value" id="tna-rate">9.50%</span>
+                            </div>
+                            <div class="rate-item">
+                                <span class="label">T.E.A.:</span>
+                                <span class="value" id="tea-rate">9.92%</span>
+                            </div>
+                            <div class="rate-item">
+                                <span class="label">C.F.T.E.A.:</span>
+                                <span class="value" id="cftea-rate">11.50%</span>
+                            </div>
+                        </div>
+                        
                         <div class="disclaimer">
                             <small><?php echo esc_html(__('*This is a preliminary estimate. More accurate calculations will be provided in the next step.', 'custom-mortgage-calculator')); ?></small>
                         </div>
@@ -331,8 +346,16 @@ function render_mortgage_calculator($atts) {
                                         <span id="summary-loan-amount">$0</span>
                                     </div>
                                     <div class="detail-row">
-                                        <span><?php echo esc_html(__('Interest Rate:', 'custom-mortgage-calculator')); ?></span>
-                                        <span id="estimated-rate">4.5%</span>
+                                        <span>T.N.A.:</span>
+                                        <span id="final-tna-rate">9.50%</span>
+                                    </div>
+                                    <div class="detail-row">
+                                        <span>T.E.A.:</span>
+                                        <span id="final-tea-rate">9.92%</span>
+                                    </div>
+                                    <div class="detail-row">
+                                        <span>C.F.T.E.A.:</span>
+                                        <span id="final-cftea-rate">11.50%</span>
                                     </div>
                                     <div class="detail-row">
                                         <span><?php echo esc_html(__('Total Interest:', 'custom-mortgage-calculator')); ?></span>
@@ -607,7 +630,14 @@ function perform_uva_mortgage_calculations($data, $step) {
     }
     
     // UVA mortgage parameters (based on Santander example)
-    $base_rate = 9.5; // Fixed rate for UVA mortgages
+    $tna_rate = 9.5; // T.N.A. - Tasa Nominal Anual (Fixed rate for UVA mortgages)
+    
+    // Calculate T.E.A. (Tasa Efectiva Anual) - approximation
+    $tea_rate = pow(1 + ($tna_rate / 100) / 12, 12) - 1;
+    $tea_rate = $tea_rate * 100;
+    
+    // Calculate C.F.T.E.A. (includes fees and insurance) - approximation
+    $cftea_rate = $tea_rate + 1.5; // Adding estimated fees/costs
     
     // Calculate loan-to-value ratio
     $ltv = $home_value > 0 ? ($loan_amount / $home_value) * 100 : 0;
@@ -621,8 +651,8 @@ function perform_uva_mortgage_calculations($data, $step) {
     // Convert loan amount to UVAs
     $loan_amount_uvas = pesos_to_uva($loan_amount);
     
-    // Monthly interest rate
-    $monthly_rate = $base_rate / 100 / 12;
+    // Monthly interest rate based on T.N.A.
+    $monthly_rate = $tna_rate / 100 / 12;
     $total_payments = $loan_term * 12;
     
     // Calculate monthly payment in UVAs (French amortization system)
@@ -666,7 +696,10 @@ function perform_uva_mortgage_calculations($data, $step) {
         'property_tax' => round($monthly_property_tax, 2),
         'insurance' => round($monthly_insurance, 2),
         'pmi' => 0,
-        'interest_rate' => $base_rate,
+        'interest_rate' => $tna_rate,
+        'tna_rate' => round($tna_rate, 2),
+        'tea_rate' => round($tea_rate, 2),
+        'cftea_rate' => round($cftea_rate, 2),
         'total_interest' => round($total_interest_pesos, 2),
         'loan_amount' => $loan_amount,
         'ltv_ratio' => round($ltv, 1),
