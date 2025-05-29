@@ -117,8 +117,8 @@ function render_mortgage_calculator($atts) {
             <div class="step-container">
                 <div class="left-panel">
                     <div class="call-to-action">
-                        <h2><?php echo esc_html(__('Get Your Mortgage Estimate', 'custom-mortgage-calculator')); ?></h2>
-                        <p class="subtitle"><?php echo esc_html(__('Start your home buying journey with a personalized loan simulation', 'custom-mortgage-calculator')); ?></p>
+                        <h2><?php echo esc_html(__('Get Your UVA Mortgage Estimate', 'custom-mortgage-calculator')); ?></h2>
+                        <p class="subtitle"><?php echo esc_html(__('Simulate your UVA mortgage with current market values', 'custom-mortgage-calculator')); ?></p>
                         <div class="benefits-list">
                             <div class="benefit-item">
                                 <span class="icon">✓</span>
@@ -150,8 +150,8 @@ function render_mortgage_calculator($atts) {
                             <div class="input-wrapper">
                                 <span class="currency-symbol">$</span>
                                 <input type="number" id="loan_amount" name="loan_amount" 
-                                       class="form-control" placeholder="500,000" 
-                                       min="50000" max="2000000" step="1000" required>
+                                       class="form-control" placeholder="35,000,000" 
+                                       min="30000000" step="100000" required>
                             </div>
                             <div class="input-help"><?php echo esc_html(__('Amount you wish to borrow', 'custom-mortgage-calculator')); ?></div>
                         </div>
@@ -181,7 +181,7 @@ function render_mortgage_calculator($atts) {
             <div class="step-container">
                 <div class="left-panel">
                     <div class="calculation-display">
-                        <h2><?php echo esc_html(__('Your Estimated Monthly Payment', 'custom-mortgage-calculator')); ?></h2>
+                        <h2><?php echo esc_html(__('Your Estimated UVA Monthly Payment', 'custom-mortgage-calculator')); ?></h2>
                         <div class="payment-amount">
                             <span class="currency">$</span>
                             <span id="monthly-payment">0</span>
@@ -220,8 +220,8 @@ function render_mortgage_calculator($atts) {
                             <div class="input-wrapper">
                                 <span class="currency-symbol">$</span>
                                 <input type="number" id="monthly_income" name="monthly_income" 
-                                       class="form-control" placeholder="8,000" 
-                                       min="1000" step="100" required>
+                                       class="form-control" placeholder="1,030,000" 
+                                       min="1030000" step="10000" required>
                             </div>
                             <div class="input-help"><?php echo esc_html(__('Your gross monthly income', 'custom-mortgage-calculator')); ?></div>
                         </div>
@@ -231,8 +231,8 @@ function render_mortgage_calculator($atts) {
                             <div class="input-wrapper">
                                 <span class="currency-symbol">$</span>
                                 <input type="number" id="down_payment" name="down_payment" 
-                                       class="form-control" placeholder="130,000" 
-                                       min="0" step="1000" required>
+                                       class="form-control" placeholder="8,750,000" 
+                                       min="0" step="10000" required>
                             </div>
                             <div class="input-help"><?php echo esc_html(__('Amount you\'ll pay upfront', 'custom-mortgage-calculator')); ?></div>
                         </div>
@@ -242,8 +242,8 @@ function render_mortgage_calculator($atts) {
                             <div class="input-wrapper">
                                 <span class="currency-symbol">$</span>
                                 <input type="number" id="home_value" name="home_value" 
-                                       class="form-control" placeholder="650,000" 
-                                       min="100000" max="5000000" step="1000" required>
+                                       class="form-control" placeholder="43,750,000" 
+                                       min="37500000" step="100000" required>
                             </div>
                             <div class="input-help"><?php echo esc_html(__('Estimated market value of the property', 'custom-mortgage-calculator')); ?></div>
                         </div>
@@ -533,10 +533,148 @@ function handle_mortgage_final_submit() {
 }
 
 // ============================================================================
-// 5. CALCULATION FUNCTIONS
+// 5. UVA FUNCTIONS
+// ============================================================================
+
+function get_current_uva_value() {
+    // Check for cached value first (cache for 1 hour)
+    $cached_uva = get_transient('current_uva_value');
+    if ($cached_uva !== false) {
+        return $cached_uva;
+    }
+    
+    // Fetch from API
+    $response = wp_remote_get('https://criptoya.com/api/uva');
+    
+    if (is_wp_error($response)) {
+        // Fallback value if API fails
+        return 1484.82; 
+    }
+    
+    $body = wp_remote_retrieve_body($response);
+    $data = json_decode($body, true);
+    
+    if (isset($data['value'])) {
+        $uva_value = floatval($data['value']);
+        // Cache for 1 hour
+        set_transient('current_uva_value', $uva_value, HOUR_IN_SECONDS);
+        return $uva_value;
+    }
+    
+    return 1484.82; // Fallback value
+}
+
+function pesos_to_uva($pesos) {
+    $uva_value = get_current_uva_value();
+    return $pesos / $uva_value;
+}
+
+function uva_to_pesos($uvas) {
+    $uva_value = get_current_uva_value();
+    return $uvas * $uva_value;
+}
+
+// ============================================================================
+// 6. CALCULATION FUNCTIONS
 // ============================================================================
 
 function perform_mortgage_calculations($data, $step) {
+    // Use UVA calculations for this branch
+    return perform_uva_mortgage_calculations($data, $step);
+}
+
+function perform_uva_mortgage_calculations($data, $step) {
+    $loan_amount = floatval($data['loan_amount'] ?? 0);
+    $loan_term = intval($data['loan_term'] ?? 30);
+    $home_value = floatval($data['home_value'] ?? 0);
+    $down_payment = floatval($data['down_payment'] ?? 0);
+    $monthly_income = floatval($data['monthly_income'] ?? 0);
+    
+    // Get current UVA value
+    $current_uva_value = get_current_uva_value();
+    
+    // For Step 1 calculations (no home value yet), estimate home value from loan amount
+    if ($step == 1 && $home_value == 0 && $loan_amount > 0) {
+        // Assume 80% LTV for initial estimate (UVA max is 80% for primary residence)
+        $home_value = $loan_amount / 0.8;
+    }
+    
+    // UVA mortgage parameters (based on Santander example)
+    $base_rate = 9.5; // Fixed rate for UVA mortgages
+    
+    // Calculate loan-to-value ratio
+    $ltv = $home_value > 0 ? ($loan_amount / $home_value) * 100 : 0;
+    
+    // Validate LTV (max 80% for primary residence)
+    if ($ltv > 80) {
+        $ltv = 80;
+        $loan_amount = $home_value * 0.8;
+    }
+    
+    // Convert loan amount to UVAs
+    $loan_amount_uvas = pesos_to_uva($loan_amount);
+    
+    // Monthly interest rate
+    $monthly_rate = $base_rate / 100 / 12;
+    $total_payments = $loan_term * 12;
+    
+    // Calculate monthly payment in UVAs (French amortization system)
+    if ($monthly_rate > 0) {
+        $monthly_payment_uvas = $loan_amount_uvas * ($monthly_rate * pow(1 + $monthly_rate, $total_payments)) / 
+                               (pow(1 + $monthly_rate, $total_payments) - 1);
+    } else {
+        $monthly_payment_uvas = $loan_amount_uvas / $total_payments;
+    }
+    
+    // Convert monthly payment to current pesos
+    $monthly_payment_pesos = uva_to_pesos($monthly_payment_uvas);
+    
+    // Estimate property tax (1.2% annually) - stays in pesos
+    $annual_property_tax = $home_value * 0.012;
+    $monthly_property_tax = $annual_property_tax / 12;
+    
+    // Estimate home insurance (0.5% annually) - stays in pesos
+    $annual_insurance = $home_value * 0.005;
+    $monthly_insurance = $annual_insurance / 12;
+    
+    // No PMI for UVA mortgages (already limited to 80% LTV)
+    $monthly_pmi = 0;
+    
+    // Total monthly payment in pesos
+    $total_monthly_pesos = $monthly_payment_pesos + $monthly_property_tax + $monthly_insurance;
+    
+    // Total interest over life of loan (in UVAs)
+    $total_interest_uvas = ($monthly_payment_uvas * $total_payments) - $loan_amount_uvas;
+    $total_interest_pesos = uva_to_pesos($total_interest_uvas);
+    
+    // Calculate debt-to-income ratio (max 25% for UVA)
+    $debt_to_income_ratio = 0;
+    if ($monthly_income > 0) {
+        $debt_to_income_ratio = ($total_monthly_pesos / $monthly_income) * 100;
+    }
+    
+    return array(
+        'monthly_payment' => round($total_monthly_pesos, 2),
+        'principal_interest' => round($monthly_payment_pesos, 2),
+        'property_tax' => round($monthly_property_tax, 2),
+        'insurance' => round($monthly_insurance, 2),
+        'pmi' => 0,
+        'interest_rate' => $base_rate,
+        'total_interest' => round($total_interest_pesos, 2),
+        'loan_amount' => $loan_amount,
+        'ltv_ratio' => round($ltv, 1),
+        'debt_to_income_ratio' => round($debt_to_income_ratio, 1),
+        'monthly_income' => $monthly_income,
+        // UVA specific values
+        'current_uva_value' => $current_uva_value,
+        'loan_amount_uvas' => round($loan_amount_uvas, 2),
+        'monthly_payment_uvas' => round($monthly_payment_uvas, 2),
+        'uva_date' => date('d/m/Y'),
+        'income_validation' => $debt_to_income_ratio <= 25 ? 'valid' : 'invalid'
+    );
+}
+
+function perform_traditional_mortgage_calculations($data, $step) {
     $loan_amount = floatval($data['loan_amount'] ?? 0);
     $loan_term = intval($data['loan_term'] ?? 30);
     $home_value = floatval($data['home_value'] ?? 0);

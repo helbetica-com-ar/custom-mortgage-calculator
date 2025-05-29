@@ -385,3 +385,13 @@ msgstr "Email"
 
 msgid "Select your preferred contact method(s)"
 msgstr "Seleccioná tu(s) método(s) de contacto preferido(s)"
+
+# UVA Mortgage specific strings
+msgid "Get Your UVA Mortgage Estimate"
+msgstr "Obtené tu Estimación de Crédito UVA"
+
+msgid "Simulate your UVA mortgage with current market values"
+msgstr "Simulá tu crédito UVA con valores actuales del mercado"
+
+msgid "Your Estimated UVA Monthly Payment"
+msgstr "Tu Cuota Mensual UVA Estimada"

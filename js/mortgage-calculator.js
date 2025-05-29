@@ -431,6 +431,22 @@ function updateCalculationsDisplay(calculations, targetStep) {
         updateElement('principal-interest', formatCurrency(calculations.principal_interest));
         updateElement('property-tax', formatCurrency(calculations.property_tax));
         updateElement('insurance', formatCurrency(calculations.insurance));
+        
+        // Add UVA specific info if available
+        if (calculations.current_uva_value) {
+            // Add UVA value display
+            const paymentDisplay = document.querySelector('.payment-amount');
+            if (paymentDisplay && !document.getElementById('uva-info')) {
+                const uvaInfo = document.createElement('div');
+                uvaInfo.id = 'uva-info';
+                uvaInfo.className = 'uva-info';
+                uvaInfo.innerHTML = `
+                    <small>Cuota en UVAs: ${calculations.monthly_payment_uvas} UVAs</small><br>
+                    <small>Valor UVA hoy: $${calculations.current_uva_value}</small>
+                `;
+                paymentDisplay.appendChild(uvaInfo);
+            }
+        }
     }
 
     // Update step 3 calculations (detailed estimate based on Step 1 + Step 2 data)
@@ -444,6 +460,37 @@ function updateCalculationsDisplay(calculations, targetStep) {
         updateElement('estimated-rate', calculations.interest_rate + '%');
         updateElement('total-interest', formatCurrency(calculations.total_interest));
         updateElement('debt-to-income', (calculations.debt_to_income_ratio || 0) + '%');
+        
+        // Add UVA specific details
+        if (calculations.current_uva_value) {
+            // Add UVA loan details
+            const loanDetails = document.querySelector('.loan-details');
+            if (loanDetails && !document.getElementById('uva-details')) {
+                const uvaDetails = document.createElement('div');
+                uvaDetails.id = 'uva-details';
+                uvaDetails.className = 'uva-details';
+                uvaDetails.innerHTML = `
+                    <h4>Detalles UVA</h4>
+                    <div class="detail-row">
+                        <span>Préstamo en UVAs:</span>
+                        <span>${calculations.loan_amount_uvas} UVAs</span>
+                    </div>
+                    <div class="detail-row">
+                        <span>Cuota en UVAs:</span>
+                        <span>${calculations.monthly_payment_uvas} UVAs</span>
+                    </div>
+                    <div class="detail-row">
+                        <span>Valor UVA actual:</span>
+                        <span>$${calculations.current_uva_value}</span>
+                    </div>
+                    <div class="detail-row ${calculations.income_validation === 'invalid' ? 'validation-error' : 'validation-success'}">
+                        <span>Validación ingreso (25%):</span>
+                        <span>${calculations.income_validation === 'valid' ? 'Aprobado' : 'Supera el 25%'}</span>
+                    </div>
+                `;
+                loanDetails.appendChild(uvaDetails);
+            }
+        }
     }
 }
 

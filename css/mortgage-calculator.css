@@ -515,6 +515,38 @@ label.checkbox-label {
     margin-top: 10px;
 }
 
+/* UVA specific styles */
+.uva-info {
+    margin-top: 10px;
+    padding-top: 10px;
+    border-top: 1px solid rgba(255,255,255,0.2);
+    color: rgba(255,255,255,0.9);
+}
+
+.uva-info small {
+    display: block;
+    line-height: 1.4;
+}
+
+.uva-details {
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 1px solid #e0e0e0;
+}
+
+.uva-details h4 {
+    color: var(--primary-color);
+    margin-bottom: 15px;
+}
+
+.validation-error {
+    color: #dc3545;
+}
+
+.validation-success {
+    color: #28a745;
+}
+
 .inline-checkbox {
     display: inline-flex;
     align-items: center;
