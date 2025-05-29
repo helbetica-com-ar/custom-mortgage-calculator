@@ -258,54 +258,59 @@ function render_mortgage_calculator($atts) {
                             <p><?php echo esc_html(__('Help us refine your estimate with property details and income.', 'custom-mortgage-calculator')); ?></p>
                         </div>
                         <div class="form-group">
-                            <label for="monthly_income"><?php echo esc_html(__('Monthly Income', 'custom-mortgage-calculator')); ?></label>
+                            <label for="monthly_income"><?php echo esc_html(__('Monthly Income', 'custom-mortgage-calculator')); ?>
+                                <div class="input-help"><?php echo esc_html(__('Your gross monthly income', 'custom-mortgage-calculator')); ?></div>
+                            </label>
                             <div class="input-wrapper">
                                 <span class="currency-symbol">$</span>
                                 <input type="number" id="monthly_income" name="monthly_income" 
                                        class="form-control" placeholder="1.030.000" 
                                        min="1030000" step="10000" required>
                             </div>
-                            <div class="input-help"><?php echo esc_html(__('Your gross monthly income', 'custom-mortgage-calculator')); ?></div>
                         </div>
                         
                         <div class="form-group">
-                            <label for="down_payment"><?php echo esc_html(__('Down Payment', 'custom-mortgage-calculator')); ?></label>
+                            <label for="down_payment"><?php echo esc_html(__('Down Payment', 'custom-mortgage-calculator')); ?>
+                                <div class="input-help"><?php echo esc_html(__('Amount you\'ll pay upfront', 'custom-mortgage-calculator')); ?></div>
+                            </label>
                             <div class="input-wrapper">
                                 <span class="currency-symbol">$</span>
                                 <input type="number" id="down_payment" name="down_payment" 
                                        class="form-control" placeholder="8.750.000" 
                                        min="0" step="10000" required>
                             </div>
-                            <div class="input-help"><?php echo esc_html(__('Amount you\'ll pay upfront', 'custom-mortgage-calculator')); ?></div>
                         </div>
                         
                         <div class="form-group">
-                            <label for="home_value"><?php echo esc_html(__('Property Value', 'custom-mortgage-calculator')); ?></label>
+                            <label for="home_value"><?php echo esc_html(__('Property Value', 'custom-mortgage-calculator')); ?>
+                                <div class="input-help"><?php echo esc_html(__('Estimated market value of the property', 'custom-mortgage-calculator')); ?></div>
+                            </label>
                             <div class="input-wrapper">
                                 <span class="currency-symbol">$</span>
                                 <input type="number" id="home_value" name="home_value" 
                                        class="form-control" placeholder="43.750.000" 
                                        min="37500000" step="100000" required>
                             </div>
-                            <div class="input-help"><?php echo esc_html(__('Estimated market value of the property', 'custom-mortgage-calculator')); ?></div>
                         </div>
                         
                         <div class="form-group">
-                            <label for="property_use"><?php echo esc_html(__('Property Use', 'custom-mortgage-calculator')); ?></label>
+                            <label for="property_use"><?php echo esc_html(__('Property Use', 'custom-mortgage-calculator')); ?>
+                                <div class="input-help"><?php echo esc_html(__('How you plan to use the property', 'custom-mortgage-calculator')); ?></div>
+                            </label>
                             <select id="property_use" name="property_use" class="form-control" required>
                                 <option value=""><?php echo esc_html(__('Select property use', 'custom-mortgage-calculator')); ?></option>
                                 <option value="primary"><?php echo esc_html(__('Primary Residence', 'custom-mortgage-calculator')); ?></option>
                                 <option value="second"><?php echo esc_html(__('Second Home', 'custom-mortgage-calculator')); ?></option>
                                 <option value="investment"><?php echo esc_html(__('Investment', 'custom-mortgage-calculator')); ?></option>
                             </select>
-                            <div class="input-help"><?php echo esc_html(__('How you plan to use the property', 'custom-mortgage-calculator')); ?></div>
                         </div>
                         
                         <div class="form-group">
-                            <label for="property_location"><?php echo esc_html(__('Property Location', 'custom-mortgage-calculator')); ?></label>
+                            <label for="property_location"><?php echo esc_html(__('Property Location', 'custom-mortgage-calculator')); ?>
+                                <div class="input-help"><?php echo esc_html(__('Location affects tax rates and insurance', 'custom-mortgage-calculator')); ?></div>
+                            </label>
                             <input type="text" id="property_location" name="property_location" 
                                    class="form-control" placeholder="<?php echo esc_attr(__('City, State', 'custom-mortgage-calculator')); ?>" required>
-                            <div class="input-help"><?php echo esc_html(__('Location affects tax rates and insurance', 'custom-mortgage-calculator')); ?></div>
                         </div>
                         
                         
