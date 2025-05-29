@@ -392,3 +392,10 @@ msgstr "Ubicación de la Propiedad:"
 
 msgid "Monthly Income:"
 msgstr "Ingresos Mensuales:"
+
+# Missing admin email strings
+msgid "Loan Details:"
+msgstr "Detalles del Préstamo:"
+
+msgid "Down Payment:"
+msgstr "Pago Inicial:"
