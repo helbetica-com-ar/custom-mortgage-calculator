@@ -123,7 +123,7 @@ function render_step_1() {
                         <h3><?php echo esc_html(__('Tell Us About Your Loan', 'custom-mortgage-calculator')); ?></h3>
                         <p><?php echo esc_html(__('Provide basic information to get started with your mortgage estimate.', 'custom-mortgage-calculator')); ?></p>
                     </div>
-                    <div class="form-group form-group-row">
+                    <div class="form-group form-group-row space-between">
                         <label for="loan_amount">
                             <span><?php echo esc_html(__('Loan Amount', 'custom-mortgage-calculator')); ?></span>
                             <div class="input-help"><?php echo esc_html(__('Amount you wish to borrow', 'custom-mortgage-calculator')); ?></div>
@@ -245,7 +245,7 @@ function render_step_2() {
                         <h3><?php echo esc_html(__('Property & Financial Information', 'custom-mortgage-calculator')); ?></h3>
                         <p><?php echo esc_html(__('Help us refine your estimate with property details and income.', 'custom-mortgage-calculator')); ?></p>
                     </div>
-                    <div class="form-group form-group-row">
+                    <div class="form-group form-group-row space-between">
                         <label for="monthly_income">
                             <span><?php echo esc_html(__('Monthly Income', 'custom-mortgage-calculator')); ?></span>
                             <div class="input-help"><?php echo esc_html(__('Your gross monthly income', 'custom-mortgage-calculator')); ?></div>
@@ -258,7 +258,7 @@ function render_step_2() {
                         </div>
                     </div>
                     
-                    <div class="form-group form-group-row">
+                    <div class="form-group form-group-row space-between">
                         <label for="down_payment">
                             <span><?php echo esc_html(__('Down Payment', 'custom-mortgage-calculator')); ?></span>
                             <div class="input-help"><?php echo esc_html(__('Amount you\'ll pay upfront', 'custom-mortgage-calculator')); ?></div>
@@ -271,7 +271,7 @@ function render_step_2() {
                         </div>
                     </div>
                     
-                    <div class="form-group form-group-row">
+                    <div class="form-group form-group-row space-between">
                         <label for="home_value">
                             <span><?php echo esc_html(__('Property Value', 'custom-mortgage-calculator')); ?></span>
                             <div class="input-help"><?php echo esc_html(__('Estimated market value of the property', 'custom-mortgage-calculator')); ?></div>
