@@ -77,13 +77,13 @@
 .progress-bar::before {
     content: '';
     position: absolute;
-    top: 50%;
-    left: 0;
+    top: 22px;
+    left: calc(50% - 250px);
     right: 0;
     height: 2px;
     background: var(--medium-gray);
     z-index: 1;
-    transform: translateY(-50%);
+    max-width: 500px;
 }
 
 .progress-step {
@@ -434,6 +434,7 @@
     font-weight: 600;
     z-index: 2;
     pointer-events: none;
+    line-height: 42px;
 }
 
 .form-control {
@@ -1080,6 +1081,12 @@ div#uva-details > h4 {
 .form-group-row .input-wrapper {
     flex: 1;
     min-width: 0;
+    max-width: 250px;
+}
+
+.form-group-row .input-wrapper input {
+    padding-left: 80px;
+    padding-right: 15px;
 }
 
 .form-group-row select {
