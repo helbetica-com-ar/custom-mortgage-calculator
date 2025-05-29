@@ -1024,3 +1024,100 @@ function clearFormState() {
         console.warn('Unable to clear form state:', e);
     }
 }
+
+/**
+ * Reset calculator form - clears all data and returns to step 1
+ */
+function resetCalculatorForm() {
+    if (confirm('¿Estás seguro de que quieres borrar todos los datos del formulario?')) {
+        // Clear localStorage
+        clearFormState();
+        
+        // Reset global variables
+        currentStep = 1;
+        formData = {};
+        isSubmitting = false;
+        isRestoringState = false;
+        
+        // Clear all form fields
+        const forms = document.querySelectorAll('.step-form');
+        forms.forEach(form => {
+            form.reset();
+            // Clear any validation errors
+            const errorFields = form.querySelectorAll('.error');
+            errorFields.forEach(field => {
+                clearFieldError(field);
+            });
+        });
+        
+        // Clear all calculation displays
+        const calculationElements = [
+            'monthly-payment', 'principal-interest', 'property-tax', 'insurance',
+            'selected-loan-term', 'tna-rate', 'tea-rate', 'cftea-rate',
+            'final-monthly-payment', 'final-pi', 'final-tax', 'final-insurance',
+            'final-pmi', 'summary-loan-amount', 'total-interest', 'debt-to-income',
+            'final-tna-rate', 'final-tea-rate', 'final-cftea-rate'
+        ];
+        
+        calculationElements.forEach(id => {
+            const element = document.getElementById(id);
+            if (element) {
+                element.textContent = element.id.includes('rate') ? '-' : '0';
+            }
+        });
+        
+        // Remove any dynamic UVA info elements
+        const uvaInfo = document.getElementById('uva-info');
+        if (uvaInfo) uvaInfo.remove();
+        
+        const uvaDetails = document.getElementById('uva-details');
+        if (uvaDetails) uvaDetails.remove();
+        
+        // Return to step 1
+        showStep(1);
+        updateProgressBar(1);
+        
+        // Scroll to top
+        scrollToTop();
+        
+        // Show confirmation message
+        showSuccess('Formulario reiniciado correctamente');
+    }
+}
+
+/**
+ * Show success message (brief notification)
+ */
+function showSuccess(message) {
+    // Create or update success message
+    let successDiv = document.querySelector('.success-notification');
+
+    if (!successDiv) {
+        successDiv = document.createElement('div');
+        successDiv.className = 'success-notification';
+        successDiv.style.cssText = `
+            background: #d4edda;
+            color: #155724;
+            padding: 10px 15px;
+            border: 1px solid #c3e6cb;
+            border-radius: 5px;
+            margin: 15px 0;
+            font-weight: 500;
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        `;
+
+        document.body.appendChild(successDiv);
+    }
+
+    successDiv.textContent = message;
+    successDiv.style.display = 'block';
+
+    // Auto-hide after 3 seconds
+    setTimeout(() => {
+        successDiv.style.display = 'none';
+    }, 3000);
+}
