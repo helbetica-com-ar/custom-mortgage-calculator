@@ -1128,15 +1128,6 @@ div#uva-details > h4 {
     }
 }
 
-/* Ensure icons in left panel are black */
-.left-panel .elementor-icon-list-icon svg {
-    fill: var(--text-dark);
-}
-
-.left-panel .elementor-icon-list-icon svg path {
-    fill: var(--text-dark);
-}
-
 /* Reset Button Styles */
 .reset-wrapper {
     text-align: center;
