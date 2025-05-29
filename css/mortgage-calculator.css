@@ -61,9 +61,7 @@
    ============================================================================ */
 
 .progress-wrapper {
-    margin-bottom: 40px;
     padding: 20px 0;
-    border-bottom: 1px solid var(--medium-gray);
 }
 
 .progress-bar {
