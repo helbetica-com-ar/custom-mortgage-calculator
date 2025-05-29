@@ -46,6 +46,10 @@ function mortgage_calculator_init() {
     add_action('wp_ajax_mortgage_calc_submit', 'handle_mortgage_final_submit');
     add_action('wp_ajax_nopriv_mortgage_calc_submit', 'handle_mortgage_final_submit');
     
+    // Add debug action for testing
+    add_action('wp_ajax_mortgage_calc_debug', 'handle_mortgage_calc_debug');
+    add_action('wp_ajax_nopriv_mortgage_calc_debug', 'handle_mortgage_calc_debug');
+    
     // Clean up old transients periodically
     add_action('wp_scheduled_delete', 'mortgage_calculator_cleanup_transients');
 }
