@@ -434,15 +434,17 @@ function updateCalculationsDisplay(calculations, targetStep) {
         
         // Add UVA specific info if available
         if (calculations.current_uva_value) {
-            // Add UVA value display
+            // Update UVA value display
+            updateElement('current-uva-value-step2', calculations.current_uva_value);
+            
+            // Add UVA payment info
             const paymentDisplay = document.querySelector('.payment-amount');
             if (paymentDisplay && !document.getElementById('uva-info')) {
                 const uvaInfo = document.createElement('div');
                 uvaInfo.id = 'uva-info';
                 uvaInfo.className = 'uva-info';
                 uvaInfo.innerHTML = `
-                    <small>Cuota en UVAs: ${calculations.monthly_payment_uvas} UVAs</small><br>
-                    <small>Valor UVA hoy: $${calculations.current_uva_value}</small>
+                    <small>Cuota en UVAs: ${calculations.monthly_payment_uvas} UVAs</small>
                 `;
                 paymentDisplay.appendChild(uvaInfo);
             }
@@ -463,6 +465,9 @@ function updateCalculationsDisplay(calculations, targetStep) {
         
         // Add UVA specific details
         if (calculations.current_uva_value) {
+            // Update UVA value display
+            updateElement('current-uva-value-step3', calculations.current_uva_value);
+            
             // Add UVA loan details
             const loanDetails = document.querySelector('.loan-details');
             if (loanDetails && !document.getElementById('uva-details')) {

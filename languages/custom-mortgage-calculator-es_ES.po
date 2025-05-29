@@ -395,3 +395,6 @@ msgstr "Simulá tu crédito UVA con valores actuales del mercado"
 
 msgid "Your Estimated UVA Monthly Payment"
 msgstr "Tu Cuota Mensual UVA Estimada"
+
+msgid "UVA value today:"
+msgstr "Valor UVA hoy:"

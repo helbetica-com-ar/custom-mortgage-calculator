@@ -547,6 +547,18 @@ label.checkbox-label {
     color: #28a745;
 }
 
+/* UVA today value display */
+.uva-today-value {
+    margin-top: 10px;
+    text-align: center;
+    color: #666;
+}
+
+.uva-today-value small {
+    font-size: 0.85em;
+    opacity: 0.9;
+}
+
 .inline-checkbox {
     display: inline-flex;
     align-items: center;

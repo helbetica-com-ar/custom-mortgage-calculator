@@ -188,6 +188,10 @@ function render_mortgage_calculator($atts) {
                             <span class="period"><?php echo esc_html(__('/month', 'custom-mortgage-calculator')); ?></span>
                         </div>
                         
+                        <div class="uva-today-value">
+                            <small><?php echo esc_html(__('UVA value today:', 'custom-mortgage-calculator')); ?> $<span id="current-uva-value-step2"><?php echo number_format(get_current_uva_value(), 2); ?></span> (<?php echo date('d/m/Y'); ?>)</small>
+                        </div>
+                        
                         <div class="payment-breakdown">
                             <div class="breakdown-item">
                                 <span class="label"><?php echo esc_html(__('Principal & Interest:', 'custom-mortgage-calculator')); ?></span>
@@ -293,6 +297,9 @@ function render_mortgage_calculator($atts) {
                                 <div class="payment-final">
                                     <span class="currency">$</span>
                                     <span id="final-monthly-payment">0</span>
+                                </div>
+                                <div class="uva-today-value">
+                                    <small><?php echo esc_html(__('UVA value today:', 'custom-mortgage-calculator')); ?> $<span id="current-uva-value-step3"><?php echo number_format(get_current_uva_value(), 2); ?></span> (<?php echo date('d/m/Y'); ?>)</small>
                                 </div>
                             </div>
                             
