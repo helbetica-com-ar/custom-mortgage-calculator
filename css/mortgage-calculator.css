@@ -988,3 +988,8 @@ label.checkbox-label {
 .uva-today-value small {
     color: white !important;
 }
+
+/* Style UVA details heading in white */
+div#uva-details > h4 {
+    color: white !important;
+}
