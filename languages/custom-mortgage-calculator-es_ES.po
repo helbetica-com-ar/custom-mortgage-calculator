@@ -385,3 +385,10 @@ msgstr "Email"
 
 msgid "Select your preferred contact method(s)"
 msgstr "Seleccioná tu(s) método(s) de contacto preferido(s)"
+
+# Missing email template strings
+msgid "Property Location:"
+msgstr "Ubicación de la Propiedad:"
+
+msgid "Monthly Income:"
+msgstr "Ingresos Mensuales:"
