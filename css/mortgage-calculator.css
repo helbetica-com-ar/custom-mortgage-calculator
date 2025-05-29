@@ -536,7 +536,7 @@ label.checkbox-label {
     margin-top: 10px;
     padding-top: 10px;
     border-top: 1px solid rgba(255,255,255,0.2);
-    color: rgba(255,255,255,0.9);
+    color: var(--text-dark);
 }
 
 .uva-info small {
@@ -1016,14 +1016,7 @@ div#uva-details > h4 {
     color: var(--text-dark);
 }
 
-/* ARS currency label styling */
-.payment-amount .ars-label {
-    font-size: 24px;
-    font-weight: bold;
-    color: var(--text-dark);
-    margin-right: 15px;
-    vertical-align: middle;
-}
+/* ARS currency label styling - removed as it's no longer used */
 
 /* Step 2 form group alignment - updated for form-group-column */
 #step-2 .form-group-column {
