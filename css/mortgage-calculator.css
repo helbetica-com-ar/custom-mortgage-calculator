@@ -25,6 +25,7 @@
     --primary-dark: #2c5aa0;
     --secondary-color: #28a745;
     --accent-color: #d9e021;
+    --accent-dark: #ccd21d;
     --danger-color: #dc3545;
     --light-gray: #f8f9fa;
     --medium-gray: #e9ecef;
@@ -175,8 +176,8 @@
    ============================================================================ */
 
 .left-panel {
-    background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
-    color: var(--white);
+    background: linear-gradient(135deg, var(--accent-color) 0%, var(--accent-dark) 100%);
+    color: var(--text-dark);
     padding: 40px;
     border-radius: var(--border-radius);
     position: relative;
@@ -249,7 +250,7 @@
 .trust-indicators {
     margin-top: 30px;
     padding-top: 20px;
-    border-top: 1px solid rgba(255, 255, 255, 0.2);
+    border-top: 1px solid rgba(0, 0, 0, 0.2);
 }
 
 .trust-badge {
@@ -264,7 +265,7 @@
     text-align: center;
     margin: 30px 0;
     padding: 20px;
-    background: rgba(255, 255, 255, 0.1);
+    background: rgba(0, 0, 0, 0.1);
     border-radius: var(--border-radius);
 }
 
@@ -294,7 +295,7 @@
     justify-content: space-between;
     align-items: center;
     padding: 12px 0;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.2);
     font-size: 16px;
 }
 
@@ -313,7 +314,7 @@
 .disclaimer {
     margin-top: 30px;
     padding-top: 20px;
-    border-top: 1px solid rgba(255, 255, 255, 0.2);
+    border-top: 1px solid rgba(0, 0, 0, 0.2);
     opacity: 0.8;
     font-size: 14px;
     line-height: 1.4;
@@ -327,7 +328,7 @@
 }
 
 .summary-card {
-    background: rgba(255, 255, 255, 0.1);
+    background: rgba(0, 0, 0, 0.1);
     padding: 25px;
     border-radius: var(--border-radius);
     text-align: center;
@@ -359,7 +360,7 @@
     margin: 0 0 20px 0;
     font-size: 18px;
     padding-bottom: 10px;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.2);
 }
 
 .loan-details {
@@ -370,7 +371,7 @@
     display: flex;
     justify-content: space-between;
     padding: 10px 0;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.2);
 }
 
 .detail-row:last-child {
@@ -583,7 +584,7 @@ label.checkbox-label {
 .rate-info {
     margin-top: 20px;
     padding-top: 20px;
-    border-top: 1px solid rgba(255,255,255,0.2);
+    border-top: 1px solid rgba(0,0,0,0.2);
 }
 
 .rate-item {
@@ -595,11 +596,11 @@ label.checkbox-label {
 
 .rate-item .label {
     font-weight: 600;
-    color: rgba(255,255,255,0.8);
+    color: var(--text-dark);
 }
 
 .rate-item .value {
-    color: rgba(255,255,255,0.9);
+    color: var(--text-dark);
     font-weight: 500;
 }
 
@@ -705,11 +706,11 @@ label.checkbox-label {
 }
 
 .btn-submit {
-    background: var(--secondary-color);
+    background: var(--primary-color);
 }
 
 .btn-submit:hover {
-    background: #218838;
+    background: var(--primary-dark);
 }
 
 .form-navigation {
@@ -998,28 +999,28 @@ label.checkbox-label {
     display: none;
 }
 
-/* Style UVA value text in white */
+/* Style UVA value text in black */
 .uva-today-value small {
-    color: white !important;
+    color: var(--text-dark) !important;
 }
 
-/* Style UVA details heading in white */
+/* Style UVA details heading in black */
 div#uva-details > h4 {
-    color: white !important;
+    color: var(--text-dark) !important;
 }
 
 /* UVA today value container styling */
 .uva-today-value {
     margin-top: 10px;
     text-align: left;
-    color: #666;
+    color: var(--text-dark);
 }
 
 /* ARS currency label styling */
 .payment-amount .ars-label {
     font-size: 24px;
     font-weight: bold;
-    color: white;
+    color: var(--text-dark);
     margin-right: 15px;
     vertical-align: middle;
 }
@@ -1125,6 +1126,15 @@ div#uva-details > h4 {
     .form-group-row select {
         max-width: 100%;
     }
+}
+
+/* Ensure icons in left panel are black */
+.left-panel .elementor-icon-list-icon svg {
+    fill: var(--text-dark);
+}
+
+.left-panel .elementor-icon-list-icon svg path {
+    fill: var(--text-dark);
 }
 
 /* Reset Button Styles */
