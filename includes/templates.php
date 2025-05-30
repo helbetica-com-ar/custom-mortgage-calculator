@@ -30,15 +30,15 @@ function render_mortgage_calculator($atts) {
         <!-- Progress Indicator -->
         <div class="progress-wrapper">
             <div class="progress-bar">
-                <div class="progress-step active" data-step="1">
+                <div class="progress-step active clickable" data-step="1" onclick="goToStep(1)" title="<?php echo esc_attr(__('Go to Loan Details', 'custom-mortgage-calculator')); ?>">
                     <span class="step-number">1</span>
                     <span class="step-label"><?php echo esc_html(__('Loan Details', 'custom-mortgage-calculator')); ?></span>
                 </div>
-                <div class="progress-step" data-step="2">
+                <div class="progress-step" data-step="2" onclick="goToStep(2)" title="<?php echo esc_attr(__('Go to Property Info', 'custom-mortgage-calculator')); ?>">
                     <span class="step-number">2</span>
                     <span class="step-label"><?php echo esc_html(__('Property Info', 'custom-mortgage-calculator')); ?></span>
                 </div>
-                <div class="progress-step" data-step="3">
+                <div class="progress-step" data-step="3" onclick="goToStep(3)" title="<?php echo esc_attr(__('Go to Personal Details', 'custom-mortgage-calculator')); ?>">
                     <span class="step-number">3</span>
                     <span class="step-label"><?php echo esc_html(__('Personal Details', 'custom-mortgage-calculator')); ?></span>
                 </div>

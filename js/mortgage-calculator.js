@@ -124,6 +124,9 @@ function nextStep(step) {
                 showStep(step + 1);
                 updateProgressBar(step + 1);
                 currentStep = step + 1;
+                
+                // Update step clickability
+                updateStepClickability();
 
                 // Save form state
                 saveFormState();
@@ -151,6 +154,9 @@ function prevStep(step) {
         showStep(step - 1);
         updateProgressBar(step - 1);
         currentStep = step - 1;
+        
+        // Update step clickability
+        updateStepClickability();
         
         // Save form state
         saveFormState();
@@ -253,6 +259,83 @@ function updateProgressBarInstant(stepNumber) {
             step.style.transition = '';
         });
     }, 50);
+}
+
+/**
+ * Navigate to a specific step (clickable navigation)
+ */
+function goToStep(targetStep) {
+    if (isSubmitting) return;
+    
+    // Only allow navigation to current step or previous completed steps
+    if (targetStep > currentStep) {
+        // Cannot go to future steps
+        return;
+    }
+    
+    // Check if we have data for the target step (for steps 2 and 3)
+    if (targetStep > 1) {
+        const hasRequiredData = checkStepData(targetStep);
+        if (!hasRequiredData) {
+            return;
+        }
+    }
+    
+    // Navigate to the target step
+    currentStep = targetStep;
+    showStep(targetStep);
+    updateProgressBar(targetStep);
+    updateStepClickability();
+    
+    // Save current state
+    saveFormState();
+    
+    // Scroll to top
+    scrollToTop();
+}
+
+/**
+ * Check if we have the required data to access a step
+ */
+function checkStepData(step) {
+    if (step === 1) return true; // Step 1 is always accessible
+    
+    if (step === 2) {
+        // Step 2 requires step 1 data
+        return formData.loan_amount && formData.loan_term;
+    }
+    
+    if (step === 3) {
+        // Step 3 requires step 1 and 2 data
+        return formData.loan_amount && formData.loan_term && 
+               formData.home_value && formData.down_payment;
+    }
+    
+    return false;
+}
+
+/**
+ * Update step clickability based on current state
+ */
+function updateStepClickability() {
+    const progressSteps = document.querySelectorAll('.progress-step');
+    
+    progressSteps.forEach((step, index) => {
+        const stepNumber = index + 1;
+        
+        // Remove all clickability classes first
+        step.classList.remove('clickable', 'not-clickable');
+        
+        if (stepNumber <= currentStep || checkStepData(stepNumber)) {
+            // Step is clickable if it's current step or previous with data
+            step.classList.add('clickable');
+            step.style.cursor = 'pointer';
+        } else {
+            // Step is not clickable
+            step.classList.add('not-clickable');
+            step.style.cursor = 'default';
+        }
+    });
 }
 
 /**
@@ -967,8 +1050,9 @@ function restoreFormState() {
                         if ((currentStep === 2 || currentStep === 3) && state.formData.loan_term) {
                             updateLoanTermDisplay(state.formData.loan_term);
                         }
-                        // Clear restoration flag after calculations complete
+                        // Update step clickability and clear restoration flag
                         setTimeout(() => {
+                            updateStepClickability();
                             isRestoringState = false;
                         }, 100);
                     })
@@ -977,8 +1061,9 @@ function restoreFormState() {
                         isRestoringState = false;
                     });
             } else {
-                // Clear restoration flag if no calculations needed
+                // Update step clickability and clear restoration flag
                 setTimeout(() => {
+                    updateStepClickability();
                     isRestoringState = false;
                 }, 100);
             }
@@ -989,11 +1074,18 @@ function restoreFormState() {
         // Clear restoration flag if no step restoration needed
         isRestoringState = false;
         
+        // Update step clickability for initial load
+        updateStepClickability();
+        
         return false;
         
     } catch (e) {
         console.warn('Unable to restore form state from localStorage:', e);
         localStorage.removeItem('mortgageCalculatorState');
+        
+        // Update step clickability for initial load
+        updateStepClickability();
+        
         return false;
     }
 }

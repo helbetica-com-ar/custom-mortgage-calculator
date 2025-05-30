@@ -137,6 +137,39 @@
     color: var(--accent-color);
 }
 
+/* Clickable step states */
+.progress-step.clickable {
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.progress-step.clickable:hover .step-number {
+    transform: scale(1.05);
+    box-shadow: var(--shadow-light);
+}
+
+.progress-step.clickable:hover .step-label {
+    color: var(--primary-color);
+}
+
+.progress-step.clickable.completed:hover .step-number {
+    background: var(--accent-dark);
+}
+
+.progress-step.clickable.completed:hover .step-label {
+    color: var(--accent-dark);
+}
+
+.progress-step.not-clickable {
+    cursor: default;
+    opacity: 0.6;
+}
+
+.progress-step.not-clickable .step-number,
+.progress-step.not-clickable .step-label {
+    pointer-events: none;
+}
+
 /* ============================================================================
    STEP CONTAINERS
    ============================================================================ */
