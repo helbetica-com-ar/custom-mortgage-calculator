@@ -404,7 +404,7 @@ function render_step_3() {
                                     <span><?php echo esc_html(__('Loan Amount:', 'custom-mortgage-calculator')); ?></span>
                                     <span id="summary-loan-amount">$0</span>
                                 </div>
-                                <div class="detail-row">
+                                <div class="detail-row years">
                                     <span><?php echo esc_html(__('Loan Period:', 'custom-mortgage-calculator')); ?></span>
                                     <span id="final-loan-term">-</span> <?php echo esc_html(__('years', 'custom-mortgage-calculator')); ?>
                                 </div>

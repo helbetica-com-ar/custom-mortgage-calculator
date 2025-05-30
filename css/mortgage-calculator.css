@@ -627,14 +627,17 @@ label.checkbox-label {
     font-size: 0.9em;
 }
 
-.rate-item.years {
+.rate-item.years,
+.detail-row.years {
     justify-content: flex-end;
 }
 
-.rate-item.years .label {
+.rate-item.years .label,
+.detail-row.years > span:first-child {
     margin-right: auto;
 }
-.rate-item.years .value {
+.rate-item.years .value,
+.detail-row.years span#final-loan-term {
     margin-right: 4px;
 }
 
