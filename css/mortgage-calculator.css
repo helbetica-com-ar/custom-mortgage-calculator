@@ -304,6 +304,9 @@
     align-items: stretch;
     position: relative;
     overflow: hidden;
+    border-radius: 25px;
+    border: 2px solid var(--medium-gray);
+    border-width: 2px;
 }
 
 /* ============================================================================
@@ -314,9 +317,6 @@
     background: linear-gradient(135deg, var(--accent-color) 0%, var(--accent-dark) 100%);
     color: var(--text-dark);
     padding: 40px;
-    border-radius: 25px 0px 0px 25px;
-    border: 2px solid transparent;
-    border-width: 2px;
     position: relative;
     overflow: hidden;
     min-height: 100%;
@@ -522,9 +522,6 @@
 .right-panel {
     background: #e6e6e626;
     padding: 40px;
-    border-radius: 0px 25px 25px 0px;
-    border: 2px solid var(--medium-gray);
-    border-width: 2px;
 }
 
 .form-section {
@@ -1051,14 +1048,10 @@ label.checkbox-label {
     }
     
     .left-panel {
-        border-radius: 25px 25px 0px 0px;
-        border-width: 2px;
         margin-bottom: 0;
     }
     
     .right-panel {
-        border-radius: 0px 0px 25px 25px;
-        border-width: 2px;
         margin-top: 0;
     }
     
@@ -1145,14 +1138,10 @@ label.checkbox-label {
     }
     
     .left-panel {
-        border-radius: 25px 25px 0px 0px;
-        border-width: 2px;
         margin-bottom: 0;
     }
     
     .right-panel {
-        border-radius: 0px 0px 25px 25px;
-        border-width: 2px;
         margin-top: 0;
     }
     
