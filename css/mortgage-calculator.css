@@ -1522,23 +1522,32 @@ div#uva-details > h4 {
 /* Bank Exchange Rates Section */
 .market-context-banks-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 15px;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 12px;
     margin-bottom: 10px;
 }
 
 .market-context-bank-item {
     background: var(--light-gray);
-    padding: 15px;
+    padding: 12px;
     border-radius: 6px;
-    border-left: 4px solid var(--primary-color);
+    border-left: 3px solid var(--primary-color);
+    transition: var(--transition);
+}
+
+.market-context-bank-item:hover {
+    background: #f0f0f0;
+    border-left-color: var(--primary-dark);
+    transform: translateY(-1px);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
 .market-context-bank-name {
     font-weight: 600;
     color: var(--text-dark);
-    margin-bottom: 10px;
-    font-size: 14px;
+    margin-bottom: 8px;
+    font-size: 13px;
+    line-height: 1.2;
 }
 
 .market-context-bank-rates {
@@ -1563,28 +1572,32 @@ div#uva-details > h4 {
 }
 
 .market-context-rate-amount {
-    font-size: 16px;
+    font-size: 14px;
     font-weight: 700;
     color: var(--text-dark);
 }
 
 /* Compact mode for banks */
 .market-context-compact .market-context-banks-grid {
-    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-    gap: 10px;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 8px;
 }
 
 .market-context-compact .market-context-bank-item {
-    padding: 12px;
+    padding: 10px;
 }
 
 .market-context-compact .market-context-bank-name {
-    font-size: 13px;
-    margin-bottom: 8px;
+    font-size: 12px;
+    margin-bottom: 6px;
 }
 
 .market-context-compact .market-context-rate-amount {
-    font-size: 14px;
+    font-size: 12px;
+}
+
+.market-context-compact .market-context-rate-type {
+    font-size: 10px;
 }
 
 /* Dark theme for banks */
@@ -1606,12 +1619,39 @@ div#uva-details > h4 {
 }
 
 /* Responsive design for banks */
+@media (max-width: 768px) {
+    .market-context-banks-grid {
+        grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+        gap: 10px;
+    }
+}
+
 @media (max-width: 600px) {
     .market-context-banks-grid {
-        grid-template-columns: 1fr;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 8px;
+    }
+    
+    .market-context-bank-item {
+        padding: 10px;
+    }
+    
+    .market-context-bank-name {
+        font-size: 12px;
+        margin-bottom: 6px;
+    }
+    
+    .market-context-rate-amount {
+        font-size: 12px;
     }
     
     .market-context-bank-rates {
         justify-content: space-around;
+    }
+}
+
+@media (max-width: 400px) {
+    .market-context-banks-grid {
+        grid-template-columns: 1fr;
     }
 }

@@ -139,27 +139,52 @@ function get_current_bank_rates() {
         $data = json_decode($body, true);
         
         if (is_array($data) && !empty($data)) {
-            // Filter and format the most relevant banks
-            $relevant_banks = array(
+            // Comprehensive bank name mapping
+            $bank_names = array(
+                'bna' => 'Banco Nación',
+                'santander' => 'Santander',
+                'galicia' => 'Banco Galicia',
+                'bbva' => 'BBVA',
+                'patagonia' => 'Banco Patagonia',
+                'macro' => 'Banco Macro',
+                'hsbc' => 'HSBC',
+                'bapro' => 'Banco Provincia',
+                'ciudad' => 'Banco Ciudad',
+                'brubank' => 'Brubank',
+                'supervielle' => 'Supervielle',
+                'icbc' => 'ICBC',
+                'hipotecario' => 'Banco Hipotecario',
                 'balanz' => 'Balanz',
                 'plus' => 'Plus Cambio',
-                'piano' => 'Piano',
                 'cambioar' => 'Cambio.ar',
                 'dolaria' => 'Dolaria',
-                'buendolar' => 'Buen Dólar'
+                'buendolar' => 'Buen Dólar',
+                'rebanking' => 'Rebanking',
+                'cambiosroca' => 'Cambios Roca',
+                'davsa' => 'Davsa',
+                'naranjax' => 'Naranja X',
+                'prex' => 'Prex',
+                'globalcambio' => 'Global Cambio',
+                'cambiodieza' => 'Cambio Diez A',
+                'plazacambio' => 'Plaza Cambio',
+                'triacambio' => 'Tria Cambio',
+                'cambioposadas' => 'Cambio Posadas',
+                'dolariol' => 'Dólar IOL'
             );
             
             $formatted_rates = array();
             $latest_time = 0;
             
-            foreach ($relevant_banks as $key => $name) {
-                if (isset($data[$key]) && isset($data[$key]['ask']) && isset($data[$key]['bid'])) {
-                    $bank_data = $data[$key];
-                    
+            foreach ($data as $key => $bank_data) {
+                if (isset($bank_data['ask']) && isset($bank_data['bid']) && isset($bank_data['time'])) {
                     // Skip if data seems too old (more than 7 days)
-                    if (isset($bank_data['time']) && $bank_data['time'] > (time() - (7 * DAY_IN_SECONDS))) {
+                    if ($bank_data['time'] > (time() - (7 * DAY_IN_SECONDS))) {
+                        // Get bank display name
+                        $bank_name = isset($bank_names[$key]) ? $bank_names[$key] : ucfirst($key);
+                        
                         $formatted_rates[] = array(
-                            'name' => $name,
+                            'id' => $key,
+                            'name' => $bank_name,
                             'buy' => floatval($bank_data['bid']),
                             'sell' => floatval($bank_data['ask']),
                             'time' => $bank_data['time']
@@ -171,6 +196,11 @@ function get_current_bank_rates() {
                     }
                 }
             }
+            
+            // Sort by bank name for better organization
+            usort($formatted_rates, function($a, $b) {
+                return strcmp($a['name'], $b['name']);
+            });
             
             if (!empty($formatted_rates)) {
                 $bank_rates_data = array(
