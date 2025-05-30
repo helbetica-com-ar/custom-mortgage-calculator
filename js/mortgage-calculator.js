@@ -627,6 +627,9 @@ function updateCalculationsDisplay(calculations, targetStep) {
         updateElement('property-tax', formatCurrency(calculations.property_tax));
         updateElement('insurance', formatCurrency(calculations.insurance));
         
+        // Update loan amount display
+        updateElement('loan-amount-display', formatCurrency(calculations.loan_amount));
+        
         // Update rates if available
         if (calculations.tna_rate) {
             updateElement('tna-rate', calculations.tna_rate + '%');

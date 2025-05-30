@@ -221,6 +221,10 @@ function render_step_2() {
                     </div>
                     
                     <div class="rate-info">
+                        <div class="rate-item amount">
+                            <span class="label"><?php echo esc_html(__('Loan Amount:', 'custom-mortgage-calculator')); ?></span>
+                            <span class="value" id="loan-amount-display">$0</span>
+                        </div>
                         <div class="rate-item years">
                             <span class="label"><?php echo esc_html(__('Loan Term:', 'custom-mortgage-calculator')); ?></span>
                             <span class="value" id="selected-loan-term">-</span> <?php echo esc_html(__('years', 'custom-mortgage-calculator')); ?>
