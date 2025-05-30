@@ -276,16 +276,17 @@ function goToStep(targetStep) {
     const currentStepData = collectStepData(currentStep);
     Object.assign(formData, currentStepData);
     
-    // Only allow navigation to previous completed steps
-    if (targetStep > currentStep) {
-        // Cannot go to future steps
-        return;
-    }
-    
-    // Check if we have data for the target step (for steps 2 and 3)
+    // Check if we have the required data to access the target step
     if (targetStep > 1) {
         const hasRequiredData = checkStepData(targetStep);
         if (!hasRequiredData) {
+            return;
+        }
+    }
+    
+    // For forward navigation, validate current step
+    if (targetStep > currentStep) {
+        if (!validateStep(currentStep)) {
             return;
         }
     }
