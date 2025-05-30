@@ -267,7 +267,12 @@ function updateProgressBarInstant(stepNumber) {
 function goToStep(targetStep) {
     if (isSubmitting) return;
     
-    // Only allow navigation to current step or previous completed steps
+    // Don't do anything if clicking on current step
+    if (targetStep === currentStep) {
+        return;
+    }
+    
+    // Only allow navigation to previous completed steps
     if (targetStep > currentStep) {
         // Cannot go to future steps
         return;
@@ -326,8 +331,11 @@ function updateStepClickability() {
         // Remove all clickability classes first
         step.classList.remove('clickable', 'not-clickable');
         
-        if (stepNumber <= currentStep || checkStepData(stepNumber)) {
-            // Step is clickable if it's current step or previous with data
+        if (stepNumber === currentStep) {
+            // Current step is not clickable
+            step.style.cursor = 'default';
+        } else if (stepNumber < currentStep || checkStepData(stepNumber)) {
+            // Step is clickable if it's a previous step with data
             step.classList.add('clickable');
             step.style.cursor = 'pointer';
         } else {
