@@ -305,7 +305,7 @@
     position: relative;
     overflow: hidden;
     border-radius: 25px;
-    border: 2px solid var(--medium-gray);
+    border: 2px solid var(--text-dark);
     border-width: 2px;
 }
 
