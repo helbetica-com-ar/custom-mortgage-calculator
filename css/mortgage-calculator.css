@@ -1319,3 +1319,202 @@ div#uva-details > h4 {
         opacity: 1;
     }
 }
+
+/* ============================================================================
+   MARKET CONTEXT WIDGET STYLES
+   ============================================================================ */
+
+.market-context-widget {
+    background: var(--white);
+    border: 1px solid var(--medium-gray);
+    border-radius: var(--border-radius);
+    padding: 20px;
+    margin: 20px 0;
+    box-shadow: var(--shadow-light);
+    font-family: "Sora", sans-serif;
+}
+
+.market-context-widget * {
+    font-family: "Sora", sans-serif \!important;
+}
+
+.market-context-section {
+    margin-bottom: 25px;
+}
+
+.market-context-section:last-child {
+    margin-bottom: 0;
+}
+
+.market-context-title {
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--text-dark);
+    margin: 0 0 15px 0;
+    padding-bottom: 10px;
+    border-bottom: 2px solid var(--primary-color);
+}
+
+/* UVA Section */
+.market-context-value {
+    display: flex;
+    align-items: baseline;
+    font-size: 32px;
+    font-weight: 700;
+    color: var(--primary-color);
+    margin-bottom: 10px;
+}
+
+.market-context-currency {
+    font-size: 24px;
+    margin-right: 5px;
+}
+
+/* Rates Grid */
+.market-context-rates-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 15px;
+    margin-bottom: 10px;
+}
+
+.market-context-rate-item {
+    background: var(--light-gray);
+    padding: 15px;
+    border-radius: 6px;
+    text-align: center;
+}
+
+.market-context-rate-label {
+    display: block;
+    font-size: 12px;
+    color: var(--dark-gray);
+    margin-bottom: 5px;
+    font-weight: 500;
+}
+
+.market-context-rate-value {
+    display: block;
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--text-dark);
+}
+
+/* Meta Information */
+.market-context-meta {
+    font-size: 12px;
+    color: var(--dark-gray);
+    margin-top: 10px;
+}
+
+.market-context-update-time {
+    display: inline-block;
+    margin-right: 10px;
+}
+
+.market-context-source {
+    display: inline-block;
+    font-style: italic;
+}
+
+.market-context-source-cache {
+    color: #856404;
+}
+
+.market-context-source-fallback {
+    color: #721c24;
+}
+
+/* No Data Message */
+.market-context-no-data {
+    color: var(--dark-gray);
+    font-style: italic;
+    text-align: center;
+    padding: 20px;
+    background: var(--light-gray);
+    border-radius: 6px;
+    margin: 0;
+}
+
+/* Compact Mode */
+.market-context-compact {
+    padding: 15px;
+}
+
+.market-context-compact .market-context-title {
+    font-size: 16px;
+    margin-bottom: 10px;
+}
+
+.market-context-compact .market-context-value {
+    font-size: 24px;
+}
+
+.market-context-compact .market-context-currency {
+    font-size: 18px;
+}
+
+.market-context-compact .market-context-rate-item {
+    padding: 10px;
+}
+
+.market-context-compact .market-context-rate-value {
+    font-size: 16px;
+}
+
+/* Dark Theme */
+.market-context-dark {
+    background: #1a1a1a;
+    border-color: #333;
+    color: #e0e0e0;
+}
+
+.market-context-dark .market-context-title {
+    color: #ffffff;
+    border-bottom-color: var(--primary-color);
+}
+
+.market-context-dark .market-context-rate-item {
+    background: #2a2a2a;
+}
+
+.market-context-dark .market-context-rate-label {
+    color: #a0a0a0;
+}
+
+.market-context-dark .market-context-rate-value {
+    color: #ffffff;
+}
+
+.market-context-dark .market-context-meta {
+    color: #888;
+}
+
+.market-context-dark .market-context-no-data {
+    background: #2a2a2a;
+    color: #a0a0a0;
+}
+
+/* Responsive Design */
+@media (max-width: 600px) {
+    .market-context-widget {
+        padding: 15px;
+        margin: 15px 0;
+    }
+    
+    .market-context-title {
+        font-size: 16px;
+    }
+    
+    .market-context-value {
+        font-size: 26px;
+    }
+    
+    .market-context-currency {
+        font-size: 20px;
+    }
+    
+    .market-context-rates-grid {
+        grid-template-columns: 1fr;
+    }
+}

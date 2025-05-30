@@ -25,6 +25,7 @@ require_once plugin_dir_path(__FILE__) . 'includes/database.php';
 require_once plugin_dir_path(__FILE__) . 'includes/email-notifications.php';
 require_once plugin_dir_path(__FILE__) . 'includes/ajax-handlers.php';
 require_once plugin_dir_path(__FILE__) . 'includes/templates.php';
+require_once plugin_dir_path(__FILE__) . 'includes/market-context.php';
 
 // ============================================================================
 // MAIN PLUGIN INITIALIZATION
@@ -37,6 +38,7 @@ function mortgage_calculator_init() {
     load_plugin_textdomain('custom-mortgage-calculator', false, dirname(plugin_basename(__FILE__)) . '/languages/');
     
     add_shortcode('mortgage_calculator', 'render_mortgage_calculator');
+    add_shortcode('market-context', 'render_market_context_shortcode');
     
     // Enqueue scripts and styles
     add_action('wp_enqueue_scripts', 'mortgage_calculator_scripts');
