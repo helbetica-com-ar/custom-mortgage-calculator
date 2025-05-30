@@ -46,6 +46,36 @@ function formatDecimal(amount, decimals = 2) {
     }).format(num);
 }
 
+/**
+ * Remove thousand separators from a formatted string and return clean number
+ */
+function parseFormattedNumber(value) {
+    if (!value) return '';
+    
+    // Remove all dots (thousand separators) and convert to number
+    const cleanValue = value.toString().replace(/\./g, '');
+    return cleanValue;
+}
+
+/**
+ * Format number with thousand separators for display
+ */
+function addThousandSeparators(value) {
+    if (!value) return '';
+    
+    // Remove any existing dots and non-digits
+    const cleanValue = value.toString().replace(/[^\d]/g, '');
+    
+    if (!cleanValue) return '';
+    
+    // Add thousand separators using Argentine format (dots)
+    return new Intl.NumberFormat('es-AR', {
+        useGrouping: true,
+        minimumFractionDigits: 0,
+        maximumFractionDigits: 0
+    }).format(parseInt(cleanValue));
+}
+
 // Initialize when DOM is loaded
 document.addEventListener('DOMContentLoaded', function () {
     initializeMortgageCalculator();
@@ -590,7 +620,14 @@ function collectStepData(step) {
         if (form.querySelector(`[name="${key}"][type="checkbox"]`)) {
             data[key] = true; // Checkbox is checked if it appears in FormData
         } else {
-            data[key] = value;
+            // Check if this is a numeric input with formatting
+            const input = form.querySelector(`[name="${key}"]`);
+            if (input && input.type === 'number' && input.hasAttribute('data-raw-value')) {
+                // Use the raw numeric value for calculations
+                data[key] = input.getAttribute('data-raw-value');
+            } else {
+                data[key] = value;
+            }
         }
     }
 
@@ -955,15 +992,99 @@ function performRealTimeCalculation() {
  */
 function formatCurrencyInputs() {
     const currencyInputs = document.querySelectorAll('input[type="number"]');
-
+    
     currencyInputs.forEach(input => {
-        // Add thousand separators on blur (optional)
-        input.addEventListener('blur', function () {
-            if (this.value) {
-                // You can add formatting logic here
+        // Store the original numeric value
+        let rawValue = input.value;
+        
+        // Format initial value if it exists
+        if (input.value) {
+            const formatted = addThousandSeparators(input.value);
+            input.setAttribute('data-raw-value', parseFormattedNumber(input.value));
+            input.value = formatted;
+        }
+        
+        // Handle input events for real-time formatting
+        input.addEventListener('input', function(e) {
+            const cursorPosition = this.selectionStart;
+            const oldValue = this.getAttribute('data-raw-value') || '';
+            const newRawValue = parseFormattedNumber(this.value);
+            
+            // Update the raw value
+            this.setAttribute('data-raw-value', newRawValue);
+            
+            // Format the display value
+            const formattedValue = addThousandSeparators(newRawValue);
+            this.value = formattedValue;
+            
+            // Calculate cursor position after formatting
+            const lengthDiff = formattedValue.length - (this.getAttribute('data-old-formatted-length') || 0);
+            const newCursorPosition = Math.max(0, cursorPosition + lengthDiff);
+            
+            // Store formatted length for next time
+            this.setAttribute('data-old-formatted-length', formattedValue.length);
+            
+            // Restore cursor position
+            setTimeout(() => {
+                if (this === document.activeElement) {
+                    this.setSelectionRange(newCursorPosition, newCursorPosition);
+                }
+            }, 0);
+        });
+        
+        // Handle focus - ensure cursor positioning works
+        input.addEventListener('focus', function() {
+            this.setAttribute('data-old-formatted-length', this.value.length);
+        });
+        
+        // Handle blur - final formatting and validation
+        input.addEventListener('blur', function() {
+            const rawValue = this.getAttribute('data-raw-value') || '';
+            
+            if (rawValue) {
+                // Apply final formatting
+                this.value = addThousandSeparators(rawValue);
+                
+                // Update the hidden raw value for form submission
+                updateHiddenRawValue(this, rawValue);
             }
         });
+        
+        // Handle form submission - ensure raw values are submitted
+        const form = input.closest('form');
+        if (form) {
+            form.addEventListener('submit', function() {
+                currencyInputs.forEach(inp => {
+                    const rawVal = inp.getAttribute('data-raw-value');
+                    if (rawVal) {
+                        // Temporarily set raw value for submission
+                        inp.value = rawVal;
+                    }
+                });
+            });
+        }
     });
+}
+
+/**
+ * Update or create hidden input with raw numeric value
+ */
+function updateHiddenRawValue(input, rawValue) {
+    const inputName = input.name;
+    const hiddenInputId = inputName + '_raw';
+    
+    // Find existing hidden input or create new one
+    let hiddenInput = document.getElementById(hiddenInputId);
+    
+    if (!hiddenInput) {
+        hiddenInput = document.createElement('input');
+        hiddenInput.type = 'hidden';
+        hiddenInput.id = hiddenInputId;
+        hiddenInput.name = inputName + '_raw';
+        input.parentNode.appendChild(hiddenInput);
+    }
+    
+    hiddenInput.value = rawValue;
 }
 
 /**
