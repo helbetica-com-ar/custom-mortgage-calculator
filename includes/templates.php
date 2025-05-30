@@ -411,14 +411,13 @@ function render_step_3() {
                             </div>
                             
                             <div class="loan-details">
-                                <h4><?php echo esc_html(__('Loan Details', 'custom-mortgage-calculator')); ?></h4>
-                                <div class="rate-source-badge mini" id="rate-source-badge-step3">
+                                <h4>Detalles del Préstamo<div class="rate-source-badge mini live" id="rate-source-badge-step3">
                                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                        <circle cx="12" cy="12" r="10"/>
-                                        <polyline points="12 6 12 12 16 14"/>
+                                        <circle cx="12" cy="12" r="10"></circle>
+                                        <polyline points="12 6 12 12 16 14"></polyline>
                                     </svg>
-                                    <span><?php echo esc_html(__('BCRA rates', 'custom-mortgage-calculator')); ?></span>
-                                </div>
+                                    <span>BCRA</span>
+                                </div></h4>
                                 <div class="detail-row">
                                     <span><?php echo esc_html(__('Loan Amount:', 'custom-mortgage-calculator')); ?></span>
                                     <span id="summary-loan-amount">$0</span>
