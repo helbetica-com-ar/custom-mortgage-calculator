@@ -314,7 +314,9 @@
     background: linear-gradient(135deg, var(--accent-color) 0%, var(--accent-dark) 100%);
     color: var(--text-dark);
     padding: 40px;
-    border-radius: var(--border-radius);
+    border-radius: 25px 0px 0px 25px;
+    border: 2px solid transparent;
+    border-width: 2px;
     position: relative;
     overflow: hidden;
     min-height: 100%;
@@ -518,10 +520,11 @@
    ============================================================================ */
 
 .right-panel {
-    background: var(--white);
+    background: #e6e6e626;
     padding: 40px;
-    border-radius: var(--border-radius);
-    border: 1px solid var(--medium-gray);
+    border-radius: 0px 25px 25px 0px;
+    border: 2px solid var(--medium-gray);
+    border-width: 2px;
 }
 
 .form-section {
@@ -1016,6 +1019,16 @@ label.checkbox-label {
     .right-panel {
         padding: 25px;
     }
+    
+    .left-panel {
+        border-radius: 25px 25px 0px 0px;
+        border-width: 2px;
+    }
+    
+    .right-panel {
+        border-radius: 0px 0px 25px 25px;
+        border-width: 2px;
+    }
 
     .left-panel h2 {
         font-size: 24px;
@@ -1052,6 +1065,16 @@ label.checkbox-label {
     .left-panel,
     .right-panel {
         padding: 20px;
+    }
+    
+    .left-panel {
+        border-radius: 25px 25px 0px 0px;
+        border-width: 2px;
+    }
+    
+    .right-panel {
+        border-radius: 0px 0px 25px 25px;
+        border-width: 2px;
     }
 
     .form-control {
