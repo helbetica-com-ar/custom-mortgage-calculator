@@ -150,13 +150,47 @@ function nextStep(step) {
  * Navigate to previous step
  */
 function prevStep(step) {
+    console.log('prevStep called with step:', step);
+    console.log('Current step before navigation:', currentStep);
+    
     if (step > 1) {
-        showStep(step - 1);
-        updateProgressBar(step - 1);
-        currentStep = step - 1;
+        // Collect current step data before navigating away
+        const currentStepData = collectStepData(step);
+        Object.assign(formData, currentStepData);
+        
+        // Navigate to previous step
+        const targetStep = step - 1;
+        console.log('Target step:', targetStep);
+        currentStep = targetStep;
+        showStep(targetStep);
+        updateProgressBar(targetStep);
         
         // Update step clickability
         updateStepClickability();
+        
+        // If navigating to step 2 or 3, update calculations
+        if (targetStep > 1 && Object.keys(formData).length > 0) {
+            // Show loading
+            showLoading();
+            
+            // Send AJAX request to get calculations
+            sendStepData(targetStep - 1, formData)
+                .then(response => {
+                    hideLoading();
+                    if (response.success) {
+                        updateCalculationsDisplay(response.data.calculations, targetStep);
+                        
+                        // Update loan term display when navigating to step 2
+                        if (targetStep === 2 && formData.loan_term) {
+                            updateLoanTermDisplay(formData.loan_term);
+                        }
+                    }
+                })
+                .catch(error => {
+                    hideLoading();
+                    console.error('Error updating calculations:', error);
+                });
+        }
         
         // Save form state
         saveFormState();
