@@ -171,6 +171,108 @@
 }
 
 /* ============================================================================
+   RATE SOURCE BADGE
+   ============================================================================ */
+
+.rate-source-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 12px;
+    border-radius: 20px;
+    font-size: 0.85em;
+    font-weight: 600;
+    margin-bottom: 12px;
+    position: relative;
+    cursor: help;
+    transition: var(--transition);
+}
+
+.rate-source-badge.live {
+    background: rgba(40, 167, 69, 0.1);
+    color: #28a745;
+    border: 1px solid rgba(40, 167, 69, 0.3);
+}
+
+.rate-source-badge.cached {
+    background: rgba(255, 193, 7, 0.1);
+    color: #f39c12;
+    border: 1px solid rgba(255, 193, 7, 0.3);
+}
+
+.rate-source-badge.default {
+    background: rgba(108, 117, 125, 0.1);
+    color: #6c757d;
+    border: 1px solid rgba(108, 117, 125, 0.3);
+}
+
+.rate-source-badge svg {
+    flex-shrink: 0;
+}
+
+.rate-source-badge.live svg {
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0% { opacity: 1; }
+    50% { opacity: 0.5; }
+    100% { opacity: 1; }
+}
+
+.rate-source-badge .rate-tooltip {
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--text-dark);
+    color: var(--white);
+    padding: 6px 12px;
+    border-radius: 4px;
+    font-size: 0.85em;
+    white-space: nowrap;
+    opacity: 0;
+    visibility: hidden;
+    transition: var(--transition);
+    margin-bottom: 8px;
+}
+
+.rate-source-badge .rate-tooltip::after {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    border: 6px solid transparent;
+    border-top-color: var(--text-dark);
+}
+
+.rate-source-badge:hover .rate-tooltip {
+    opacity: 1;
+    visibility: visible;
+}
+
+.rate-source-badge.mini {
+    padding: 4px 8px;
+    font-size: 0.75em;
+    margin-bottom: 8px;
+    float: right;
+}
+
+.rate-source-badge.mini svg {
+    width: 12px;
+    height: 12px;
+}
+
+.rate-source-badge-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 16px;
+    padding-top: 16px;
+    border-top: 1px solid var(--medium-gray);
+}
+
+/* ============================================================================
    STEP CONTAINERS
    ============================================================================ */
 

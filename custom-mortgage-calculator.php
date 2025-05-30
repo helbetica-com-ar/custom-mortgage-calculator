@@ -80,7 +80,13 @@ function mortgage_calculator_scripts() {
         'nonce' => wp_create_nonce('mortgage_calc_nonce'),
         'i18n' => array(
             'confirmReset' => __('Are you sure you want to clear all form data?', 'custom-mortgage-calculator'),
-            'formReset' => __('Form cleared successfully', 'custom-mortgage-calculator')
+            'formReset' => __('Form cleared successfully', 'custom-mortgage-calculator'),
+            'realTimeRates' => __('Real-time rates from BCRA', 'custom-mortgage-calculator'),
+            'cachedRates' => __('BCRA rates (cached)', 'custom-mortgage-calculator'),
+            'standardRates' => __('Standard rates', 'custom-mortgage-calculator'),
+            'updatedAgo' => __('Updated %s hours ago', 'custom-mortgage-calculator'),
+            'usingCachedRates' => __('Using cached rates', 'custom-mortgage-calculator'),
+            'usingDefaultRates' => __('Using default rates', 'custom-mortgage-calculator')
         )
     ));
 }

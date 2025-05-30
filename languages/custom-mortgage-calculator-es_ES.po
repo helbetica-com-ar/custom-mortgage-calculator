@@ -209,6 +209,30 @@ msgstr "Limpiar Caché de Tasas"
 msgid "Rate cache cleared successfully."
 msgstr "Caché de tasas limpiado exitosamente."
 
+msgid "Real-time rates from BCRA"
+msgstr "Tasas actualizadas del BCRA"
+
+msgid "BCRA rates"
+msgstr "Tasas BCRA"
+
+msgid "BCRA rates (cached)"
+msgstr "Tasas BCRA (en caché)"
+
+msgid "Standard rates"
+msgstr "Tasas estándar"
+
+msgid "Updated %s hours ago"
+msgstr "Actualizado hace %s horas"
+
+msgid "Using cached rates"
+msgstr "Usando tasas en caché"
+
+msgid "Using default rates"
+msgstr "Usando tasas por defecto"
+
+msgid "Loading..."
+msgstr "Cargando..."
+
 # Form Section
 msgid "Get Connected with Lenders"
 msgstr "Conectate con Prestamistas"
@@ -450,9 +474,6 @@ msgstr "Valor UVA hoy:"
 
 msgid "Using cached value"
 msgstr "Usando valor en caché"
-
-msgid "Updated %s hours ago"
-msgstr "Actualizado hace %s horas"
 
 msgid "Updated at"
 msgstr "Actualizado"

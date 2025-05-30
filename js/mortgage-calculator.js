@@ -637,6 +637,9 @@ function updateCalculationsDisplay(calculations, targetStep) {
             updateElement('cftea-rate', calculations.cftea_rate + '%');
         }
         
+        // Update rate source badge
+        updateRateSourceBadge(calculations);
+        
         // Add UVA specific info if available
         if (calculations.current_uva_value) {
             // Update UVA value display
@@ -722,6 +725,63 @@ function updateElement(id, value) {
     const element = document.getElementById(id);
     if (element) {
         element.textContent = value;
+    }
+}
+
+/**
+ * Update rate source badge with real-time information
+ */
+function updateRateSourceBadge(calculations) {
+    if (!calculations.rates_source) return;
+    
+    const badge = document.getElementById('rate-source-badge');
+    const badgeStep3 = document.getElementById('rate-source-badge-step3');
+    const updateInfo = document.getElementById('rate-update-info');
+    
+    // Determine the badge text and styling based on source
+    let badgeText = '';
+    let tooltipText = '';
+    let badgeClass = '';
+    
+    switch (calculations.rates_source) {
+        case 'api':
+            badgeText = mortgageAjax.i18n.realTimeRates || 'Real-time rates from BCRA';
+            badgeClass = 'live';
+            if (calculations.rates_updated) {
+                const updateDate = new Date(calculations.rates_updated * 1000);
+                const hoursAgo = Math.floor((Date.now() - updateDate) / (1000 * 60 * 60));
+                tooltipText = (mortgageAjax.i18n.updatedAgo || 'Updated %s hours ago').replace('%s', hoursAgo);
+            }
+            break;
+        case 'cache':
+            badgeText = mortgageAjax.i18n.cachedRates || 'BCRA rates (cached)';
+            badgeClass = 'cached';
+            tooltipText = mortgageAjax.i18n.usingCachedRates || 'Using cached rates';
+            break;
+        case 'default':
+            badgeText = mortgageAjax.i18n.standardRates || 'Standard rates';
+            badgeClass = 'default';
+            tooltipText = mortgageAjax.i18n.usingDefaultRates || 'Using default rates';
+            break;
+    }
+    
+    // Update main badge
+    if (badge) {
+        badge.className = 'rate-source-badge ' + badgeClass;
+        const textSpan = badge.querySelector('span:not(#rate-update-info)');
+        if (textSpan) textSpan.textContent = badgeText;
+    }
+    
+    // Update step 3 mini badge
+    if (badgeStep3) {
+        badgeStep3.className = 'rate-source-badge mini ' + badgeClass;
+        const textSpan = badgeStep3.querySelector('span');
+        if (textSpan) textSpan.textContent = calculations.rates_source === 'api' ? 'BCRA' : badgeText;
+    }
+    
+    // Update tooltip
+    if (updateInfo) {
+        updateInfo.textContent = tooltipText;
     }
 }
 

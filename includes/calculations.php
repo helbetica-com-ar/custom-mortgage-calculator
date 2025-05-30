@@ -127,7 +127,11 @@ function perform_uva_mortgage_calculations($data, $step) {
         'uva_date' => date('d/m/Y'),
         'uva_update_time' => date('d/m/Y H:i', $uva_data['fetched_at']),
         'uva_source' => $uva_data['source'],
-        'income_validation' => $debt_to_income_ratio <= 25 ? 'valid' : 'invalid'
+        'income_validation' => $debt_to_income_ratio <= 25 ? 'valid' : 'invalid',
+        // Rate source information
+        'rates_source' => $rates_data['source'],
+        'rates_updated' => isset($rates_data['fetched_at']) ? $rates_data['fetched_at'] : null,
+        'rates_date' => isset($rates_data['date']) ? $rates_data['date'] : date('Y-m-d')
     );
 }
 
