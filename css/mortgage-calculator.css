@@ -1016,10 +1016,19 @@ label.checkbox-label {
         gap: 10px;
         margin-bottom: 20px;
         justify-content: space-between;
+        position: relative;
     }
 
     .progress-bar::before {
-        display: block;
+        content: '';
+        position: absolute;
+        top: 22px;
+        left: calc(50% - 160px);
+        right: 0;
+        height: 2px;
+        background: var(--medium-gray);
+        z-index: 1;
+        max-width: 320px;
     }
     
     .step-label-full {
