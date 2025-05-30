@@ -88,37 +88,37 @@ function render_market_context_shortcode($atts) {
         <div class="market-context-section market-context-rates">
             <h3 class="market-context-title"><?php _e('Tasas de Préstamos Hipotecarios', 'custom-mortgage-calculator'); ?></h3>
             <div class="market-context-rates-grid">
-                <?php if (isset($rates['tna'])): ?>
+                <?php if (isset($rates['tna_rate'])): ?>
                 <div class="market-context-rate-item">
                     <span class="market-context-rate-label"><?php _e('TNA', 'custom-mortgage-calculator'); ?></span>
-                    <span class="market-context-rate-value"><?php echo number_format($rates['tna'], 2, ',', '.'); ?>%</span>
+                    <span class="market-context-rate-value"><?php echo number_format($rates['tna_rate'], 2, ',', '.'); ?>%</span>
                 </div>
                 <?php endif; ?>
                 
-                <?php if (isset($rates['tea'])): ?>
+                <?php if (isset($rates['tea_rate'])): ?>
                 <div class="market-context-rate-item">
                     <span class="market-context-rate-label"><?php _e('TEA', 'custom-mortgage-calculator'); ?></span>
-                    <span class="market-context-rate-value"><?php echo number_format($rates['tea'], 2, ',', '.'); ?>%</span>
+                    <span class="market-context-rate-value"><?php echo number_format($rates['tea_rate'], 2, ',', '.'); ?>%</span>
                 </div>
                 <?php endif; ?>
                 
-                <?php if (isset($rates['cftea'])): ?>
+                <?php if (isset($rates['cftea_rate'])): ?>
                 <div class="market-context-rate-item">
                     <span class="market-context-rate-label"><?php _e('CFTEA', 'custom-mortgage-calculator'); ?></span>
-                    <span class="market-context-rate-value"><?php echo number_format($rates['cftea'], 2, ',', '.'); ?>%</span>
+                    <span class="market-context-rate-value"><?php echo number_format($rates['cftea_rate'], 2, ',', '.'); ?>%</span>
                 </div>
                 <?php endif; ?>
             </div>
             
-            <?php if ($atts['show_update_time'] === 'true' && isset($rates['timestamp'])): ?>
+            <?php if ($atts['show_update_time'] === 'true' && isset($rates['fetched_at'])): ?>
             <div class="market-context-meta">
                 <span class="market-context-update-time">
                     <?php 
-                    $fecha_rates = new DateTime('@' . $rates['timestamp']);
+                    $fecha_rates = new DateTime('@' . $rates['fetched_at']);
                     $fecha_rates->setTimezone(new DateTimeZone('America/Argentina/Buenos_Aires'));
                     echo sprintf(
                         __('Fuente BCRA: %s', 'custom-mortgage-calculator'),
-                        $fecha_rates->format('d/m/Y')
+                        $fecha_rates->format('d/m/Y H:i')
                     );
                     ?>
                 </span>
