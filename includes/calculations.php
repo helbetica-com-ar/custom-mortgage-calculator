@@ -46,15 +46,13 @@ function perform_uva_mortgage_calculations($data, $step) {
         $home_value = $loan_amount / 0.8;
     }
     
-    // UVA mortgage parameters (based on Santander example)
-    $tna_rate = 9.5; // T.N.A. - Tasa Nominal Anual (Fixed rate for UVA mortgages)
+    // Get current mortgage rates from BCRA API or cache
+    $rates_data = get_current_mortgage_rates();
     
-    // Calculate T.E.A. (Tasa Efectiva Anual) - approximation
-    $tea_rate = pow(1 + ($tna_rate / 100) / 12, 12) - 1;
-    $tea_rate = $tea_rate * 100;
-    
-    // Calculate C.F.T.E.A. (includes fees and insurance) - approximation
-    $cftea_rate = $tea_rate + 1.5; // Adding estimated fees/costs
+    // UVA mortgage parameters
+    $tna_rate = $rates_data['tna_rate']; // T.N.A. - Tasa Nominal Anual
+    $tea_rate = $rates_data['tea_rate']; // T.E.A. - Tasa Efectiva Anual
+    $cftea_rate = $rates_data['cftea_rate']; // C.F.T.E.A. - includes fees and insurance
     
     // Calculate loan-to-value ratio
     $ltv = $home_value > 0 ? ($loan_amount / $home_value) * 100 : 0;

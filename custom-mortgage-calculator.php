@@ -19,6 +19,7 @@ if (!defined('ABSPATH')) {
 
 // Include all modular components
 require_once plugin_dir_path(__FILE__) . 'includes/uva-functions.php';
+require_once plugin_dir_path(__FILE__) . 'includes/bcra-api.php';
 require_once plugin_dir_path(__FILE__) . 'includes/calculations.php';
 require_once plugin_dir_path(__FILE__) . 'includes/database.php';
 require_once plugin_dir_path(__FILE__) . 'includes/email-notifications.php';

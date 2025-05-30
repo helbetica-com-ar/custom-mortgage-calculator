@@ -162,6 +162,46 @@ msgstr ""
 msgid "Total Interest:"
 msgstr ""
 
+# Admin Settings
+msgid "BCRA API Settings"
+msgstr ""
+
+msgid "BCRA API"
+msgstr ""
+
+msgid "Settings saved and cache cleared."
+msgstr ""
+
+msgid "API Token"
+msgstr ""
+
+msgid "Get your API token from"
+msgstr ""
+
+msgid "Current Rates"
+msgstr ""
+
+msgid "Rate Type"
+msgstr ""
+
+msgid "Value"
+msgstr ""
+
+msgid "Source"
+msgstr ""
+
+msgid "Last Updated"
+msgstr ""
+
+msgid "Manual Actions"
+msgstr ""
+
+msgid "Clear Rate Cache"
+msgstr ""
+
+msgid "Rate cache cleared successfully."
+msgstr ""
+
 # Form Section
 msgid "Get Connected with Lenders"
 msgstr ""

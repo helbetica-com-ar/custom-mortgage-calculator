@@ -169,6 +169,46 @@ msgstr "Tasa de Interés:"
 msgid "Total Interest:"
 msgstr "Intereses Totales:"
 
+# Admin Settings
+msgid "BCRA API Settings"
+msgstr "Configuración API BCRA"
+
+msgid "BCRA API"
+msgstr "API BCRA"
+
+msgid "Settings saved and cache cleared."
+msgstr "Configuración guardada y caché limpiado."
+
+msgid "API Token"
+msgstr "Token API"
+
+msgid "Get your API token from"
+msgstr "Obtené tu token API desde"
+
+msgid "Current Rates"
+msgstr "Tasas Actuales"
+
+msgid "Rate Type"
+msgstr "Tipo de Tasa"
+
+msgid "Value"
+msgstr "Valor"
+
+msgid "Source"
+msgstr "Fuente"
+
+msgid "Last Updated"
+msgstr "Última Actualización"
+
+msgid "Manual Actions"
+msgstr "Acciones Manuales"
+
+msgid "Clear Rate Cache"
+msgstr "Limpiar Caché de Tasas"
+
+msgid "Rate cache cleared successfully."
+msgstr "Caché de tasas limpiado exitosamente."
+
 # Form Section
 msgid "Get Connected with Lenders"
 msgstr "Conectate con Prestamistas"
