@@ -1023,12 +1023,12 @@ label.checkbox-label {
         content: '';
         position: absolute;
         top: 22px;
-        left: calc(50% - 160px);
+        left: calc(50% - 45%);
         right: 0;
         height: 2px;
         background: var(--medium-gray);
         z-index: 1;
-        max-width: 320px;
+        max-width: 90%;
     }
     
     .step-label-full {
