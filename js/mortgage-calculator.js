@@ -10,16 +10,49 @@ let formData = {};
 let isSubmitting = false;
 let isRestoringState = false;
 
+/**
+ * Remove thousand separators from a formatted string and return clean number
+ */
+function parseFormattedNumber(value) {
+    if (!value) return '';
+    
+    // Remove all dots (thousand separators) and convert to number
+    const cleanValue = value.toString().replace(/\./g, '');
+    return cleanValue;
+}
+
+/**
+ * Format number with thousand separators for display
+ */
+function addThousandSeparators(value) {
+    if (!value) return '';
+    
+    // Remove any existing dots and non-digits
+    const cleanValue = value.toString().replace(/[^\d]/g, '');
+    
+    if (!cleanValue) return '';
+    
+    // Manual formatting to ensure Argentine format (dots for thousands)
+    const reversed = cleanValue.split('').reverse();
+    const formatted = [];
+    
+    for (let i = 0; i < reversed.length; i++) {
+        if (i > 0 && i % 3 === 0) {
+            formatted.push('.');
+        }
+        formatted.push(reversed[i]);
+    }
+    
+    return formatted.reverse().join('');
+}
+
 // Argentine currency formatting functions
 function formatCurrency(amount) {
     // Convert to number if string
     const num = typeof amount === 'string' ? parseFloat(amount) : amount;
     
-    // Format with Argentine conventions: thousands separator = dot, decimal = comma
-    return '$' + new Intl.NumberFormat('es-AR', {
-        minimumFractionDigits: 0,
-        maximumFractionDigits: 0
-    }).format(Math.round(num));
+    // Ensure Argentine formatting by using our custom function
+    return '$' + addThousandSeparators(Math.round(num));
 }
 
 function formatNumber(amount) {
@@ -44,36 +77,6 @@ function formatDecimal(amount, decimals = 2) {
         minimumFractionDigits: decimals,
         maximumFractionDigits: decimals
     }).format(num);
-}
-
-/**
- * Remove thousand separators from a formatted string and return clean number
- */
-function parseFormattedNumber(value) {
-    if (!value) return '';
-    
-    // Remove all dots (thousand separators) and convert to number
-    const cleanValue = value.toString().replace(/\./g, '');
-    return cleanValue;
-}
-
-/**
- * Format number with thousand separators for display
- */
-function addThousandSeparators(value) {
-    if (!value) return '';
-    
-    // Remove any existing dots and non-digits
-    const cleanValue = value.toString().replace(/[^\d]/g, '');
-    
-    if (!cleanValue) return '';
-    
-    // Add thousand separators using Argentine format (dots)
-    return new Intl.NumberFormat('es-AR', {
-        useGrouping: true,
-        minimumFractionDigits: 0,
-        maximumFractionDigits: 0
-    }).format(parseInt(cleanValue));
 }
 
 // Initialize when DOM is loaded
@@ -514,7 +517,16 @@ function validateFieldValue(field) {
             break;
 
         case 'number':
-            const numValue = parseFloat(value);
+            // Get the raw numeric value if it's a formatted input
+            let rawValue = value;
+            if (field.hasAttribute('data-raw-value')) {
+                rawValue = field.getAttribute('data-raw-value');
+            } else {
+                // If no raw value, parse the formatted value
+                rawValue = parseFormattedNumber(value);
+            }
+            
+            const numValue = parseFloat(rawValue);
             const min = parseFloat(field.min);
             const max = parseFloat(field.max);
 
@@ -535,7 +547,17 @@ function validateFieldValue(field) {
 
             // Specific validation for certain fields
             if (fieldName === 'down_payment') {
-                const homeValue = parseFloat(document.getElementById('home_value')?.value || 0);
+                const homeValueField = document.getElementById('home_value');
+                let homeValueRaw = homeValueField?.value || 0;
+                
+                // Get raw value if it's a formatted input
+                if (homeValueField && homeValueField.hasAttribute('data-raw-value')) {
+                    homeValueRaw = homeValueField.getAttribute('data-raw-value');
+                } else if (homeValueField) {
+                    homeValueRaw = parseFormattedNumber(homeValueField.value);
+                }
+                
+                const homeValue = parseFloat(homeValueRaw);
                 if (homeValue && numValue > homeValue) {
                     showFieldError(field, 'Down payment cannot exceed home value');
                     return false;
@@ -1005,31 +1027,41 @@ function formatCurrencyInputs() {
         }
         
         // Handle input events for real-time formatting
-        input.addEventListener('input', function(e) {
-            const cursorPosition = this.selectionStart;
-            const oldValue = this.getAttribute('data-raw-value') || '';
-            const newRawValue = parseFormattedNumber(this.value);
+        function formatInputValue(inputElement, preserveCursor = true) {
+            const cursorPosition = preserveCursor ? inputElement.selectionStart : inputElement.value.length;
+            const newRawValue = parseFormattedNumber(inputElement.value);
             
             // Update the raw value
-            this.setAttribute('data-raw-value', newRawValue);
+            inputElement.setAttribute('data-raw-value', newRawValue);
             
             // Format the display value
             const formattedValue = addThousandSeparators(newRawValue);
-            this.value = formattedValue;
+            inputElement.value = formattedValue;
             
-            // Calculate cursor position after formatting
-            const lengthDiff = formattedValue.length - (this.getAttribute('data-old-formatted-length') || 0);
-            const newCursorPosition = Math.max(0, cursorPosition + lengthDiff);
-            
-            // Store formatted length for next time
-            this.setAttribute('data-old-formatted-length', formattedValue.length);
-            
-            // Restore cursor position
-            setTimeout(() => {
-                if (this === document.activeElement) {
-                    this.setSelectionRange(newCursorPosition, newCursorPosition);
-                }
-            }, 0);
+            if (preserveCursor) {
+                // Calculate cursor position after formatting
+                const lengthDiff = formattedValue.length - (inputElement.getAttribute('data-old-formatted-length') || 0);
+                const newCursorPosition = Math.max(0, cursorPosition + lengthDiff);
+                
+                // Store formatted length for next time
+                inputElement.setAttribute('data-old-formatted-length', formattedValue.length);
+                
+                // Restore cursor position
+                setTimeout(() => {
+                    if (inputElement === document.activeElement) {
+                        inputElement.setSelectionRange(newCursorPosition, newCursorPosition);
+                    }
+                }, 0);
+            }
+        }
+        
+        input.addEventListener('input', function(e) {
+            formatInputValue(this, true);
+        });
+        
+        // Handle spinner arrows and programmatic changes
+        input.addEventListener('change', function(e) {
+            formatInputValue(this, false);
         });
         
         // Handle focus - ensure cursor positioning works
