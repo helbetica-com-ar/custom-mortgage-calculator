@@ -991,6 +991,15 @@ label.checkbox-label {
     font-weight: 500;
 }
 
+/* Default desktop/tablet label behavior */
+.step-label-full {
+    display: inline;
+}
+
+.step-label-mobile {
+    display: none;
+}
+
 /* ============================================================================
    RESPONSIVE DESIGN
    ============================================================================ */
@@ -1003,13 +1012,22 @@ label.checkbox-label {
     }
 
     .progress-bar {
-        flex-direction: column;
-        gap: 15px;
+        flex-direction: row;
+        gap: 10px;
         margin-bottom: 20px;
+        justify-content: space-between;
     }
 
     .progress-bar::before {
+        display: block;
+    }
+    
+    .step-label-full {
         display: none;
+    }
+    
+    .step-label-mobile {
+        display: inline;
     }
 
     .step-container {
@@ -1087,8 +1105,16 @@ label.checkbox-label {
     }
     
     .progress-bar {
-        gap: 14px;
+        gap: 8px;
         margin-bottom: 18px;
+    }
+    
+    .step-label-full {
+        display: none;
+    }
+    
+    .step-label-mobile {
+        display: inline;
     }
     
     .form-control {
@@ -1122,8 +1148,16 @@ label.checkbox-label {
     }
     
     .progress-bar {
-        gap: 12px;
+        gap: 6px;
         margin-bottom: 16px;
+    }
+    
+    .step-label-full {
+        display: none;
+    }
+    
+    .step-label-mobile {
+        display: inline;
     }
     
     .form-group {

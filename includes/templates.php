@@ -32,15 +32,24 @@ function render_mortgage_calculator($atts) {
             <div class="progress-bar">
                 <div class="progress-step active clickable" data-step="1" onclick="goToStep(1)" title="<?php echo esc_attr(__('Go to Loan Details', 'custom-mortgage-calculator')); ?>">
                     <span class="step-number">1</span>
-                    <span class="step-label"><?php echo esc_html(__('Loan Details', 'custom-mortgage-calculator')); ?></span>
+                    <span class="step-label">
+                        <span class="step-label-full">Detalles del Préstamo</span>
+                        <span class="step-label-mobile">Préstamo</span>
+                    </span>
                 </div>
-                <div class="progress-step" data-step="2" onclick="goToStep(2)" title="<?php echo esc_attr(__('Go to Property Info', 'custom-mortgage-calculator')); ?>">
+                <div class="progress-step" data-step="2" onclick="goToStep(2)" title="<?php echo esc_attr(__('Go to Economic Conditions', 'custom-mortgage-calculator')); ?>">
                     <span class="step-number">2</span>
-                    <span class="step-label"><?php echo esc_html(__('Property Info', 'custom-mortgage-calculator')); ?></span>
+                    <span class="step-label">
+                        <span class="step-label-full">Condiciones Económicas</span>
+                        <span class="step-label-mobile">Condiciones</span>
+                    </span>
                 </div>
                 <div class="progress-step" data-step="3" onclick="goToStep(3)" title="<?php echo esc_attr(__('Go to Personal Details', 'custom-mortgage-calculator')); ?>">
                     <span class="step-number">3</span>
-                    <span class="step-label"><?php echo esc_html(__('Personal Details', 'custom-mortgage-calculator')); ?></span>
+                    <span class="step-label">
+                        <span class="step-label-full">Datos Personales</span>
+                        <span class="step-label-mobile">Datos</span>
+                    </span>
                 </div>
             </div>
         </div>
