@@ -945,10 +945,20 @@ function addInputEventListeners() {
         // Trigger real-time calculations based on current step
         if (currentStep === 1 && ['loan_amount', 'loan_term'].includes(target.name)) {
             // Step 1 inputs update Step 2 display
-            debounce(performRealTimeCalculation, 500)();
+            // Add small delay for numeric inputs to ensure formatting is complete
+            if (target.type === 'number') {
+                setTimeout(() => debounce(performRealTimeCalculation, 500)(), 10);
+            } else {
+                debounce(performRealTimeCalculation, 500)();
+            }
         } else if (currentStep === 2 && ['home_value', 'down_payment', 'property_location', 'monthly_income', 'property_use'].includes(target.name)) {
             // Step 2 inputs update Step 3 display
-            debounce(performRealTimeCalculation, 500)();
+            // Add small delay for numeric inputs to ensure formatting is complete
+            if (target.type === 'number') {
+                setTimeout(() => debounce(performRealTimeCalculation, 500)(), 10);
+            } else {
+                debounce(performRealTimeCalculation, 500)();
+            }
         }
     });
     
@@ -1029,7 +1039,17 @@ function formatCurrencyInputs() {
         // Handle input events for real-time formatting
         function formatInputValue(inputElement, preserveCursor = true) {
             const cursorPosition = preserveCursor ? inputElement.selectionStart : inputElement.value.length;
-            const newRawValue = parseFormattedNumber(inputElement.value);
+            const currentValue = inputElement.value;
+            
+            // Handle the case where browser sets numeric value directly (like spinner arrows)
+            let newRawValue;
+            if (currentValue && !isNaN(parseFloat(currentValue)) && isFinite(currentValue)) {
+                // If it's a clean numeric value (from spinner), use it directly
+                newRawValue = currentValue.replace(/[^\d]/g, '');
+            } else {
+                // Otherwise parse the formatted value
+                newRawValue = parseFormattedNumber(currentValue);
+            }
             
             // Update the raw value
             inputElement.setAttribute('data-raw-value', newRawValue);
@@ -1391,6 +1411,11 @@ function populateFormFields(data) {
         if (field) {
             if (field.type === 'checkbox') {
                 field.checked = !!data[fieldName];
+            } else if (field.type === 'number') {
+                // For numeric inputs with formatting, set both raw and formatted values
+                const rawValue = data[fieldName];
+                field.setAttribute('data-raw-value', rawValue);
+                field.value = addThousandSeparators(rawValue);
             } else {
                 field.value = data[fieldName];
             }
