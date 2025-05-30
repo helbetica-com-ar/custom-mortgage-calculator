@@ -88,7 +88,22 @@ function mortgage_calculator_scripts() {
             'standardRates' => __('Standard rates', 'custom-mortgage-calculator'),
             'updatedAgo' => __('Updated %s hours ago', 'custom-mortgage-calculator'),
             'usingCachedRates' => __('Using cached rates', 'custom-mortgage-calculator'),
-            'usingDefaultRates' => __('Using default rates', 'custom-mortgage-calculator')
+            'usingDefaultRates' => __('Using default rates', 'custom-mortgage-calculator'),
+            
+            // Form validation messages
+            'fieldRequired' => __('Este campo es obligatorio', 'custom-mortgage-calculator'),
+            'validEmailRequired' => __('Por favor ingrese un email válido', 'custom-mortgage-calculator'),
+            'validPhoneRequired' => __('Por favor ingrese un teléfono válido', 'custom-mortgage-calculator'),
+            'validNumberRequired' => __('Por favor ingrese un número válido', 'custom-mortgage-calculator'),
+            'valueMinimum' => __('El valor debe ser al menos %s', 'custom-mortgage-calculator'),
+            'valueMaximum' => __('El valor no puede exceder %s', 'custom-mortgage-calculator'),
+            'downPaymentExceedsHome' => __('El pago inicial no puede exceder el valor de la propiedad', 'custom-mortgage-calculator'),
+            
+            // Error messages
+            'generalError' => __('Ocurrió un error. Por favor intente nuevamente.', 'custom-mortgage-calculator'),
+            'networkError' => __('Error de conexión. Por favor verifique su conexión e intente nuevamente.', 'custom-mortgage-calculator'),
+            'termsRequired' => __('Por favor acepte los Términos de Servicio para continuar.', 'custom-mortgage-calculator'),
+            'submissionError' => __('Hubo un error al enviar su solicitud. Por favor intente nuevamente.', 'custom-mortgage-calculator')
         )
     ));
 }

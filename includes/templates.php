@@ -130,9 +130,9 @@ function render_step_1() {
                         </label>
                         <div class="input-wrapper">
                             <span class="currency-symbol">ARS $</span>
-                            <input type="number" id="loan_amount" name="loan_amount" 
+                            <input type="text" id="loan_amount" name="loan_amount" 
                                    class="form-control" placeholder="35.000.000" 
-                                   min="30000000" step="100000" required>
+                                   inputmode="numeric" data-min="1000000" data-max="100000000" data-step="100000" required>
                         </div>
                     </div>
                     
@@ -274,9 +274,9 @@ function render_step_2() {
                         </label>
                         <div class="input-wrapper">
                             <span class="currency-symbol">ARS $</span>
-                            <input type="number" id="monthly_income" name="monthly_income" 
+                            <input type="text" id="monthly_income" name="monthly_income" 
                                    class="form-control" placeholder="1.030.000" 
-                                   min="1030000" step="10000" required>
+                                   inputmode="numeric" data-min="1030000" data-step="10000" required>
                         </div>
                     </div>
                     
@@ -287,9 +287,9 @@ function render_step_2() {
                         </label>
                         <div class="input-wrapper">
                             <span class="currency-symbol">ARS $</span>
-                            <input type="number" id="down_payment" name="down_payment" 
+                            <input type="text" id="down_payment" name="down_payment" 
                                    class="form-control" placeholder="8.750.000" 
-                                   min="0" step="10000" required>
+                                   inputmode="numeric" data-min="0" data-step="10000" required>
                         </div>
                     </div>
                     
@@ -300,9 +300,9 @@ function render_step_2() {
                         </label>
                         <div class="input-wrapper">
                             <span class="currency-symbol">ARS $</span>
-                            <input type="number" id="home_value" name="home_value" 
+                            <input type="text" id="home_value" name="home_value" 
                                    class="form-control" placeholder="43.750.000" 
-                                   min="37500000" step="100000" required>
+                                   inputmode="numeric" data-min="20000000" data-step="100000" required>
                         </div>
                     </div>
                     

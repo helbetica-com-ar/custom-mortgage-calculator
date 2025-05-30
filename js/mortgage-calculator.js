@@ -169,12 +169,12 @@ function nextStep(step) {
                     scrollToTop();
                 }
             } else {
-                showError('An error occurred. Please try again.');
+                showError(mortgageAjax.i18n.generalError);
             }
         })
         .catch(error => {
             hideLoading();
-            showError('Network error. Please check your connection and try again.');
+            showError(mortgageAjax.i18n.networkError);
             console.error('Error:', error);
         });
 }
@@ -473,7 +473,7 @@ function validateStep(step) {
         clearFieldError(field);
 
         if (!field.value.trim()) {
-            showFieldError(field, 'This field is required');
+            showFieldError(field, mortgageAjax.i18n.fieldRequired);
             isValid = false;
             if (!firstInvalidField) firstInvalidField = field;
         } else {
@@ -504,14 +504,14 @@ function validateFieldValue(field) {
     switch (fieldType) {
         case 'email':
             if (!isValidEmail(value)) {
-                showFieldError(field, 'Please enter a valid email address');
+                showFieldError(field, mortgageAjax.i18n.validEmailRequired);
                 return false;
             }
             break;
 
         case 'tel':
             if (!isValidPhone(value)) {
-                showFieldError(field, 'Please enter a valid phone number');
+                showFieldError(field, mortgageAjax.i18n.validPhoneRequired);
                 return false;
             }
             break;
@@ -533,17 +533,17 @@ function validateFieldValue(field) {
                 const max = parseFloat(field.getAttribute('data-max'));
 
                 if (isNaN(numValue)) {
-                    showFieldError(field, 'Por favor ingrese un número válido');
+                    showFieldError(field, mortgageAjax.i18n.validNumberRequired);
                     return false;
                 }
 
                 if (min && numValue < min) {
-                    showFieldError(field, `Value must be at least ${formatCurrency(min)}`);
+                    showFieldError(field, mortgageAjax.i18n.valueMinimum.replace('%s', formatCurrency(min)));
                     return false;
                 }
 
                 if (max && numValue > max) {
-                    showFieldError(field, `Value cannot exceed ${formatCurrency(max)}`);
+                    showFieldError(field, mortgageAjax.i18n.valueMaximum.replace('%s', formatCurrency(max)));
                     return false;
                 }
             }
@@ -556,17 +556,17 @@ function validateFieldValue(field) {
             const max = parseFloat(field.max);
 
             if (isNaN(numValue)) {
-                showFieldError(field, 'Por favor ingrese un número válido');
+                showFieldError(field, mortgageAjax.i18n.validNumberRequired);
                 return false;
             }
 
             if (min && numValue < min) {
-                showFieldError(field, `Value must be at least ${formatCurrency(min)}`);
+                showFieldError(field, mortgageAjax.i18n.valueMinimum.replace('%s', formatCurrency(min)));
                 return false;
             }
 
             if (max && numValue > max) {
-                showFieldError(field, `Value cannot exceed ${formatCurrency(max)}`);
+                showFieldError(field, mortgageAjax.i18n.valueMaximum.replace('%s', formatCurrency(max)));
                 return false;
             }
 
@@ -584,7 +584,7 @@ function validateFieldValue(field) {
                 
                 const homeValue = parseFloat(homeValueRaw);
                 if (homeValue && numValue > homeValue) {
-                    showFieldError(field, 'Down payment cannot exceed home value');
+                    showFieldError(field, mortgageAjax.i18n.downPaymentExceedsHome);
                     return false;
                 }
             }
@@ -669,9 +669,14 @@ function collectStepData(step) {
         } else {
             // Check if this is a formatted numeric input
             const input = form.querySelector(`[name="${key}"]`);
-            if (input && input.getAttribute('inputmode') === 'numeric' && input.hasAttribute('data-raw-value')) {
+            if (input && input.getAttribute('inputmode') === 'numeric') {
                 // Use the raw numeric value for calculations
-                data[key] = input.getAttribute('data-raw-value');
+                if (input.hasAttribute('data-raw-value')) {
+                    data[key] = input.getAttribute('data-raw-value');
+                } else {
+                    // If no raw value set yet, parse the current formatted value
+                    data[key] = parseFormattedNumber(input.value);
+                }
             } else {
                 data[key] = value;
             }
@@ -885,7 +890,7 @@ function submitFinalForm(event) {
     // Check terms acceptance
     const termsCheckbox = document.querySelector('[name="terms_accepted"]');
     if (!termsCheckbox?.checked) {
-        showError('Please accept the Terms of Service to continue.');
+        showError(mortgageAjax.i18n.termsRequired);
         termsCheckbox?.focus();
         return;
     }
@@ -919,13 +924,13 @@ function submitFinalForm(event) {
                 clearFormState();
                 showSuccessMessage();
             } else {
-                showError('There was an error submitting your application. Please try again.');
+                showError(mortgageAjax.i18n.submissionError);
             }
         })
         .catch(error => {
             hideLoading();
             isSubmitting = false;
-            showError('Network error. Please check your connection and try again.');
+            showError(mortgageAjax.i18n.networkError);
             console.error('Error:', error);
         });
 }
@@ -1053,23 +1058,36 @@ function formatCurrencyInputs() {
             input.value = formatted;
         }
         
-        // Real-time formatting on input
-        input.addEventListener('input', function(e) {
-            const cursorPosition = this.selectionStart;
-            const rawValue = parseFormattedNumber(this.value);
+        // Function to format and update raw value
+        function updateInputFormatting(inputElement) {
+            const rawValue = parseFormattedNumber(inputElement.value);
             
-            // Update the raw value
-            this.setAttribute('data-raw-value', rawValue);
+            // Always set the raw value, even if empty
+            inputElement.setAttribute('data-raw-value', rawValue);
             
             // Format the display value  
             const formattedValue = addThousandSeparators(rawValue);
-            this.value = formattedValue;
+            inputElement.value = formattedValue;
+            
+            return rawValue;
+        }
+        
+        // Initialize with current value (even if empty)
+        updateInputFormatting(input);
+        
+        // Real-time formatting on input
+        input.addEventListener('input', function(e) {
+            const cursorPosition = this.selectionStart;
+            const oldValue = this.value;
+            
+            updateInputFormatting(this);
             
             // Calculate and restore cursor position
-            const dotsBeforeCursor = (this.value.substring(0, cursorPosition).match(/\./g) || []).length;
+            const newValue = this.value;
+            const dotsBeforeCursor = (oldValue.substring(0, cursorPosition).match(/\./g) || []).length;
             const rawCursorPos = cursorPosition - dotsBeforeCursor;
-            const newDotsBeforeCursor = (formattedValue.substring(0, rawCursorPos + dotsBeforeCursor).match(/\./g) || []).length;
-            const newCursorPosition = Math.min(rawCursorPos + newDotsBeforeCursor, formattedValue.length);
+            const newDotsBeforeCursor = (newValue.substring(0, rawCursorPos + dotsBeforeCursor).match(/\./g) || []).length;
+            const newCursorPosition = Math.min(rawCursorPos + newDotsBeforeCursor, newValue.length);
             
             // Restore cursor position
             setTimeout(() => {
