@@ -516,22 +516,47 @@ function validateFieldValue(field) {
             }
             break;
 
-        case 'number':
-            // Get the raw numeric value if it's a formatted input
-            let rawValue = value;
-            if (field.hasAttribute('data-raw-value')) {
-                rawValue = field.getAttribute('data-raw-value');
-            } else {
-                // If no raw value, parse the formatted value
-                rawValue = parseFormattedNumber(value);
+        case 'text':
+            // Handle numeric text inputs (inputmode="numeric")
+            if (field.getAttribute('inputmode') === 'numeric') {
+                // Get the raw numeric value from formatted input
+                let rawValue = value;
+                if (field.hasAttribute('data-raw-value')) {
+                    rawValue = field.getAttribute('data-raw-value');
+                } else {
+                    // If no raw value, parse the formatted value
+                    rawValue = parseFormattedNumber(value);
+                }
+                
+                const numValue = parseFloat(rawValue);
+                const min = parseFloat(field.getAttribute('data-min'));
+                const max = parseFloat(field.getAttribute('data-max'));
+
+                if (isNaN(numValue)) {
+                    showFieldError(field, 'Por favor ingrese un número válido');
+                    return false;
+                }
+
+                if (min && numValue < min) {
+                    showFieldError(field, `Value must be at least ${formatCurrency(min)}`);
+                    return false;
+                }
+
+                if (max && numValue > max) {
+                    showFieldError(field, `Value cannot exceed ${formatCurrency(max)}`);
+                    return false;
+                }
             }
+            break;
             
-            const numValue = parseFloat(rawValue);
+        case 'number':
+            // Legacy number inputs (if any remain)
+            const numValue = parseFloat(value);
             const min = parseFloat(field.min);
             const max = parseFloat(field.max);
 
             if (isNaN(numValue)) {
-                showFieldError(field, 'Please enter a valid number');
+                showFieldError(field, 'Por favor ingrese un número válido');
                 return false;
             }
 
@@ -642,9 +667,9 @@ function collectStepData(step) {
         if (form.querySelector(`[name="${key}"][type="checkbox"]`)) {
             data[key] = true; // Checkbox is checked if it appears in FormData
         } else {
-            // Check if this is a numeric input with formatting
+            // Check if this is a formatted numeric input
             const input = form.querySelector(`[name="${key}"]`);
-            if (input && input.type === 'number' && input.hasAttribute('data-raw-value')) {
+            if (input && input.getAttribute('inputmode') === 'numeric' && input.hasAttribute('data-raw-value')) {
                 // Use the raw numeric value for calculations
                 data[key] = input.getAttribute('data-raw-value');
             } else {
@@ -938,27 +963,19 @@ function addInputEventListeners() {
         const target = e.target;
 
         // Format currency inputs as user types
-        if (target.type === 'number' && target.closest('.input-wrapper')) {
-            // You can add real-time formatting here if needed
+        if (target.getAttribute('inputmode') === 'numeric' && target.closest('.input-wrapper')) {
+            // Formatting is handled by formatCurrencyInputs event listeners
         }
 
         // Trigger real-time calculations based on current step
         if (currentStep === 1 && ['loan_amount', 'loan_term'].includes(target.name)) {
             // Step 1 inputs update Step 2 display
-            // Add small delay for numeric inputs to ensure formatting is complete
-            if (target.type === 'number') {
-                setTimeout(() => debounce(performRealTimeCalculation, 500)(), 10);
-            } else {
-                debounce(performRealTimeCalculation, 500)();
-            }
+            // Trigger calculation (no delay needed for text inputs)
+            debounce(performRealTimeCalculation, 500)();
         } else if (currentStep === 2 && ['home_value', 'down_payment', 'property_location', 'monthly_income', 'property_use'].includes(target.name)) {
             // Step 2 inputs update Step 3 display
-            // Add small delay for numeric inputs to ensure formatting is complete
-            if (target.type === 'number') {
-                setTimeout(() => debounce(performRealTimeCalculation, 500)(), 10);
-            } else {
-                debounce(performRealTimeCalculation, 500)();
-            }
+            // Trigger calculation (no delay needed for text inputs)
+            debounce(performRealTimeCalculation, 500)();
         }
     });
     
@@ -1023,7 +1040,7 @@ function performRealTimeCalculation() {
  * Format currency inputs
  */
 function formatCurrencyInputs() {
-    const currencyInputs = document.querySelectorAll('input[type="number"]');
+    const currencyInputs = document.querySelectorAll('input[inputmode="numeric"]');
     
     currencyInputs.forEach(input => {
         // Store the original numeric value
@@ -1036,108 +1053,43 @@ function formatCurrencyInputs() {
             input.value = formatted;
         }
         
-        // Handle input events for real-time formatting
-        function formatInputValue(inputElement, preserveCursor = true) {
-            const cursorPosition = preserveCursor ? inputElement.selectionStart : inputElement.value.length;
-            const currentValue = inputElement.value;
-            
-            // Handle the case where browser sets numeric value directly (like spinner arrows)
-            let newRawValue;
-            if (currentValue && !isNaN(parseFloat(currentValue)) && isFinite(currentValue)) {
-                // If it's a clean numeric value (from spinner), use it directly
-                newRawValue = currentValue.replace(/[^\d]/g, '');
-            } else {
-                // Otherwise parse the formatted value
-                newRawValue = parseFormattedNumber(currentValue);
-            }
+        // Real-time formatting on input
+        input.addEventListener('input', function(e) {
+            const cursorPosition = this.selectionStart;
+            const rawValue = parseFormattedNumber(this.value);
             
             // Update the raw value
-            inputElement.setAttribute('data-raw-value', newRawValue);
+            this.setAttribute('data-raw-value', rawValue);
             
-            // Format the display value
-            const formattedValue = addThousandSeparators(newRawValue);
-            inputElement.value = formattedValue;
+            // Format the display value  
+            const formattedValue = addThousandSeparators(rawValue);
+            this.value = formattedValue;
             
-            if (preserveCursor) {
-                // Calculate cursor position after formatting
-                const lengthDiff = formattedValue.length - (inputElement.getAttribute('data-old-formatted-length') || 0);
-                const newCursorPosition = Math.max(0, cursorPosition + lengthDiff);
-                
-                // Store formatted length for next time
-                inputElement.setAttribute('data-old-formatted-length', formattedValue.length);
-                
-                // Restore cursor position
-                setTimeout(() => {
-                    if (inputElement === document.activeElement) {
-                        inputElement.setSelectionRange(newCursorPosition, newCursorPosition);
-                    }
-                }, 0);
-            }
-        }
-        
-        input.addEventListener('input', function(e) {
-            formatInputValue(this, true);
+            // Calculate and restore cursor position
+            const dotsBeforeCursor = (this.value.substring(0, cursorPosition).match(/\./g) || []).length;
+            const rawCursorPos = cursorPosition - dotsBeforeCursor;
+            const newDotsBeforeCursor = (formattedValue.substring(0, rawCursorPos + dotsBeforeCursor).match(/\./g) || []).length;
+            const newCursorPosition = Math.min(rawCursorPos + newDotsBeforeCursor, formattedValue.length);
+            
+            // Restore cursor position
+            setTimeout(() => {
+                if (this === document.activeElement) {
+                    this.setSelectionRange(newCursorPosition, newCursorPosition);
+                }
+            }, 0);
         });
         
-        // Handle spinner arrows and programmatic changes
-        input.addEventListener('change', function(e) {
-            formatInputValue(this, false);
-        });
-        
-        // Handle focus - ensure cursor positioning works
-        input.addEventListener('focus', function() {
-            this.setAttribute('data-old-formatted-length', this.value.length);
-        });
-        
-        // Handle blur - final formatting and validation
+        // Handle blur for final validation
         input.addEventListener('blur', function() {
             const rawValue = this.getAttribute('data-raw-value') || '';
-            
             if (rawValue) {
                 // Apply final formatting
                 this.value = addThousandSeparators(rawValue);
-                
-                // Update the hidden raw value for form submission
-                updateHiddenRawValue(this, rawValue);
             }
         });
-        
-        // Handle form submission - ensure raw values are submitted
-        const form = input.closest('form');
-        if (form) {
-            form.addEventListener('submit', function() {
-                currencyInputs.forEach(inp => {
-                    const rawVal = inp.getAttribute('data-raw-value');
-                    if (rawVal) {
-                        // Temporarily set raw value for submission
-                        inp.value = rawVal;
-                    }
-                });
-            });
-        }
     });
 }
 
-/**
- * Update or create hidden input with raw numeric value
- */
-function updateHiddenRawValue(input, rawValue) {
-    const inputName = input.name;
-    const hiddenInputId = inputName + '_raw';
-    
-    // Find existing hidden input or create new one
-    let hiddenInput = document.getElementById(hiddenInputId);
-    
-    if (!hiddenInput) {
-        hiddenInput = document.createElement('input');
-        hiddenInput.type = 'hidden';
-        hiddenInput.id = hiddenInputId;
-        hiddenInput.name = inputName + '_raw';
-        input.parentNode.appendChild(hiddenInput);
-    }
-    
-    hiddenInput.value = rawValue;
-}
 
 /**
  * Add form validation
@@ -1411,8 +1363,8 @@ function populateFormFields(data) {
         if (field) {
             if (field.type === 'checkbox') {
                 field.checked = !!data[fieldName];
-            } else if (field.type === 'number') {
-                // For numeric inputs with formatting, set both raw and formatted values
+            } else if (field.getAttribute('inputmode') === 'numeric') {
+                // For formatted numeric inputs, set both raw and formatted values
                 const rawValue = data[fieldName];
                 field.setAttribute('data-raw-value', rawValue);
                 field.value = addThousandSeparators(rawValue);
