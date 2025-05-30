@@ -116,3 +116,92 @@ function uva_to_pesos($uvas) {
     $uva_value = get_current_uva_value();
     return $uvas * $uva_value;
 }
+
+/**
+ * Get current bank exchange rates from API or cache
+ * 
+ * @return array Bank exchange rates data
+ */
+function get_current_bank_rates() {
+    // Check for cached data first (cache for 30 minutes)
+    $cached_data = get_transient('current_bank_rates');
+    if ($cached_data !== false) {
+        return $cached_data;
+    }
+    
+    // Try to fetch from API
+    $response = wp_remote_get('https://criptoya.com/api/bancostodos', array(
+        'timeout' => 8 // 8 second timeout
+    ));
+    
+    if (!is_wp_error($response)) {
+        $body = wp_remote_retrieve_body($response);
+        $data = json_decode($body, true);
+        
+        if (is_array($data) && !empty($data)) {
+            // Filter and format the most relevant banks
+            $relevant_banks = array(
+                'balanz' => 'Balanz',
+                'plus' => 'Plus Cambio',
+                'piano' => 'Piano',
+                'cambioar' => 'Cambio.ar',
+                'dolaria' => 'Dolaria',
+                'buendolar' => 'Buen Dólar'
+            );
+            
+            $formatted_rates = array();
+            $latest_time = 0;
+            
+            foreach ($relevant_banks as $key => $name) {
+                if (isset($data[$key]) && isset($data[$key]['ask']) && isset($data[$key]['bid'])) {
+                    $bank_data = $data[$key];
+                    
+                    // Skip if data seems too old (more than 7 days)
+                    if (isset($bank_data['time']) && $bank_data['time'] > (time() - (7 * DAY_IN_SECONDS))) {
+                        $formatted_rates[] = array(
+                            'name' => $name,
+                            'buy' => floatval($bank_data['bid']),
+                            'sell' => floatval($bank_data['ask']),
+                            'time' => $bank_data['time']
+                        );
+                        
+                        if ($bank_data['time'] > $latest_time) {
+                            $latest_time = $bank_data['time'];
+                        }
+                    }
+                }
+            }
+            
+            if (!empty($formatted_rates)) {
+                $bank_rates_data = array(
+                    'rates' => $formatted_rates,
+                    'fetched_at' => current_time('timestamp'),
+                    'latest_update' => $latest_time,
+                    'source' => 'api'
+                );
+                
+                // Cache for 30 minutes
+                set_transient('current_bank_rates', $bank_rates_data, 30 * MINUTE_IN_SECONDS);
+                
+                // Also save as permanent backup
+                update_option('bank_rates_last_known_data', $bank_rates_data);
+                
+                return $bank_rates_data;
+            }
+        }
+    }
+    
+    // If API fails, try to get last known rates
+    $last_known = get_option('bank_rates_last_known_data');
+    if ($last_known) {
+        $last_known['source'] = 'cache';
+        return $last_known;
+    }
+    
+    // Return empty if no data available
+    return array(
+        'rates' => array(),
+        'fetched_at' => current_time('timestamp'),
+        'source' => 'unavailable'
+    );
+}

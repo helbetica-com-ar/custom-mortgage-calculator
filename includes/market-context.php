@@ -20,6 +20,7 @@ function render_market_context_shortcode($atts) {
     $atts = shortcode_atts(array(
         'show_uva' => 'true',
         'show_rates' => 'true',
+        'show_banks' => 'true',
         'show_update_time' => 'true',
         'compact' => 'false',
         'theme' => 'light' // light or dark
@@ -36,6 +37,9 @@ function render_market_context_shortcode($atts) {
     
     // Get mortgage rates
     $rates = get_current_mortgage_rates();
+    
+    // Get bank exchange rates
+    $bank_rates = get_current_bank_rates();
     
     // Determine CSS classes
     $container_classes = array('market-context-widget');
@@ -128,6 +132,60 @@ function render_market_context_shortcode($atts) {
         <?php elseif ($atts['show_rates'] === 'true'): ?>
         <div class="market-context-section market-context-rates">
             <p class="market-context-no-data"><?php _e('No hay datos de tasas disponibles en este momento.', 'custom-mortgage-calculator'); ?></p>
+        </div>
+        <?php endif; ?>
+        
+        <?php if ($atts['show_banks'] === 'true' && isset($bank_rates['rates']) && !empty($bank_rates['rates'])): ?>
+        <div class="market-context-section market-context-banks">
+            <h3 class="market-context-title"><?php _e('Cotización USD en Bancos', 'custom-mortgage-calculator'); ?></h3>
+            <div class="market-context-banks-grid">
+                <?php foreach ($bank_rates['rates'] as $bank): ?>
+                <div class="market-context-bank-item">
+                    <div class="market-context-bank-name"><?php echo esc_html($bank['name']); ?></div>
+                    <div class="market-context-bank-rates">
+                        <span class="market-context-bank-rate">
+                            <span class="market-context-rate-type"><?php _e('Compra', 'custom-mortgage-calculator'); ?></span>
+                            <span class="market-context-rate-amount">$<?php echo number_format($bank['buy'], 2, ',', '.'); ?></span>
+                        </span>
+                        <span class="market-context-bank-rate">
+                            <span class="market-context-rate-type"><?php _e('Venta', 'custom-mortgage-calculator'); ?></span>
+                            <span class="market-context-rate-amount">$<?php echo number_format($bank['sell'], 2, ',', '.'); ?></span>
+                        </span>
+                    </div>
+                </div>
+                <?php endforeach; ?>
+            </div>
+            
+            <?php if ($atts['show_update_time'] === 'true' && isset($bank_rates['latest_update'])): ?>
+            <div class="market-context-meta">
+                <span class="market-context-update-time">
+                    <?php 
+                    $fecha_banks = new DateTime('@' . $bank_rates['latest_update']);
+                    $fecha_banks->setTimezone(new DateTimeZone('America/Argentina/Buenos_Aires'));
+                    echo sprintf(
+                        __('Última actualización: %s', 'custom-mortgage-calculator'),
+                        $fecha_banks->format('d/m/Y H:i')
+                    );
+                    ?>
+                </span>
+                <?php if ($bank_rates['source'] !== 'api'): ?>
+                <span class="market-context-source market-context-source-<?php echo esc_attr($bank_rates['source']); ?>">
+                    <?php
+                    if ($bank_rates['source'] === 'cache') {
+                        echo __('(desde caché)', 'custom-mortgage-calculator');
+                    } elseif ($bank_rates['source'] === 'unavailable') {
+                        echo __('(datos no disponibles)', 'custom-mortgage-calculator');
+                    }
+                    ?>
+                </span>
+                <?php endif; ?>
+            </div>
+            <?php endif; ?>
+        </div>
+        <?php elseif ($atts['show_banks'] === 'true'): ?>
+        <div class="market-context-section market-context-banks">
+            <h3 class="market-context-title"><?php _e('Cotización USD en Bancos', 'custom-mortgage-calculator'); ?></h3>
+            <p class="market-context-no-data"><?php _e('No hay datos de cotizaciones bancarias disponibles en este momento.', 'custom-mortgage-calculator'); ?></p>
         </div>
         <?php endif; ?>
     </div>
