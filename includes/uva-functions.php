@@ -177,8 +177,11 @@ function get_current_bank_rates() {
             
             foreach ($data as $key => $bank_data) {
                 if (isset($bank_data['ask']) && isset($bank_data['bid']) && isset($bank_data['time'])) {
-                    // Skip if data seems too old (more than 7 days)
-                    if ($bank_data['time'] > (time() - (7 * DAY_IN_SECONDS))) {
+                    // Only skip if data is extremely old (more than 30 days) or has invalid rates
+                    $is_recent_enough = $bank_data['time'] > (time() - (30 * DAY_IN_SECONDS));
+                    $has_valid_rates = $bank_data['ask'] > 0 && $bank_data['bid'] > 0;
+                    
+                    if ($is_recent_enough && $has_valid_rates) {
                         // Get bank display name
                         $bank_name = isset($bank_names[$key]) ? $bank_names[$key] : ucfirst($key);
                         
@@ -187,7 +190,8 @@ function get_current_bank_rates() {
                             'name' => $bank_name,
                             'buy' => floatval($bank_data['bid']),
                             'sell' => floatval($bank_data['ask']),
-                            'time' => $bank_data['time']
+                            'time' => $bank_data['time'],
+                            'age_days' => round((time() - $bank_data['time']) / DAY_IN_SECONDS)
                         );
                         
                         if ($bank_data['time'] > $latest_time) {
@@ -234,4 +238,11 @@ function get_current_bank_rates() {
         'fetched_at' => current_time('timestamp'),
         'source' => 'unavailable'
     );
+}
+
+/**
+ * Clear bank rates cache (useful for testing or manual refresh)
+ */
+function clear_bank_rates_cache() {
+    delete_transient('current_bank_rates');
 }

@@ -141,7 +141,12 @@ function render_market_context_shortcode($atts) {
             <div class="market-context-banks-grid">
                 <?php foreach ($bank_rates['rates'] as $bank): ?>
                 <div class="market-context-bank-item">
-                    <div class="market-context-bank-name"><?php echo esc_html($bank['name']); ?></div>
+                    <div class="market-context-bank-name">
+                        <?php echo esc_html($bank['name']); ?>
+                        <?php if (isset($bank['age_days']) && $bank['age_days'] > 1): ?>
+                        <span class="market-context-data-age">(<?php echo $bank['age_days']; ?>d)</span>
+                        <?php endif; ?>
+                    </div>
                     <div class="market-context-bank-rates">
                         <span class="market-context-bank-rate">
                             <span class="market-context-rate-type"><?php _e('Compra', 'custom-mortgage-calculator'); ?></span>
