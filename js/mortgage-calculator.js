@@ -667,6 +667,11 @@ function updateCalculationsDisplay(calculations, targetStep) {
         updateElement('total-interest', formatCurrency(calculations.total_interest));
         updateElement('debt-to-income', (calculations.debt_to_income_ratio || 0) + '%');
         
+        // Update loan term
+        if (formData.loan_term) {
+            updateElement('final-loan-term', formData.loan_term);
+        }
+        
         // Update rates in step 3
         if (calculations.tna_rate) {
             updateElement('final-tna-rate', calculations.tna_rate + '%');

@@ -160,6 +160,9 @@ msgstr "Seguro Hipotecario (si aplica):"
 msgid "Loan Amount:"
 msgstr "Monto del Préstamo:"
 
+msgid "Loan Period:"
+msgstr "Plazo del Préstamo:"
+
 msgid "Interest Rate:"
 msgstr "Tasa de Interés:"
 

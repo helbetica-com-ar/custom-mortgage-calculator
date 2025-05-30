@@ -405,6 +405,10 @@ function render_step_3() {
                                     <span id="summary-loan-amount">$0</span>
                                 </div>
                                 <div class="detail-row">
+                                    <span><?php echo esc_html(__('Loan Period:', 'custom-mortgage-calculator')); ?></span>
+                                    <span id="final-loan-term">-</span> <?php echo esc_html(__('years', 'custom-mortgage-calculator')); ?>
+                                </div>
+                                <div class="detail-row">
                                     <span>T.N.A.:</span>
                                     <span id="final-tna-rate">9.50%</span>
                                 </div>

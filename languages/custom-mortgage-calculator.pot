@@ -153,6 +153,9 @@ msgstr ""
 msgid "Loan Amount:"
 msgstr ""
 
+msgid "Loan Period:"
+msgstr ""
+
 msgid "Interest Rate:"
 msgstr ""
 
