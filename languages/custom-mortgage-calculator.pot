@@ -153,10 +153,77 @@ msgstr ""
 msgid "Loan Amount:"
 msgstr ""
 
+msgid "Loan Period:"
+msgstr ""
+
 msgid "Interest Rate:"
 msgstr ""
 
 msgid "Total Interest:"
+msgstr ""
+
+# Admin Settings
+msgid "BCRA API Settings"
+msgstr ""
+
+msgid "BCRA API"
+msgstr ""
+
+msgid "Settings saved and cache cleared."
+msgstr ""
+
+msgid "API Token"
+msgstr ""
+
+msgid "Get your API token from"
+msgstr ""
+
+msgid "Current Rates"
+msgstr ""
+
+msgid "Rate Type"
+msgstr ""
+
+msgid "Value"
+msgstr ""
+
+msgid "Source"
+msgstr ""
+
+msgid "Last Updated"
+msgstr ""
+
+msgid "Manual Actions"
+msgstr ""
+
+msgid "Clear Rate Cache"
+msgstr ""
+
+msgid "Rate cache cleared successfully."
+msgstr ""
+
+msgid "Real-time rates from BCRA"
+msgstr ""
+
+msgid "BCRA rates"
+msgstr ""
+
+msgid "BCRA rates (cached)"
+msgstr ""
+
+msgid "Standard rates"
+msgstr ""
+
+msgid "Updated %s hours ago"
+msgstr ""
+
+msgid "Using cached rates"
+msgstr ""
+
+msgid "Using default rates"
+msgstr ""
+
+msgid "Loading..."
 msgstr ""
 
 # Form Section
@@ -320,4 +387,17 @@ msgid "Yes"
 msgstr ""
 
 msgid "No"
+msgstr ""
+
+# Reset Button
+msgid "Clear form"
+msgstr ""
+
+msgid "Clear all form data"
+msgstr ""
+
+msgid "Are you sure you want to clear all form data?"
+msgstr ""
+
+msgid "Form cleared successfully"
 msgstr ""

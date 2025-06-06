@@ -4,21 +4,35 @@
  * Save as: /css/mortgage-calculator.css in your theme
  */
 
+/* Apply Sora font family to all form elements */
+.mortgage-calculator-wrapper *,
+.calculator-step *,
+.step-container *,
+.left-panel *,
+.right-panel *,
+.form-group *,
+.payment-amount *,
+.calculation-display * {
+    font-family: "Sora", sans-serif !important;
+}
+
 /* ============================================================================
    BASE STYLES & VARIABLES
    ============================================================================ */
 
 :root {
-    --primary-color: #2c5aa0;
-    --primary-dark: #1e3f70;
+    --primary-color: #3B8BFF;
+    --primary-dark: #2c5aa0;
     --secondary-color: #28a745;
-    --accent-color: #ffc107;
+    --accent-color: #d9e021;
+    --accent-dark: #ccd21d;
     --danger-color: #dc3545;
     --light-gray: #f8f9fa;
     --medium-gray: #e9ecef;
     --dark-gray: #6c757d;
     --text-dark: #2c3e50;
     --white: #ffffff;
+    --black: #000000;
     --shadow-light: 0 2px 10px rgba(0, 0, 0, 0.1);
     --shadow-medium: 0 4px 20px rgba(0, 0, 0, 0.15);
     --border-radius: 8px;
@@ -30,13 +44,11 @@
    ============================================================================ */
 
 .mortgage-calculator-wrapper {
-    max-width: 1200px;
     margin: 0 auto;
     padding: 20px;
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
     background: var(--white);
     border-radius: var(--border-radius);
-    box-shadow: var(--shadow-medium);
     position: relative;
     opacity: 0;
     transition: opacity 0.3s ease;
@@ -51,9 +63,7 @@
    ============================================================================ */
 
 .progress-wrapper {
-    margin-bottom: 40px;
     padding: 20px 0;
-    border-bottom: 1px solid var(--medium-gray);
 }
 
 .progress-bar {
@@ -68,13 +78,13 @@
 .progress-bar::before {
     content: '';
     position: absolute;
-    top: 50%;
-    left: 0;
+    top: 22px;
+    left: calc(50% - 240px);
     right: 0;
     height: 2px;
     background: var(--medium-gray);
     z-index: 1;
-    transform: translateY(-50%);
+    max-width: 480px;
 }
 
 .progress-step {
@@ -119,12 +129,147 @@
 }
 
 .progress-step.completed .step-number {
-    background: var(--secondary-color);
-    color: var(--white);
+    background: var(--accent-color);
+    color: var(--text-dark);
 }
 
 .progress-step.completed .step-label {
-    color: var(--secondary-color);
+    color: var(--accent-color);
+}
+
+/* Clickable step states */
+.progress-step.clickable {
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.progress-step.clickable:hover .step-number {
+    transform: scale(1.05);
+    box-shadow: var(--shadow-light);
+}
+
+.progress-step.clickable:hover .step-label {
+    color: var(--primary-color);
+}
+
+.progress-step.clickable.completed:hover .step-number {
+    background: var(--accent-dark);
+}
+
+.progress-step.clickable.completed:hover .step-label {
+    color: var(--accent-dark);
+}
+
+.progress-step.not-clickable {
+    cursor: default;
+    opacity: 0.6;
+}
+
+.progress-step.not-clickable .step-number,
+.progress-step.not-clickable .step-label {
+    pointer-events: none;
+}
+
+/* ============================================================================
+   RATE SOURCE BADGE
+   ============================================================================ */
+
+.rate-source-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 12px;
+    border-radius: 20px;
+    font-size: 0.85em;
+    font-weight: 600;
+    margin-bottom: 12px;
+    position: relative;
+    cursor: help;
+    transition: var(--transition);
+}
+
+.rate-source-badge.live {
+    background: rgba(40, 167, 69, 0.1);
+    color: #28a745;
+    border: 1px solid rgba(40, 167, 69, 0.3);
+}
+
+.rate-source-badge.cached {
+    background: rgba(255, 193, 7, 0.1);
+    color: #f39c12;
+    border: 1px solid rgba(255, 193, 7, 0.3);
+}
+
+.rate-source-badge.default {
+    background: rgba(108, 117, 125, 0.1);
+    color: #6c757d;
+    border: 1px solid rgba(108, 117, 125, 0.3);
+}
+
+.rate-source-badge svg {
+    flex-shrink: 0;
+}
+
+.rate-source-badge.live svg {
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0% { opacity: 1; }
+    50% { opacity: 0.5; }
+    100% { opacity: 1; }
+}
+
+.rate-source-badge .rate-tooltip {
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--text-dark);
+    color: var(--white);
+    padding: 6px 12px;
+    border-radius: 4px;
+    font-size: 0.85em;
+    white-space: nowrap;
+    opacity: 0;
+    visibility: hidden;
+    transition: var(--transition);
+    margin-bottom: 8px;
+}
+
+.rate-source-badge .rate-tooltip::after {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    border: 6px solid transparent;
+    border-top-color: var(--text-dark);
+}
+
+.rate-source-badge:hover .rate-tooltip {
+    opacity: 1;
+    visibility: visible;
+}
+
+.rate-source-badge.mini {
+    padding: 4px 8px;
+    font-size: 0.75em;
+    margin-bottom: 8px;
+    float: right;
+}
+
+.rate-source-badge.mini svg {
+    width: 12px;
+    height: 12px;
+}
+
+.rate-source-badge-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 16px;
+    padding-top: 16px;
+    border-top: 1px solid rgba(0, 0, 0, 0.2);
 }
 
 /* ============================================================================
@@ -154,11 +299,14 @@
 .step-container {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 40px;
+    gap: 0;
     min-height: 500px;
-    align-items: start;
+    align-items: stretch;
     position: relative;
     overflow: hidden;
+    border-radius: 25px;
+    border: 2px solid var(--text-dark);
+    border-width: 2px;
 }
 
 /* ============================================================================
@@ -166,12 +314,15 @@
    ============================================================================ */
 
 .left-panel {
-    background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
-    color: var(--white);
+    background: linear-gradient(135deg, var(--accent-color) 0%, var(--accent-dark) 100%);
+    color: var(--text-dark);
     padding: 40px;
-    border-radius: var(--border-radius);
     position: relative;
     overflow: hidden;
+    min-height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
 
 .left-panel::before {
@@ -236,7 +387,7 @@
 .trust-indicators {
     margin-top: 30px;
     padding-top: 20px;
-    border-top: 1px solid rgba(255, 255, 255, 0.2);
+    border-top: 1px solid rgba(0, 0, 0, 0.2);
 }
 
 .trust-badge {
@@ -251,7 +402,7 @@
     text-align: center;
     margin: 30px 0;
     padding: 20px;
-    background: rgba(255, 255, 255, 0.1);
+    background: rgba(0, 0, 0, 0.1);
     border-radius: var(--border-radius);
 }
 
@@ -281,7 +432,7 @@
     justify-content: space-between;
     align-items: center;
     padding: 12px 0;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.2);
     font-size: 16px;
 }
 
@@ -300,7 +451,7 @@
 .disclaimer {
     margin-top: 30px;
     padding-top: 20px;
-    border-top: 1px solid rgba(255, 255, 255, 0.2);
+    border-top: 1px solid rgba(0, 0, 0, 0.2);
     opacity: 0.8;
     font-size: 14px;
     line-height: 1.4;
@@ -314,7 +465,7 @@
 }
 
 .summary-card {
-    background: rgba(255, 255, 255, 0.1);
+    background: rgba(0, 0, 0, 0.1);
     padding: 25px;
     border-radius: var(--border-radius);
     text-align: center;
@@ -346,7 +497,7 @@
     margin: 0 0 20px 0;
     font-size: 18px;
     padding-bottom: 10px;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.2);
 }
 
 .loan-details {
@@ -357,7 +508,7 @@
     display: flex;
     justify-content: space-between;
     padding: 10px 0;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.2);
 }
 
 .detail-row:last-child {
@@ -369,10 +520,8 @@
    ============================================================================ */
 
 .right-panel {
-    background: var(--white);
+    background: #e6e6e626;
     padding: 40px;
-    border-radius: var(--border-radius);
-    border: 1px solid var(--medium-gray);
 }
 
 .form-section {
@@ -421,6 +570,7 @@
     font-weight: 600;
     z-index: 2;
     pointer-events: none;
+    line-height: 42px;
 }
 
 .form-control {
@@ -461,8 +611,9 @@ select.form-control {
 }
 
 .input-help {
+    font-weight: 400;
+    font-size: 12px;
     margin-top: 5px;
-    font-size: 14px;
     color: var(--dark-gray);
     line-height: 1.4;
 }
@@ -513,6 +664,93 @@ label.checkbox-label {
     gap: 20px;
     flex-wrap: wrap;
     margin-top: 10px;
+}
+
+/* UVA specific styles */
+.uva-info {
+    margin-top: 10px;
+    padding-top: 10px;
+    border-top: 1px solid rgba(255,255,255,0.2);
+    color: var(--text-dark);
+}
+
+.uva-info small {
+    display: block;
+    line-height: 1.4;
+}
+
+.uva-details {
+    padding-top: 20px;
+    border-top: 2px solid #00000066;
+}
+
+.uva-details h4 {
+    color: var(--primary-color);
+    margin-bottom: 15px;
+}
+
+.validation-error {
+    color: #dc3545;
+}
+
+.validation-success {
+    color: var(--secondary-color);
+}
+
+/* UVA today value display */
+.uva-today-value {
+    margin-top: 10px;
+    text-align: center;
+    color: #666;
+}
+
+.uva-today-value small {
+    font-size: 0.85em;
+    opacity: 0.9;
+}
+
+.uva-today-value em {
+    font-size: 0.9em;
+    opacity: 0.8;
+    color: #ffc107;
+}
+
+/* Rate information display */
+.rate-info {
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 1px solid rgba(0,0,0,0.2);
+}
+
+.rate-item {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 8px;
+    font-size: 0.9em;
+}
+
+.rate-item.years,
+.detail-row.years {
+    justify-content: flex-end;
+}
+
+.rate-item.years .label,
+.detail-row.years > span:first-child {
+    margin-right: auto;
+}
+.rate-item.years .value,
+.detail-row.years span#final-loan-term {
+    margin-right: 4px;
+}
+
+.rate-item .label {
+    font-weight: 600;
+    color: var(--text-dark);
+}
+
+.rate-item .value {
+    color: var(--text-dark);
+    font-weight: 500;
 }
 
 .inline-checkbox {
@@ -617,11 +855,11 @@ label.checkbox-label {
 }
 
 .btn-submit {
-    background: var(--secondary-color);
+    background: var(--primary-color);
 }
 
 .btn-submit:hover {
-    background: #218838;
+    background: var(--primary-dark);
 }
 
 .form-navigation {
@@ -750,33 +988,80 @@ label.checkbox-label {
     font-weight: 500;
 }
 
+/* Default desktop/tablet label behavior */
+.step-label-full {
+    display: inline;
+}
+
+.step-label-mobile {
+    display: none;
+}
+
 /* ============================================================================
    RESPONSIVE DESIGN
    ============================================================================ */
 
+/* Tablet and larger mobile devices */
 @media (max-width: 768px) {
     .mortgage-calculator-wrapper {
-        padding: 15px;
-        margin: 10px;
+        padding: 12px;
+        margin: 8px;
     }
 
     .progress-bar {
-        flex-direction: column;
-        gap: 20px;
+        flex-direction: row;
+        gap: 10px;
+        margin-bottom: 20px;
+        justify-content: space-between;
+        position: relative;
     }
 
     .progress-bar::before {
+        content: '';
+        position: absolute;
+        top: 22px;
+        left: calc(50% - 45%);
+        right: 0;
+        height: 2px;
+        background: var(--medium-gray);
+        z-index: 1;
+        max-width: 90%;
+    }
+    
+    .step-label-full {
         display: none;
+    }
+    
+    .step-label-mobile {
+        display: inline;
     }
 
     .step-container {
         grid-template-columns: 1fr;
-        gap: 20px;
+        gap: 0;
+        margin-bottom: 15px;
     }
 
     .left-panel,
     .right-panel {
-        padding: 25px;
+        padding: 20px;
+    }
+    
+    .left-panel {
+        margin-bottom: 0;
+    }
+    
+    .right-panel {
+        margin-top: 0;
+    }
+    
+    .form-group {
+        margin-bottom: 20px;
+    }
+    
+    .form-navigation {
+        margin-top: 25px;
+        padding-top: 20px;
     }
 
     .left-panel h2 {
@@ -805,31 +1090,121 @@ label.checkbox-label {
     }
 }
 
-@media (max-width: 480px) {
+/* Larger phones */
+@media (max-width: 600px) {
     .mortgage-calculator-wrapper {
-        margin: 5px;
         padding: 10px;
+        margin: 6px;
     }
 
     .left-panel,
     .right-panel {
-        padding: 20px;
+        padding: 18px;
+    }
+    
+    .form-group {
+        margin-bottom: 18px;
+    }
+    
+    .progress-bar {
+        gap: 8px;
+        margin-bottom: 18px;
+    }
+    
+    .step-label-full {
+        display: none;
+    }
+    
+    .step-label-mobile {
+        display: inline;
+    }
+    
+    .form-control {
+        padding: 13px;
+        padding-left: 35px;
+    }
+}
+
+/* Small phones */
+@media (max-width: 480px) {
+    .mortgage-calculator-wrapper {
+        margin: 4px;
+        padding: 8px;
+    }
+
+    .left-panel,
+    .right-panel {
+        padding: 16px;
+    }
+    
+    .left-panel {
+        margin-bottom: 0;
+    }
+    
+    .right-panel {
+        margin-top: 0;
+    }
+    
+    .progress-bar {
+        gap: 6px;
+        margin-bottom: 16px;
+    }
+    
+    .step-label-full {
+        display: none;
+    }
+    
+    .step-label-mobile {
+        display: inline;
+    }
+    
+    .form-group {
+        margin-bottom: 16px;
+    }
+    
+    .form-navigation {
+        margin-top: 20px;
+        padding-top: 16px;
     }
 
     .form-control {
-        padding: 12px;
+        padding: 14px;
         padding-left: 35px;
         font-size: 16px;
+        margin-bottom: 4px;
         /* Prevents zoom on iOS */
     }
 
     .currency-symbol {
         left: 12px;
     }
+    
+    .input-wrapper {
+        margin-bottom: 8px;
+    }
+    
+    .btn-next,
+    .btn-prev,
+    .btn-submit {
+        padding: 14px 20px;
+        margin: 5px;
+        font-size: 16px;
+        min-height: 48px; /* Better touch target */
+    }
 
     .payment-amount #monthly-payment,
     .payment-amount #final-monthly-payment {
         font-size: 28px;
+        margin: 8px 0;
+    }
+    
+    .form-section {
+        margin-bottom: 20px;
+    }
+    
+    .calculation-display .detail-row {
+        padding: 8px 0;
+        margin: 4px 0;
     }
 }
 
@@ -898,4 +1273,535 @@ label.checkbox-label {
         opacity: 1 !important;
         page-break-inside: avoid;
     }
+}
+
+/* Hide breakdown section (not used yet) */
+.breakdown-section {
+    display: none;
+}
+
+/* Hide payment breakdown (not needed today) */
+.payment-breakdown {
+    display: none;
+}
+
+/* Style UVA value text in black */
+.uva-today-value small {
+    color: var(--text-dark) !important;
+}
+
+/* Style UVA details heading in black */
+div#uva-details > h4 {
+    color: var(--text-dark) !important;
+}
+
+/* UVA today value container styling */
+.uva-today-value {
+    margin-top: 10px;
+    text-align: left;
+    color: var(--text-dark);
+}
+
+/* ARS currency label styling - removed as it's no longer used */
+
+/* Step 2 form group alignment - updated for form-group-column */
+#step-2 .form-group-column {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+#step-2 .form-group-column label {
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+    margin-bottom: 0;
+    gap: 5px;
+}
+
+#step-2 .form-group-column .input-wrapper,
+#step-2 .form-group-column select {
+    width: 100%;
+}
+
+/* input-help is now inside label */
+#step-2 .form-group-column label .input-help {
+    font-size: 14px;
+    color: #666;
+    margin-top: 5px;
+}
+
+/* Form group row styling - flexbox layout */
+.form-group-row {
+    display: flex;
+    flex-direction: row;
+    gap: 30px;
+    margin-bottom: 25px;
+    align-items: flex-start;
+}
+.form-group-row.space-between {
+    justify-content: space-between;
+}
+
+.form-group-row label {
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+    margin-bottom: 0;
+    gap: 4px;
+    flex: 0 0 180px;
+    min-width: 180px;
+}
+
+.form-group-row label span {
+    font-weight: 600;
+    color: var(--text-dark);
+    font-size: 16px;
+    line-height: 1.3;
+}
+
+.form-group-row .input-wrapper {
+    flex: 1;
+    min-width: 0;
+    max-width: 250px;
+}
+
+.form-group-row .input-wrapper input {
+    padding-left: 80px;
+    padding-right: 15px;
+}
+
+.form-group-row select {
+    width: 100%;
+}
+
+/* input-help inside label for form-group-row */
+.form-group-row label .input-help {
+    font-size: 12px;
+    color: #666;
+    margin-top: 5px;
+    font-weight: 400;
+}
+
+/* Set input-help font weight */
+.input-help {
+    font-weight: 400;
+}
+
+/* Responsive styles for form-group-row */
+@media (max-width: 768px) {
+    .form-group-row {
+        flex-direction: column;
+        gap: 10px;
+    }
+    
+    .form-group-row label {
+        flex: 1;
+        width: 100%;
+    }
+    
+    .form-group-row .input-wrapper,
+    .form-group-row select {
+        max-width: 100%;
+    }
+}
+
+/* Reset Button Styles */
+.reset-wrapper {
+    text-align: center;
+    margin-top: 15px;
+    padding: 0 20px;
+}
+
+.btn-reset {
+    background: transparent;
+    border: 1px solid #ddd;
+    color: #666;
+    padding: 4px 8px;
+    font-size: 11px;
+    border-radius: 3px;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    transition: all 0.2s ease;
+    opacity: 0.7;
+}
+
+.btn-reset:hover {
+    background: #f5f5f5;
+    border-color: #999;
+    color: #333;
+    opacity: 1;
+}
+
+.btn-reset svg {
+    width: 12px;
+    height: 12px;
+}
+
+/* Success Notification Style */
+.success-notification {
+    animation: slideIn 0.3s ease;
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+/* ============================================================================
+   MARKET CONTEXT WIDGET STYLES
+   ============================================================================ */
+
+.market-context-widget {
+    background: var(--white);
+    border: 1px solid var(--medium-gray);
+    border-radius: var(--border-radius);
+    padding: 20px;
+    margin: 20px 0;
+    box-shadow: var(--shadow-light);
+    font-family: "Sora", sans-serif;
+}
+
+.market-context-widget * {
+    font-family: "Sora", sans-serif \!important;
+}
+
+.market-context-section {
+    margin-bottom: 25px;
+}
+
+.market-context-section:last-child {
+    margin-bottom: 0;
+}
+
+.market-context-title {
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--text-dark);
+    margin: 0 0 15px 0;
+    padding-bottom: 10px;
+    border-bottom: 2px solid var(--primary-color);
+}
+
+/* UVA Section */
+.market-context-value {
+    display: flex;
+    align-items: baseline;
+    font-size: 32px;
+    font-weight: 700;
+    color: var(--primary-color);
+    margin-bottom: 10px;
+}
+
+.market-context-currency {
+    font-size: 24px;
+    margin-right: 5px;
+}
+
+/* Rates Grid */
+.market-context-rates-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 15px;
+    margin-bottom: 10px;
+}
+
+.market-context-rate-item {
+    background: var(--light-gray);
+    padding: 15px;
+    border-radius: 6px;
+    text-align: center;
+}
+
+.market-context-rate-label {
+    display: block;
+    font-size: 12px;
+    color: var(--dark-gray);
+    margin-bottom: 5px;
+    font-weight: 500;
+}
+
+.market-context-rate-value {
+    display: block;
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--text-dark);
+}
+
+/* Meta Information */
+.market-context-meta {
+    font-size: 12px;
+    color: var(--dark-gray);
+    margin-top: 10px;
+}
+
+.market-context-update-time {
+    display: inline-block;
+    margin-right: 10px;
+}
+
+.market-context-source {
+    display: inline-block;
+    font-style: italic;
+}
+
+.market-context-source-cache {
+    color: #856404;
+}
+
+.market-context-source-fallback {
+    color: #721c24;
+}
+
+/* No Data Message */
+.market-context-no-data {
+    color: var(--dark-gray);
+    font-style: italic;
+    text-align: center;
+    padding: 20px;
+    background: var(--light-gray);
+    border-radius: 6px;
+    margin: 0;
+}
+
+/* Compact Mode */
+.market-context-compact {
+    padding: 15px;
+}
+
+.market-context-compact .market-context-title {
+    font-size: 16px;
+    margin-bottom: 10px;
+}
+
+.market-context-compact .market-context-value {
+    font-size: 24px;
+}
+
+.market-context-compact .market-context-currency {
+    font-size: 18px;
+}
+
+.market-context-compact .market-context-rate-item {
+    padding: 10px;
+}
+
+.market-context-compact .market-context-rate-value {
+    font-size: 16px;
+}
+
+/* Dark Theme */
+.market-context-dark {
+    background: #1a1a1a;
+    border-color: #333;
+    color: #e0e0e0;
+}
+
+.market-context-dark .market-context-title {
+    color: #ffffff;
+    border-bottom-color: var(--primary-color);
+}
+
+.market-context-dark .market-context-rate-item {
+    background: #2a2a2a;
+}
+
+.market-context-dark .market-context-rate-label {
+    color: #a0a0a0;
+}
+
+.market-context-dark .market-context-rate-value {
+    color: #ffffff;
+}
+
+.market-context-dark .market-context-meta {
+    color: #888;
+}
+
+.market-context-dark .market-context-no-data {
+    background: #2a2a2a;
+    color: #a0a0a0;
+}
+
+/* Responsive Design */
+@media (max-width: 600px) {
+    .market-context-widget {
+        padding: 15px;
+        margin: 15px 0;
+    }
+    
+    .market-context-title {
+        font-size: 16px;
+    }
+    
+    .market-context-value {
+        font-size: 26px;
+    }
+    
+    .market-context-currency {
+        font-size: 20px;
+    }
+    
+    .market-context-rates-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Bank Exchange Rates Section */
+.market-context-banks-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 12px;
+    margin-bottom: 10px;
+}
+
+.market-context-bank-item {
+    background: var(--light-gray);
+    padding: 12px;
+    border-radius: 6px;
+    border-left: 3px solid var(--primary-color);
+    transition: var(--transition);
+}
+
+.market-context-bank-item:hover {
+    background: #f0f0f0;
+    border-left-color: var(--primary-dark);
+    transform: translateY(-1px);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.market-context-bank-name {
+    font-weight: 600;
+    color: var(--text-dark);
+    margin-bottom: 8px;
+    font-size: 13px;
+    line-height: 1.2;
+}
+
+.market-context-bank-rates {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+.market-context-bank-rate {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex: 1;
+}
+
+.market-context-rate-type {
+    font-size: 11px;
+    color: var(--dark-gray);
+    margin-bottom: 3px;
+    text-transform: uppercase;
+    font-weight: 500;
+}
+
+.market-context-rate-amount {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--text-dark);
+}
+
+/* Compact mode for banks */
+.market-context-compact .market-context-banks-grid {
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 8px;
+}
+
+.market-context-compact .market-context-bank-item {
+    padding: 10px;
+}
+
+.market-context-compact .market-context-bank-name {
+    font-size: 12px;
+    margin-bottom: 6px;
+}
+
+.market-context-compact .market-context-rate-amount {
+    font-size: 12px;
+}
+
+.market-context-compact .market-context-rate-type {
+    font-size: 10px;
+}
+
+/* Dark theme for banks */
+.market-context-dark .market-context-bank-item {
+    background: #2a2a2a;
+    border-left-color: var(--primary-color);
+}
+
+.market-context-dark .market-context-bank-name {
+    color: #ffffff;
+}
+
+.market-context-dark .market-context-rate-type {
+    color: #a0a0a0;
+}
+
+.market-context-dark .market-context-rate-amount {
+    color: #ffffff;
+}
+
+/* Responsive design for banks */
+@media (max-width: 768px) {
+    .market-context-banks-grid {
+        grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+        gap: 10px;
+    }
+}
+
+@media (max-width: 600px) {
+    .market-context-banks-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 8px;
+    }
+    
+    .market-context-bank-item {
+        padding: 10px;
+    }
+    
+    .market-context-bank-name {
+        font-size: 12px;
+        margin-bottom: 6px;
+    }
+    
+    .market-context-rate-amount {
+        font-size: 12px;
+    }
+    
+    .market-context-bank-rates {
+        justify-content: space-around;
+    }
+}
+
+@media (max-width: 400px) {
+    .market-context-banks-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Data age indicator */
+.market-context-data-age {
+    font-size: 10px;
+    color: var(--dark-gray);
+    font-weight: 400;
+    opacity: 0.7;
+    margin-left: 4px;
+}
+
+.market-context-dark .market-context-data-age {
+    color: #888;
 }

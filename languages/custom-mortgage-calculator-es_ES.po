@@ -58,6 +58,12 @@ msgstr "Plazo del Préstamo"
 msgid "Select term"
 msgstr "Seleccioná el plazo"
 
+msgid "5 years"
+msgstr "5 años"
+
+msgid "10 years"
+msgstr "10 años"
+
 msgid "15 years"
 msgstr "15 años"
 
@@ -132,8 +138,8 @@ msgid "Your Personalized Loan Estimate"
 msgstr "Tu Estimación Personalizada de Préstamo"
 
 # Summary Card Label
-msgid "Monthly Payment"
-msgstr "Cuota Mensual"
+msgid "First Payment Value"
+msgstr "Valor de la Primera Cuota"
 
 # Final Breakdown Labels
 msgid "Payment Breakdown"
@@ -154,11 +160,78 @@ msgstr "Seguro Hipotecario (si aplica):"
 msgid "Loan Amount:"
 msgstr "Monto del Préstamo:"
 
+msgid "Loan Period:"
+msgstr "Plazo del Préstamo:"
+
 msgid "Interest Rate:"
 msgstr "Tasa de Interés:"
 
 msgid "Total Interest:"
 msgstr "Intereses Totales:"
+
+# Admin Settings
+msgid "BCRA API Settings"
+msgstr "Configuración API BCRA"
+
+msgid "BCRA API"
+msgstr "API BCRA"
+
+msgid "Settings saved and cache cleared."
+msgstr "Configuración guardada y caché limpiado."
+
+msgid "API Token"
+msgstr "Token API"
+
+msgid "Get your API token from"
+msgstr "Obtené tu token API desde"
+
+msgid "Current Rates"
+msgstr "Tasas Actuales"
+
+msgid "Rate Type"
+msgstr "Tipo de Tasa"
+
+msgid "Value"
+msgstr "Valor"
+
+msgid "Source"
+msgstr "Fuente"
+
+msgid "Last Updated"
+msgstr "Última Actualización"
+
+msgid "Manual Actions"
+msgstr "Acciones Manuales"
+
+msgid "Clear Rate Cache"
+msgstr "Limpiar Caché de Tasas"
+
+msgid "Rate cache cleared successfully."
+msgstr "Caché de tasas limpiado exitosamente."
+
+msgid "Real-time rates from BCRA"
+msgstr "Tasas actualizadas del BCRA"
+
+msgid "BCRA rates"
+msgstr "Tasas BCRA"
+
+msgid "BCRA rates (cached)"
+msgstr "Tasas BCRA (en caché)"
+
+msgid "Standard rates"
+msgstr "Tasas estándar"
+
+msgid "Updated %s hours ago"
+msgstr "Actualizado hace %s horas"
+
+msgid "Using cached rates"
+msgstr "Usando tasas en caché"
+
+msgid "Using default rates"
+msgstr "Usando tasas por defecto"
+
+msgid "Loading..."
+msgstr "Cargando..."
 
 # Form Section
 msgid "Get Connected with Lenders"
@@ -399,3 +472,35 @@ msgstr "Detalles del Préstamo:"
 
 msgid "Down Payment:"
 msgstr "Pago Inicial:"
+
+# UVA Mortgage specific strings
+msgid "Get Your UVA Mortgage Estimate"
+msgstr "Obtené tu Estimación de Crédito UVA"
+
+msgid "Simulate your UVA mortgage with current market values"
+msgstr "Simulá tu crédito UVA con valores actuales del mercado"
+
+msgid "Value of Your First UVA Payment"
+msgstr "Valor de tu Primera Cuota UVA"
+
+msgid "UVA value today:"
+msgstr "Valor UVA hoy:"
+
+msgid "Using cached value"
+msgstr "Usando valor en caché"
+
+msgid "Updated at"
+msgstr "Actualizado"
+
+# Reset Button
+msgid "Clear form"
+msgstr "Limpiar formulario"
+
+msgid "Clear all form data"
+msgstr "Borrar todos los datos del formulario"
+
+msgid "Are you sure you want to clear all form data?"
+msgstr "¿Estás seguro de que querés borrar todos los datos del formulario?"
+
+msgid "Form cleared successfully"
+msgstr "Formulario limpiado correctamente"
